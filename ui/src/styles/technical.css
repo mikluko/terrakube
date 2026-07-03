@@ -421,6 +421,20 @@
   border-bottom: 1px solid var(--tk-border-secondary);
 }
 
+:root[data-color-scheme="technical"] .ant-table-tbody > tr.ant-table-placeholder > td {
+  border-bottom: none;
+}
+
+:root[data-color-scheme="technical"] .ant-table-wrapper + .ant-btn {
+  margin-top: 16px;
+}
+
+/* Empty-state illustration: mute it to match the paper */
+:root[data-color-scheme="technical"] .ant-empty-image {
+  filter: grayscale(1);
+  opacity: 0.55;
+}
+
 /* Tags: square, monospaced specimen labels */
 :root[data-color-scheme="technical"] .ant-tag {
   border-radius: 0 !important;
@@ -810,47 +824,87 @@
   letter-spacing: 0.06em;
 }
 
+/* antd v6 preset rules carry (0,4,0) specificity
+   (.ant-tag.ant-tag-x:not(.ant-tag-disabled).ant-tag-filled), so the solid
+   block treatment needs !important to win. */
 :root[data-color-scheme="technical"] .ant-tag-green,
 :root[data-color-scheme="technical"] .ant-tag-success {
-  background: #137752;
-  border: 1px solid #116a49;
-  color: #ffffff;
+  background: #137752 !important;
+  border: 1px solid #116a49 !important;
+  color: #ffffff !important;
 }
 
 :root[data-color-scheme="technical"] .ant-tag-red,
 :root[data-color-scheme="technical"] .ant-tag-error,
 :root[data-color-scheme="technical"] .ant-tag-volcano {
-  background: #e7040f;
-  border: 1px solid #d8040e;
-  color: #ffffff;
+  background: #e7040f !important;
+  border: 1px solid #d8040e !important;
+  color: #ffffff !important;
 }
 
 :root[data-color-scheme="technical"] .ant-tag-blue,
 :root[data-color-scheme="technical"] .ant-tag-processing,
 :root[data-color-scheme="technical"] .ant-tag-geekblue {
-  background: #002dce;
-  border: 1px solid #002dce;
-  color: #ffffff;
+  background: #002dce !important;
+  border: 1px solid #002dce !important;
+  color: #ffffff !important;
 }
 
 :root[data-color-scheme="technical"] .ant-tag-gold,
 :root[data-color-scheme="technical"] .ant-tag-orange,
 :root[data-color-scheme="technical"] .ant-tag-warning {
-  background: #ffb700;
-  border: 1px solid #141414;
-  color: #141414;
+  background: #ffb700 !important;
+  border: 1px solid #141414 !important;
+  color: #141414 !important;
 }
 
 :root[data-color-scheme="technical"] .ant-tag-purple {
-  background: #7643b9;
-  border: 1px solid #7643b9;
-  color: #ffffff;
+  background: #7643b9 !important;
+  border: 1px solid #7643b9 !important;
+  color: #ffffff !important;
 }
 
 :root[data-color-scheme="technical"] .ant-tag-cyan {
-  background: #0e7490;
-  border: 1px solid #0e7490;
-  color: #ffffff;
+  background: #0e7490 !important;
+  border: 1px solid #0e7490 !important;
+  color: #ffffff !important;
+}
+
+/* Status tags built with raw hex colors (WorkspaceStatusTag, run details)
+   get pale inline styles from antd's variant system; normalize the palette
+   used in the codebase to the same solid blocks. The style attribute is
+   matched via its rgb() serialization: React writes styles through the
+   CSSOM, so hex values never appear in the attribute text.
+   #2eb039 / #FB0136 / #108ee9 / #fa8f37 / #e037fa / #9f37fa: */
+:root[data-color-scheme="technical"] .ant-tag[style*="rgb(46, 176, 57)"] {
+  background: #137752 !important;
+  border-color: #116a49 !important;
+  color: #ffffff !important;
+}
+
+:root[data-color-scheme="technical"] .ant-tag[style*="rgb(251, 1, 54)"] {
+  background: #e7040f !important;
+  border-color: #d8040e !important;
+  color: #ffffff !important;
+}
+
+:root[data-color-scheme="technical"] .ant-tag[style*="rgb(16, 142, 233)"] {
+  background: #002dce !important;
+  border-color: #002dce !important;
+  color: #ffffff !important;
+}
+
+:root[data-color-scheme="technical"] .ant-tag[style*="rgb(250, 143, 55)"] {
+  background: #ffb700 !important;
+  border-color: #141414 !important;
+  color: #141414 !important;
+}
+
+:root[data-color-scheme="technical"] .ant-tag[style*="rgb(224, 55, 250)"],
+:root[data-color-scheme="technical"] .ant-tag[style*="rgb(159, 55, 250)"] {
+  background: #7643b9 !important;
+  border-color: #7643b9 !important;
+  color: #ffffff !important;
 }
 
 /* ==========================================================================
