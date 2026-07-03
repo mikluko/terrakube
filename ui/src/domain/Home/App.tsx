@@ -1,5 +1,5 @@
 import { Layout, ConfigProvider } from "antd";
-import { lazy, Suspense, useState, useEffect, type Dispatch, type SetStateAction } from "react";
+import { Suspense, useState, useEffect, type Dispatch, type SetStateAction } from "react";
 import {
   RouterProvider,
   createBrowserRouter,
@@ -17,6 +17,8 @@ import "./App.css";
 import MainMenu from "./MainMenu";
 import { HelpMenu } from "@/components/HelpMenu";
 import LoadingFallback from "@/components/LoadingFallback";
+import RouteErrorFallback from "@/components/RouteErrorFallback";
+import lazyRetry from "@/modules/utils/lazyRetry";
 import { UserMenu } from "@/components/UserMenu";
 import { OrganizationSelector } from "@/components/OrganizationSelector";
 import logo from "./white_logo.png";
@@ -31,41 +33,41 @@ type AppRouteContext = {
 };
 
 // Organizations
-const CreateOrganization = lazy(() =>
+const CreateOrganization = lazyRetry(() =>
   import("../Organizations/Create").then((module) => ({ default: module.CreateOrganization }))
 );
-const OrganizationsPickerPage = lazy(() => import("@/modules/organizations/OrganizationsPickerPage"));
-const OrganizationsDetailPage = lazy(() => import("@/modules/organizations/OrganizationDetailsPage"));
-const ProjectsPage = lazy(() => import("@/modules/projects/ProjectsPage"));
-const ProjectDetailPage = lazy(() => import("@/modules/projects/ProjectDetailPage"));
+const OrganizationsPickerPage = lazyRetry(() => import("@/modules/organizations/OrganizationsPickerPage"));
+const OrganizationsDetailPage = lazyRetry(() => import("@/modules/organizations/OrganizationDetailsPage"));
+const ProjectsPage = lazyRetry(() => import("@/modules/projects/ProjectsPage"));
+const ProjectDetailPage = lazyRetry(() => import("@/modules/projects/ProjectDetailPage"));
 
 // Workspaces
-const CreateWorkspace = lazy(() =>
+const CreateWorkspace = lazyRetry(() =>
   import("../Workspaces/Create").then((module) => ({ default: module.CreateWorkspace }))
 );
-const ImportWorkspace = lazy(() =>
+const ImportWorkspace = lazyRetry(() =>
   import("../Workspaces/Import").then((module) => ({ default: module.ImportWorkspace }))
 );
-const WorkspaceDetails = lazy(() =>
+const WorkspaceDetails = lazyRetry(() =>
   import("../Workspaces/Details").then((module) => ({ default: module.WorkspaceDetails }))
 );
 
 // Modules and registry
-const CreateModule = lazy(() => import("../Modules/Create").then((module) => ({ default: module.CreateModule })));
-const Registry = lazy(() => import("../Modules/Registry").then((module) => ({ default: module.Registry })));
-const PublicRegistrySearch = lazy(() =>
+const CreateModule = lazyRetry(() => import("../Modules/Create").then((module) => ({ default: module.CreateModule })));
+const Registry = lazyRetry(() => import("../Modules/Registry").then((module) => ({ default: module.Registry })));
+const PublicRegistrySearch = lazyRetry(() =>
   import("../Modules/PublicRegistrySearch").then((module) => ({ default: module.PublicRegistrySearch }))
 );
-const ProviderDetails = lazy(() =>
+const ProviderDetails = lazyRetry(() =>
   import("../Providers/ProviderDetails").then((module) => ({ default: module.ProviderDetails }))
 );
-const ModuleDetails = lazy(() => import("../Modules/Details").then((module) => ({ default: module.ModuleDetails })));
+const ModuleDetails = lazyRetry(() => import("../Modules/Details").then((module) => ({ default: module.ModuleDetails })));
 
 // Settings
-const OrganizationSettings = lazy(() =>
+const OrganizationSettings = lazyRetry(() =>
   import("../Settings/Settings").then((module) => ({ default: module.OrganizationSettings }))
 );
-const UserSettingsPage = lazy(() =>
+const UserSettingsPage = lazyRetry(() =>
   import("@/modules/user/UserSettingsPage").then((module) => ({ default: module.UserSettingsPage }))
 );
 
@@ -242,6 +244,7 @@ const App = () => {
       {
         path: "/",
         element: <AppLayout />,
+        errorElement: <RouteErrorFallback />,
         children: [
         {
           path: "/",
