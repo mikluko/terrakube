@@ -781,9 +781,21 @@
   color: var(--tk-bg-container) !important;
 }
 
+/* Boxed tabs need no baseline rule along the strip */
 :root[data-color-scheme="technical"] .ant-tabs-top > .ant-tabs-nav::before,
 :root[data-color-scheme="technical"] .ant-tabs-bottom > .ant-tabs-nav::before {
-  border-bottom: 1px solid var(--tk-border-secondary);
+  border-bottom: none;
+}
+
+/* antd >= 6 uses .ant-tabs-body-holder; keep the old name for safety */
+:root[data-color-scheme="technical"] .ant-tabs-left .ant-tabs-body-holder,
+:root[data-color-scheme="technical"] .ant-tabs-left .ant-tabs-content-holder {
+  border-left: none;
+}
+
+:root[data-color-scheme="technical"] .ant-tabs-right .ant-tabs-body-holder,
+:root[data-color-scheme="technical"] .ant-tabs-right .ant-tabs-content-holder {
+  border-right: none;
 }
 
 /* ==========================================================================
