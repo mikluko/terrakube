@@ -1,0 +1,860 @@
+/* "Technical" color scheme — a monospace engineering design language.
+   Requires variables.css (token blocks) to be imported first.
+
+   Principles:
+   - one monospace typeface everywhere
+   - square corners, 1px rules, flat surfaces
+   - uppercase, letter-spaced labels for structure
+   - hard-edged offset shadows instead of blur
+   - inverted (ink-on-paper -> paper-on-ink) selection states
+
+   Every rule is scoped under :root[data-color-scheme="technical"] so the
+   scheme is strictly opt-in and outranks per-component stylesheets
+   regardless of chunk load order. */
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+:root[data-color-scheme="technical"] body {
+  background-color: var(--tk-bg-layout);
+  color: var(--tk-text-primary);
+  font-family: var(--tk-font-mono);
+  font-size: 13px;
+  font-variant-ligatures: none;
+}
+
+:root[data-color-scheme="technical"] ::selection {
+  background: var(--tk-text-primary);
+  color: var(--tk-bg-base);
+}
+
+:root[data-color-scheme="technical"] code,
+:root[data-color-scheme="technical"] pre,
+:root[data-color-scheme="technical"] kbd,
+:root[data-color-scheme="technical"] samp {
+  font-family: var(--tk-font-mono);
+}
+
+:root[data-color-scheme="technical"] code {
+  background-color: var(--tk-fill-primary);
+  border: 1px solid var(--tk-border-secondary);
+  border-radius: 0;
+  padding: 0.1em 0.35em;
+  font-size: 90%;
+}
+
+:root[data-color-scheme="technical"] pre {
+  padding: 16px;
+  overflow: auto;
+  background-color: var(--tk-bg-container);
+  border: 1px solid var(--tk-border-secondary);
+}
+
+:root[data-color-scheme="technical"] pre code {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  font-size: 100%;
+}
+
+/* Long-form rendered markdown reads better in the sans companion face */
+:root[data-color-scheme="technical"] .markdown-body {
+  font-family: var(--tk-font-sans);
+}
+
+:root[data-color-scheme="technical"] .markdown-body code,
+:root[data-color-scheme="technical"] .markdown-body pre {
+  font-family: var(--tk-font-mono);
+  border-radius: 0;
+}
+
+/* ==========================================================================
+   Scrollbars — thin, square, unobtrusive
+   ========================================================================== */
+
+:root[data-color-scheme="technical"] ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+:root[data-color-scheme="technical"] ::-webkit-scrollbar-track {
+  background: var(--tk-scrollbar-track);
+}
+
+:root[data-color-scheme="technical"] ::-webkit-scrollbar-thumb {
+  background: var(--tk-scrollbar-thumb);
+  border-radius: 0;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+:root[data-color-scheme="technical"] ::-webkit-scrollbar-thumb:hover {
+  background: var(--tk-scrollbar-thumb-hover);
+  background-clip: padding-box;
+}
+
+:root[data-color-scheme="technical"] ::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* ==========================================================================
+   Masthead — black bar in both modes
+   ========================================================================== */
+
+:root[data-color-scheme="technical"] .ant-layout-header {
+  border-bottom: 1px solid var(--tk-masthead-border);
+}
+
+:root[data-color-scheme="technical"] .ant-layout-header .ant-menu-horizontal {
+  border-bottom: none;
+}
+
+:root[data-color-scheme="technical"] .ant-layout-header .ant-menu-horizontal .ant-menu-item {
+  border-radius: 0 !important;
+  margin: 0 2px !important;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+/* TUI-style inverted selection: paper block on the black masthead */
+:root[data-color-scheme="technical"] .ant-layout-header .ant-menu-horizontal .ant-menu-item-selected {
+  border-radius: 0 !important;
+  background-color: var(--tk-masthead-text-active) !important;
+  color: var(--tk-masthead-bg) !important;
+  border: none !important;
+}
+
+:root[data-color-scheme="technical"]
+  .ant-layout-header
+  .ant-menu-horizontal
+  .ant-menu-item-selected
+  .ant-menu-item-icon,
+:root[data-color-scheme="technical"] .ant-layout-header .ant-menu-horizontal .ant-menu-item-selected a {
+  color: var(--tk-masthead-bg) !important;
+}
+
+/* Footer as a technical colophon line */
+:root[data-color-scheme="technical"] .ant-layout-footer {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--tk-text-tertiary);
+}
+
+/* --- Organization selector: a bordered TUI control ----------------------- */
+
+:root[data-color-scheme="technical"] .org-selector-button {
+  background-color: transparent !important;
+  color: var(--tk-masthead-text-active) !important;
+  border: 1px solid #52524b !important;
+  border-radius: 0 !important;
+  font-family: var(--tk-font-mono) !important;
+  font-size: 12px !important;
+  letter-spacing: 0.03em;
+  height: 32px !important;
+}
+
+:root[data-color-scheme="technical"] .org-selector-button:hover {
+  background-color: #1f1f1d !important;
+  border-color: var(--tk-masthead-text-active) !important;
+}
+
+:root[data-color-scheme="technical"] .org-selector-button:focus {
+  outline: 2px solid var(--tk-accent);
+  outline-offset: 1px;
+}
+
+:root[data-color-scheme="technical"] .org-selector-dropdown {
+  background-color: var(--tk-bg-elevated) !important;
+  border: 1px solid var(--tk-border-primary) !important;
+  border-radius: 0 !important;
+  box-shadow: var(--tk-shadow-lg) !important;
+}
+
+:root[data-color-scheme="technical"] .org-selector-item {
+  color: var(--tk-text-primary) !important;
+  font-family: var(--tk-font-mono) !important;
+  font-size: 13px !important;
+  border-radius: 0 !important;
+  height: 32px !important;
+  min-height: 32px !important;
+}
+
+:root[data-color-scheme="technical"] .org-selector-item:hover {
+  background-color: var(--tk-fill-primary) !important;
+}
+
+:root[data-color-scheme="technical"] .org-selector-item.selected {
+  background-color: var(--tk-fill-primary) !important;
+  color: var(--tk-text-primary) !important;
+  box-shadow: inset 2px 0 0 var(--tk-accent);
+}
+
+:root[data-color-scheme="technical"] .org-selector-check {
+  color: var(--tk-accent) !important;
+}
+
+:root[data-color-scheme="technical"] .org-selector-manage-link {
+  color: var(--tk-text-primary) !important;
+  font-family: var(--tk-font-mono) !important;
+  font-size: 12px !important;
+  border-top: 1px solid var(--tk-border-secondary) !important;
+  border-radius: 0 !important;
+  height: 32px !important;
+  min-height: 32px !important;
+}
+
+:root[data-color-scheme="technical"] .org-selector-manage-link:hover {
+  background-color: var(--tk-fill-primary) !important;
+}
+
+:root[data-color-scheme="technical"] .org-selector-manage-icon {
+  color: var(--tk-text-tertiary) !important;
+}
+
+/* --- Help and user menus: square masthead controls, flat panels ---------- */
+
+:root[data-color-scheme="technical"] .help-menu-button,
+:root[data-color-scheme="technical"] .user-menu-button {
+  background-color: transparent !important;
+  border: 1px solid #52524b !important;
+  border-radius: 0 !important;
+  color: var(--tk-masthead-text-active) !important;
+  height: 32px !important;
+}
+
+:root[data-color-scheme="technical"] .help-menu-button:hover,
+:root[data-color-scheme="technical"] .user-menu-button:hover {
+  background-color: #1f1f1d !important;
+  border-color: var(--tk-masthead-text-active) !important;
+}
+
+:root[data-color-scheme="technical"] .user-menu-avatar {
+  color: var(--tk-masthead-bg) !important;
+  background-color: var(--tk-masthead-text) !important;
+  border-radius: 0 !important;
+  font-family: var(--tk-font-mono) !important;
+}
+
+:root[data-color-scheme="technical"] .user-menu-button:hover .user-menu-avatar {
+  background-color: var(--tk-masthead-text-active) !important;
+}
+
+:root[data-color-scheme="technical"] .help-menu-dropdown,
+:root[data-color-scheme="technical"] .user-menu-dropdown {
+  background-color: var(--tk-bg-elevated) !important;
+  border: 1px solid var(--tk-border-primary) !important;
+  border-radius: 0 !important;
+  box-shadow: var(--tk-shadow-lg) !important;
+}
+
+:root[data-color-scheme="technical"] .help-menu-header {
+  color: var(--tk-text-secondary) !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid var(--tk-border-secondary) !important;
+}
+
+:root[data-color-scheme="technical"] .user-menu-header {
+  border-bottom: 1px solid var(--tk-border-secondary);
+}
+
+:root[data-color-scheme="technical"] .user-menu-signed-in {
+  color: var(--tk-text-secondary) !important;
+  font-size: 10px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+:root[data-color-scheme="technical"] .user-menu-username {
+  color: var(--tk-text-primary) !important;
+  font-size: 13px !important;
+}
+
+:root[data-color-scheme="technical"] .help-menu-item,
+:root[data-color-scheme="technical"] .user-menu-item {
+  color: var(--tk-text-primary) !important;
+  font-size: 13px !important;
+}
+
+:root[data-color-scheme="technical"] .help-menu-item:hover,
+:root[data-color-scheme="technical"] .user-menu-item:hover {
+  background-color: var(--tk-fill-primary) !important;
+}
+
+:root[data-color-scheme="technical"] .user-menu-item-icon {
+  color: var(--tk-text-tertiary) !important;
+}
+
+/* ==========================================================================
+   Structural labels — uppercase + letter-spaced
+   ========================================================================== */
+
+:root[data-color-scheme="technical"] .ant-btn {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 12px;
+}
+
+:root[data-color-scheme="technical"] .ant-btn-sm {
+  font-size: 11px;
+}
+
+:root[data-color-scheme="technical"] .ant-btn-lg {
+  font-size: 13px;
+}
+
+/* Text/link buttons behave like inline actions, keep their case */
+:root[data-color-scheme="technical"] .ant-btn-link,
+:root[data-color-scheme="technical"] .ant-btn-text {
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: inherit;
+}
+
+:root[data-color-scheme="technical"] .ant-table-thead > tr > th,
+:root[data-color-scheme="technical"] .ant-table-thead > tr > td {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+:root[data-color-scheme="technical"] .ant-card-head-title {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+:root[data-color-scheme="technical"] .ant-tabs-tab {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+:root[data-color-scheme="technical"] .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  font-weight: 600;
+}
+
+:root[data-color-scheme="technical"] .ant-form-item-label > label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--tk-text-secondary);
+}
+
+:root[data-color-scheme="technical"] .ant-modal-title,
+:root[data-color-scheme="technical"] .ant-drawer-title {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+:root[data-color-scheme="technical"] .ant-collapse-header-text,
+:root[data-color-scheme="technical"] .ant-descriptions-item-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ==========================================================================
+   Surfaces — flat, 1px rules, hard shadows
+   ========================================================================== */
+
+:root[data-color-scheme="technical"] .ant-card {
+  border-radius: 0;
+  box-shadow: none;
+  transition:
+    border-color 0.1s ease,
+    box-shadow 0.1s ease;
+}
+
+:root[data-color-scheme="technical"] .ant-card:hover {
+  border-color: var(--tk-border-primary);
+}
+
+:root[data-color-scheme="technical"] .ant-card-hoverable:hover {
+  box-shadow: var(--tk-shadow-md);
+}
+
+:root[data-color-scheme="technical"] .ant-dropdown .ant-dropdown-menu,
+:root[data-color-scheme="technical"] .ant-select-dropdown,
+:root[data-color-scheme="technical"] .ant-popover .ant-popover-inner,
+:root[data-color-scheme="technical"] .ant-picker-dropdown .ant-picker-panel-container {
+  border: 1px solid var(--tk-border-primary);
+  border-radius: 0;
+  box-shadow: var(--tk-shadow-lg);
+}
+
+:root[data-color-scheme="technical"] .ant-modal .ant-modal-content,
+:root[data-color-scheme="technical"] .ant-drawer .ant-drawer-content {
+  border: 1px solid var(--tk-border-primary);
+  border-radius: 0;
+  box-shadow: var(--tk-shadow-lg);
+}
+
+:root[data-color-scheme="technical"] .ant-notification-notice {
+  border: 1px solid var(--tk-border-primary);
+  border-radius: 0;
+  box-shadow: var(--tk-shadow-lg);
+}
+
+/* Tables: strong rule under the header, hairlines between rows */
+:root[data-color-scheme="technical"] .ant-table {
+  border-radius: 0;
+}
+
+:root[data-color-scheme="technical"] .ant-table-thead > tr > th {
+  border-bottom: 1px solid var(--tk-border-primary) !important;
+}
+
+:root[data-color-scheme="technical"] .ant-table-tbody > tr > td {
+  border-bottom: 1px solid var(--tk-border-secondary);
+}
+
+/* Tags: square, monospaced specimen labels */
+:root[data-color-scheme="technical"] .ant-tag {
+  border-radius: 0 !important;
+  font-family: var(--tk-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+}
+
+:root[data-color-scheme="technical"] .ant-alert {
+  border-radius: 0;
+}
+
+:root[data-color-scheme="technical"] .ant-steps-item-icon {
+  border-radius: 0 !important;
+  font-family: var(--tk-font-mono);
+}
+
+:root[data-color-scheme="technical"] .ant-avatar {
+  border-radius: 0;
+}
+
+:root[data-color-scheme="technical"] .ant-badge-count {
+  border-radius: 0;
+  font-family: var(--tk-font-mono);
+}
+
+/* Segmented controls: instrument-panel toggles */
+:root[data-color-scheme="technical"] .ant-segmented {
+  border-radius: 0;
+  border: 1px solid var(--tk-border-secondary);
+}
+
+:root[data-color-scheme="technical"] .ant-segmented .ant-segmented-item {
+  border-radius: 0;
+}
+
+:root[data-color-scheme="technical"] .ant-segmented .ant-segmented-item-selected {
+  border-radius: 0;
+  box-shadow: none;
+  outline: 1px solid var(--tk-border-primary);
+  outline-offset: -1px;
+}
+
+:root[data-color-scheme="technical"] .ant-skeleton .ant-skeleton-title,
+:root[data-color-scheme="technical"] .ant-skeleton .ant-skeleton-paragraph > li,
+:root[data-color-scheme="technical"] .ant-skeleton .ant-skeleton-avatar,
+:root[data-color-scheme="technical"] .ant-skeleton .ant-skeleton-button,
+:root[data-color-scheme="technical"] .ant-skeleton .ant-skeleton-input {
+  border-radius: 0 !important;
+}
+
+:root[data-color-scheme="technical"] .ant-pagination .ant-pagination-item {
+  border-radius: 0;
+  font-family: var(--tk-font-mono);
+}
+
+/* Tooltips: monospaced, compact */
+:root[data-color-scheme="technical"] .ant-tooltip .ant-tooltip-inner {
+  border-radius: 0;
+  font-family: var(--tk-font-mono);
+  font-size: 12px;
+  box-shadow: var(--tk-shadow-md);
+}
+
+:root[data-color-scheme="technical"] .ant-empty-description {
+  color: var(--tk-text-secondary);
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+:root[data-color-scheme="technical"] .ant-breadcrumb {
+  font-size: 12px;
+}
+
+/* ==========================================================================
+   Focus — visible, technical
+   ========================================================================== */
+
+:root[data-color-scheme="technical"] a:focus-visible,
+:root[data-color-scheme="technical"] button:focus-visible,
+:root[data-color-scheme="technical"] [tabindex]:focus-visible {
+  outline: 2px solid var(--tk-accent);
+  outline-offset: 1px;
+}
+
+/* ==========================================================================
+   Login — blueprint-grid backdrop, flat hard-shadowed card
+   ========================================================================== */
+
+:root[data-color-scheme="technical"] .login-container {
+  background-image: radial-gradient(var(--tk-dot-line) 0.5px, transparent 1px);
+  background-size: 3px 3px;
+  background-position: 0 0;
+  background-repeat: repeat;
+}
+
+:root[data-color-scheme="technical"] .login-card {
+  border-radius: 0;
+  border: 1px solid var(--tk-border-primary);
+  box-shadow: var(--tk-shadow-lg);
+}
+
+/* The logo is an <img>, so it cannot inherit CSS color; invert the dark
+   wordmark for dark mode and rotate hue back so the cube keeps its color. */
+:root[data-color-scheme="technical"][data-theme="dark"] .login-logo {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* ==========================================================================
+   Per-component harmonization (square corners, scheme accents)
+   ========================================================================== */
+
+:root[data-color-scheme="technical"] .site-page-header {
+  background-color: var(--tk-fill-secondary);
+  border: 1px solid var(--tk-border-secondary);
+}
+
+/* Workspaces: general settings forms keep the theme's input treatment */
+:root[data-color-scheme="technical"] .generalSettings .ant-input,
+:root[data-color-scheme="technical"] .generalSettings .ant-input-affix-wrapper,
+:root[data-color-scheme="technical"] .generalSettings .ant-select-selector {
+  background-color: var(--tk-bg-base) !important;
+  border-color: var(--tk-border-primary) !important;
+  border-radius: 0 !important;
+}
+
+:root[data-color-scheme="technical"] .generalSettings .ant-input:focus,
+:root[data-color-scheme="technical"] .generalSettings .ant-input-affix-wrapper:focus,
+:root[data-color-scheme="technical"] .generalSettings .ant-select-focused .ant-select-selector {
+  border-color: var(--tk-accent) !important;
+  box-shadow: 0 0 0 2px var(--tk-accent-glow) !important;
+}
+
+:root[data-color-scheme="technical"] .code {
+  background-color: var(--tk-fill-primary);
+  color: var(--tk-text-primary);
+}
+
+/* Workspace filter bar */
+:root[data-color-scheme="technical"] .workspace-filter-bar,
+:root[data-color-scheme="technical"] .filter-button {
+  border-radius: 0;
+}
+
+:root[data-color-scheme="technical"] .add-filter-btn {
+  color: var(--tk-accent);
+}
+
+/* Organization grid */
+:root[data-color-scheme="technical"][data-theme="dark"] .org-card-title {
+  color: var(--tk-accent);
+}
+
+/* Settings editor frame */
+:root[data-color-scheme="technical"] .editor {
+  border: 1px solid var(--tk-border-secondary);
+}
+
+/* Theme settings swatches */
+:root[data-color-scheme="technical"] .color-box {
+  border-radius: 0;
+  border: 1px solid var(--tk-border-secondary);
+}
+
+/* Module registry */
+:root[data-color-scheme="technical"] .module-card.ant-card,
+:root[data-color-scheme="technical"] .module-flat-icon {
+  border-radius: 0;
+}
+
+/* Personal access token modal */
+:root[data-color-scheme="technical"] .create-pat-modal .ant-modal-content,
+:root[data-color-scheme="technical"] .create-pat-modal .required-badge,
+:root[data-color-scheme="technical"] .create-pat-modal .token-display {
+  border-radius: 0;
+}
+
+:root[data-color-scheme="technical"] .create-pat-modal .token-display {
+  background: var(--tk-fill-primary);
+  border: 1px solid var(--tk-border-secondary);
+}
+
+:root[data-color-scheme="technical"] .create-pat-modal .token-display .created-token {
+  font-family: var(--tk-font-mono);
+}
+
+/* Terminal output toolbar */
+:root[data-color-scheme="technical"] .terminal-toolbar-btn {
+  border-radius: 0;
+}
+
+/* Structured plan output */
+:root[data-color-scheme="technical"] .structured-plan-shell,
+:root[data-color-scheme="technical"] .structured-plan-summarySegment,
+:root[data-color-scheme="technical"] .structured-plan-summaryEmpty,
+:root[data-color-scheme="technical"] .structured-plan-searchInput,
+:root[data-color-scheme="technical"] .structured-plan-selectWrap,
+:root[data-color-scheme="technical"] .structured-plan-toolbarButton,
+:root[data-color-scheme="technical"] .structured-plan-actionIcon,
+:root[data-color-scheme="technical"] .structured-plan-providerBadge,
+:root[data-color-scheme="technical"] .structured-plan-actionPill,
+:root[data-color-scheme="technical"] .structured-plan-metaPill,
+:root[data-color-scheme="technical"] .structured-plan-diffRow,
+:root[data-color-scheme="technical"] .structured-plan-diffMarker,
+:root[data-color-scheme="technical"] .structured-plan-valueToken {
+  border-radius: 0;
+}
+
+/* ==========================================================================
+   Job step output — service-ticket log treatment
+   A boxed log panel: labeled band on top (mono, uppercase, black rule),
+   4px silver spine on the left, dotted top edge, hard offset shadow, and
+   line striping over the raw output.
+   ========================================================================== */
+
+:root[data-color-scheme="technical"] .terminal-wrapper {
+  background: var(--tk-bg-container);
+  border: 1px solid var(--tk-border-primary);
+  border-top: 2px dotted var(--tk-border-primary);
+  border-left: 4px solid #aaa;
+  box-shadow: var(--tk-shadow-md);
+}
+
+/* The band reads "LOG // <STEP NAME>" from the data attribute */
+:root[data-color-scheme="technical"] .terminal-wrapper::before {
+  content: "LOG // " attr(data-step-name);
+  display: block;
+  background: #b9ffe4;
+  color: #0a0a0a;
+  font-family: var(--tk-font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+  padding: 5px 8px 4px;
+  border-bottom: 1px solid #0a0a0a;
+}
+
+:root[data-color-scheme="technical"] .terminal-container {
+  background-color: var(--tk-bg-container);
+}
+
+:root[data-color-scheme="technical"] .terminal-content {
+  color: var(--tk-text-primary);
+  font-family: var(--tk-font-mono);
+  font-size: 12px;
+  line-height: 18px;
+  padding: 0 8px 8px;
+  background: repeating-linear-gradient(180deg, transparent 0 18px, rgba(0, 0, 0, 0.05) 18px 36px);
+}
+
+:root[data-color-scheme="technical"][data-theme="dark"] .terminal-content {
+  background: repeating-linear-gradient(180deg, transparent 0 18px, rgba(237, 237, 232, 0.045) 18px 36px);
+}
+
+/* ANSI palette legibility on paper: the light theme's white background
+   makes anser's white/grey/yellow/cyan foregrounds unreadable — remap them
+   to ink-adjacent values. Colored diffs (green/red) stay as-is. */
+:root[data-color-scheme="technical"]:not([data-theme="dark"]) .terminal-content span[style*="255, 255, 255"] {
+  color: var(--tk-text-primary) !important;
+}
+
+:root[data-color-scheme="technical"]:not([data-theme="dark"]) .terminal-content span[style*="187, 187, 187"] {
+  color: var(--tk-text-secondary) !important;
+}
+
+:root[data-color-scheme="technical"]:not([data-theme="dark"]) .terminal-content span[style*="187, 187, 0"] {
+  color: #9a7b00 !important;
+}
+
+:root[data-color-scheme="technical"]:not([data-theme="dark"]) .terminal-content span[style*="0, 187, 187"] {
+  color: #0e7490 !important;
+}
+
+/* Toolbar: square mono controls instead of glass buttons */
+:root[data-color-scheme="technical"] .terminal-toolbar-btn {
+  border-radius: 0;
+  font-family: var(--tk-font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--tk-text-primary);
+  background: var(--tk-bg-container);
+  border: 1px solid var(--tk-border-primary);
+  backdrop-filter: none;
+}
+
+:root[data-color-scheme="technical"] .terminal-toolbar-btn:hover {
+  background: var(--tk-fill-primary);
+}
+
+:root[data-color-scheme="technical"] .terminal-toolbar-btn--active {
+  background: var(--tk-accent);
+  color: #ffffff;
+  border-color: var(--tk-accent);
+}
+
+:root[data-color-scheme="technical"][data-theme="dark"] .terminal-toolbar-btn--active {
+  color: #0a0a0a;
+}
+
+/* ==========================================================================
+   Classic controls — hard 2px offset shadow, full inversion on hover
+   ========================================================================== */
+
+:root[data-color-scheme="technical"] .ant-btn-default {
+  box-shadow: var(--tk-shadow-btn);
+}
+
+:root[data-color-scheme="technical"] .ant-btn-default:not(:disabled):hover {
+  background: var(--tk-text-primary) !important;
+  border-color: var(--tk-text-primary) !important;
+  color: var(--tk-bg-container) !important;
+}
+
+:root[data-color-scheme="technical"] .ant-btn-default:not(:disabled):hover .anticon {
+  color: var(--tk-bg-container) !important;
+}
+
+:root[data-color-scheme="technical"] .ant-btn-primary {
+  box-shadow: var(--tk-shadow-btn);
+}
+
+/* ==========================================================================
+   Tabs — bordered boxes with hard shadows; active tab is inverted
+   ========================================================================== */
+
+:root[data-color-scheme="technical"] .ant-tabs-ink-bar {
+  display: none;
+}
+
+:root[data-color-scheme="technical"] .ant-tabs-tab {
+  border: 1px solid var(--tk-border-primary) !important;
+  border-radius: 0 !important;
+  box-shadow: var(--tk-shadow-btn);
+  background: var(--tk-bg-container) !important;
+  padding: 5px 12px !important;
+  margin: 0 10px 4px 0 !important;
+}
+
+:root[data-color-scheme="technical"] .ant-tabs-left .ant-tabs-tab,
+:root[data-color-scheme="technical"] .ant-tabs-right .ant-tabs-tab {
+  margin: 0 4px 10px 0 !important;
+}
+
+:root[data-color-scheme="technical"] .ant-tabs-tab:hover .ant-tabs-tab-btn {
+  color: var(--tk-accent) !important;
+}
+
+:root[data-color-scheme="technical"] .ant-tabs-tab.ant-tabs-tab-active {
+  background: var(--tk-text-primary) !important;
+  border-color: var(--tk-text-primary) !important;
+}
+
+:root[data-color-scheme="technical"] .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: var(--tk-bg-container) !important;
+}
+
+:root[data-color-scheme="technical"] .ant-tabs-top > .ant-tabs-nav::before,
+:root[data-color-scheme="technical"] .ant-tabs-bottom > .ant-tabs-nav::before {
+  border-bottom: 1px solid var(--tk-border-secondary);
+}
+
+/* ==========================================================================
+   Tags — dotted-border specimen labels; status colors as solid blocks
+   ========================================================================== */
+
+:root[data-color-scheme="technical"] .ant-tag {
+  border-style: dotted;
+  border-color: var(--tk-border-primary);
+  background: transparent;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+:root[data-color-scheme="technical"] .ant-tag-green,
+:root[data-color-scheme="technical"] .ant-tag-success {
+  background: #137752;
+  border: 1px solid #116a49;
+  color: #ffffff;
+}
+
+:root[data-color-scheme="technical"] .ant-tag-red,
+:root[data-color-scheme="technical"] .ant-tag-error,
+:root[data-color-scheme="technical"] .ant-tag-volcano {
+  background: #e7040f;
+  border: 1px solid #d8040e;
+  color: #ffffff;
+}
+
+:root[data-color-scheme="technical"] .ant-tag-blue,
+:root[data-color-scheme="technical"] .ant-tag-processing,
+:root[data-color-scheme="technical"] .ant-tag-geekblue {
+  background: #002dce;
+  border: 1px solid #002dce;
+  color: #ffffff;
+}
+
+:root[data-color-scheme="technical"] .ant-tag-gold,
+:root[data-color-scheme="technical"] .ant-tag-orange,
+:root[data-color-scheme="technical"] .ant-tag-warning {
+  background: #ffb700;
+  border: 1px solid #141414;
+  color: #141414;
+}
+
+:root[data-color-scheme="technical"] .ant-tag-purple {
+  background: #7643b9;
+  border: 1px solid #7643b9;
+  color: #ffffff;
+}
+
+:root[data-color-scheme="technical"] .ant-tag-cyan {
+  background: #0e7490;
+  border: 1px solid #0e7490;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   Dotted-field backdrops
+   ========================================================================== */
+:root[data-color-scheme="technical"] .site-page-header {
+  background-color: var(--tk-bg-container);
+  background-image: radial-gradient(var(--tk-dot-line) 0.5px, transparent 1px);
+  background-size: 3px 3px;
+}
+
+/* Dark mode: brighten anser's dim red/blue foregrounds for the black body */
+:root[data-color-scheme="technical"][data-theme="dark"] .terminal-content span[style*="187, 0, 0"] {
+  color: #f85149 !important;
+}
+
+:root[data-color-scheme="technical"][data-theme="dark"] .terminal-content span[style*="0, 0, 187"] {
+  color: #7b96ff !important;
+}

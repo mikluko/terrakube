@@ -36,6 +36,11 @@ export const ThemeSection = () => {
       color: "#722ED1",
       label: "Terrakube (Uses the main Terrakube logo colors)",
     },
+    {
+      value: "technical",
+      color: "#1b3be0",
+      label: "Technical (Monospace engineering look)",
+    },
   ];
 
   const themeModeOptions = [

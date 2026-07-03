@@ -54,7 +54,7 @@ export const TerminalOutput = ({ outputLog, stepName, isRunning }: Props) => {
   };
 
   return (
-    <div className="terminal-wrapper">
+    <div className="terminal-wrapper" data-step-name={stepName}>
       <div className="terminal-container" ref={containerRef}>
         <div className="terminal-toolbar">
           <Tooltip title="Auto-scroll to bottom">

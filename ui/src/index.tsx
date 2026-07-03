@@ -1,6 +1,7 @@
 import "github-markdown-css/github-markdown-light.css";
 import "./styles/variables.css";
 import "./styles/global.css";
+import "./styles/technical.css";
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { AuthProvider } from "react-oidc-context";

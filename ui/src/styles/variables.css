@@ -67,3 +67,109 @@
   --tk-scrollbar-thumb: #30363d;
   --tk-scrollbar-thumb-hover: #484f58;
 }
+
+/* ==========================================================================
+   "Technical" color scheme — monospace engineering design tokens.
+   Scoped so they only apply when the scheme is selected; light mode is
+   ink on paper, dark mode is phosphor on black. Companion rules live in
+   technical.css.
+   ========================================================================== */
+
+[data-color-scheme="technical"] {
+  /* Typography */
+  --tk-font-mono:
+    "Berkeley Mono", ui-monospace, "SF Mono", SFMono-Regular, "Cascadia Mono", "JetBrains Mono", "IBM Plex Mono", Menlo,
+    Consolas, "DejaVu Sans Mono", "Liberation Mono", monospace;
+  --tk-font-sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+
+  /* Light: ink on paper */
+  --tk-bg-base: #ffffff;
+  --tk-bg-container: #ffffff;
+  --tk-bg-elevated: #ffffff;
+  --tk-bg-layout: #f2f2ed;
+  --tk-bg-spotlight: #141414;
+
+  --tk-border-primary: #141414;
+  --tk-border-secondary: #d9d9d0;
+
+  --tk-text-primary: #141414;
+  --tk-text-secondary: rgba(20, 20, 20, 0.65);
+  --tk-text-tertiary: rgba(20, 20, 20, 0.45);
+  --tk-text-quaternary: rgba(20, 20, 20, 0.25);
+
+  --tk-fill-primary: #edede6;
+  --tk-fill-secondary: #f5f5ef;
+
+  /* Masthead is black in both modes */
+  --tk-masthead-bg: #0a0a0a;
+  --tk-masthead-border: #26261f;
+  --tk-masthead-text: #a6a69e;
+  --tk-masthead-text-active: #edede8;
+
+  /* Accent: engineering blue */
+  --tk-accent: #1b3be0;
+  --tk-accent-glow: rgba(27, 59, 224, 0.18);
+
+  /* Glass effects are retired in favor of flat surfaces */
+  --tk-glass-bg: #ffffff;
+  --tk-glass-border: #141414;
+
+  /* Hard-edged shadows (no blur) */
+  --tk-shadow-sm: none;
+  --tk-shadow-md: 4px 4px 0 rgba(20, 20, 20, 0.08);
+  --tk-shadow-lg: 6px 6px 0 rgba(20, 20, 20, 0.1);
+
+  /* Blueprint grid and dotted-field backdrops */
+  --tk-grid-line: rgba(20, 20, 20, 0.05);
+  --tk-dot-line: rgba(20, 20, 20, 0.3);
+
+  /* Hard control shadow (buttons, tabs) */
+  --tk-shadow-btn: 2px 2px 0 #bbbbb5;
+
+  /* Scrollbars */
+  --tk-scrollbar-track: transparent;
+  --tk-scrollbar-thumb: #c9c9c0;
+  --tk-scrollbar-thumb-hover: #8c8c85;
+}
+
+[data-color-scheme="technical"][data-theme="dark"] {
+  /* Dark: phosphor on black */
+  --tk-bg-base: #0a0a0a;
+  --tk-bg-container: #111110;
+  --tk-bg-elevated: #181816;
+  --tk-bg-layout: #0a0a0a;
+  --tk-bg-spotlight: #1f1f1d;
+
+  --tk-border-primary: #52524b;
+  --tk-border-secondary: #26261f;
+
+  --tk-text-primary: #edede8;
+  --tk-text-secondary: #a6a69e;
+  --tk-text-tertiary: #73736c;
+  --tk-text-quaternary: #4a4a44;
+
+  --tk-fill-primary: #26261f;
+  --tk-fill-secondary: #1c1c18;
+  --tk-fill-tertiary: #161613;
+  --tk-fill-quaternary: #111110;
+
+  --tk-accent: #7b96ff;
+  --tk-accent-glow: rgba(123, 150, 255, 0.25);
+
+  --tk-glass-bg: #181816;
+  --tk-glass-border: #52524b;
+
+  --tk-shadow-sm: none;
+  --tk-shadow-md: 4px 4px 0 rgba(0, 0, 0, 0.55);
+  --tk-shadow-lg: 6px 6px 0 rgba(0, 0, 0, 0.55);
+  --tk-shadow-glow: 0 0 0 2px var(--tk-accent-glow);
+
+  --tk-grid-line: rgba(237, 237, 232, 0.045);
+  --tk-dot-line: rgba(237, 237, 232, 0.22);
+
+  --tk-shadow-btn: 2px 2px 0 rgba(0, 0, 0, 0.6);
+
+  --tk-scrollbar-track: transparent;
+  --tk-scrollbar-thumb: #33332e;
+  --tk-scrollbar-thumb-hover: #52524b;
+}
