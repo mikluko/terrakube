@@ -193,9 +193,15 @@ const AppLayout = () => {
     >
       <Layout className="layout mh-100">
         <Header>
-          <a onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
-            <img className="logo" src={logo} alt="Logo"></img>
-          </a>
+          {colorScheme === "technical" ? (
+            <a onClick={() => navigate("/")} className="tk-wordmark" style={{ cursor: "pointer" }}>
+              TERRAKUBE
+            </a>
+          ) : (
+            <a onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
+              <img className="logo" src={logo} alt="Logo"></img>
+            </a>
+          )}
           <OrganizationSelector
             organizationName={organizationName}
             organizations={orgs}
@@ -247,170 +253,170 @@ const App = () => {
         path: "/",
         element: <AppLayout />,
         children: [
-        {
-          path: "/",
-          element: <OrganizationsPickerPage />,
-        },
-        {
-          path: "/organizations",
-          element: <OrganizationsPickerPage />,
-        },
-        {
-          path: "/organizations/create",
-          element: <CreateOrganizationRoute />,
-        },
-        {
-          path: "/organizations/:id/workspaces",
-          element: <OrganizationsDetailRoute />,
-        },
-        {
-          path: "/organizations/:id/projects",
-          element: <OrganizationsProjectsRoute />,
-        },
-        {
-          path: "/organizations/:orgid/projects/:id",
-          element: <OrganizationsProjectDetailRoute />,
-        },
-        {
-          path: "/workspaces/create",
-          element: <CreateWorkspace />,
-        },
-        {
-          path: "/workspaces/import",
-          element: <ImportWorkspace />,
-        },
-        {
-          path: "/workspaces/:id",
-          element: <WorkspaceDetailsRoute />,
-        },
-        {
-          path: "/organizations/:orgid/workspaces/:id",
-          element: <WorkspaceDetailsRoute />,
-        },
-        {
-          path: "/workspaces/:id/runs",
-          element: <WorkspaceDetailsRoute selectedTab="2" />,
-        },
-        {
-          path: "/organizations/:orgid/workspaces/:id/runs",
-          element: <WorkspaceDetailsRoute selectedTab="2" />,
-        },
-        {
-          path: "/workspaces/:id/runs/:runid",
-          element: <WorkspaceDetailsRoute selectedTab="2" />,
-        },
-        {
-          path: "/organizations/:orgid/workspaces/:id/runs/:runid",
-          element: <WorkspaceDetailsRoute selectedTab="2" />,
-        },
-        {
-          path: "/workspaces/:id/states",
-          element: <WorkspaceDetailsRoute selectedTab="3" />,
-        },
-        {
-          path: "/organizations/:orgid/workspaces/:id/states",
-          element: <WorkspaceDetailsRoute selectedTab="3" />,
-        },
-        {
-          path: "/workspaces/:id/variables",
-          element: <WorkspaceDetailsRoute selectedTab="4" />,
-        },
-        {
-          path: "/organizations/:orgid/workspaces/:id/variables",
-          element: <WorkspaceDetailsRoute selectedTab="4" />,
-        },
-        {
-          path: "/workspaces/:id/schedules",
-          element: <WorkspaceDetailsRoute selectedTab="5" />,
-        },
-        {
-          path: "/organizations/:orgid/workspaces/:id/schedules",
-          element: <WorkspaceDetailsRoute selectedTab="5" />,
-        },
-        {
-          path: "/workspaces/:id/settings",
-          element: <WorkspaceDetailsRoute selectedTab="6" />,
-        },
-        {
-          path: "/organizations/:orgid/workspaces/:id/settings",
-          element: <WorkspaceDetailsRoute selectedTab="6" />,
-        },
-        {
-          path: "/organizations/:orgid/registry",
-          element: <RegistryRoute />,
-        },
-        {
-          path: "/organizations/:orgid/registry/search",
-          element: <PublicRegistrySearchRoute />,
-        },
-        {
-          path: "/organizations/:orgid/registry/create",
-          element: <CreateModule />,
-        },
-        {
-          path: "/organizations/:orgid/registry/providers/:providerid",
-          element: <ProviderDetailsRoute />,
-        },
-        {
-          path: "/organizations/:orgid/registry/:id",
-          element: <ModuleDetailsRoute />,
-        },
-        {
-          path: "/organizations/:orgid/settings",
-          element: <OrganizationSettings />,
-        },
-        {
-          path: "/organizations/:orgid/settings/general",
-          element: <OrganizationSettings selectedTab="1" />,
-        },
-        {
-          path: "/organizations/:orgid/settings/teams",
-          element: <OrganizationSettings selectedTab="2" />,
-        },
-        {
-          path: "/organizations/:orgid/settings/vcs",
-          element: <OrganizationSettings selectedTab="4" />,
-        },
-        {
-          path: "/organizations/:orgid/settings/vcs/new/:vcsName",
-          element: <OrganizationSettings selectedTab="4" vcsMode="new" />,
-        },
-        {
-          path: "/settings/tokens",
-          element: <UserSettingsPage />,
-        },
-        {
-          path: "/settings/theme",
-          element: <UserSettingsPage />,
-        },
-        {
-          path: "/organizations/:orgid/settings/ssh",
-          element: <OrganizationSettings selectedTab="6" />,
-        },
-        {
-          path: "/organizations/:orgid/settings/tags",
-          element: <OrganizationSettings selectedTab="7" />,
-        },
-        {
-          path: "/organizations/:orgid/settings/actions",
-          element: <OrganizationSettings selectedTab="10" />,
-        },
-        {
-          path: "/organizations/:orgid/settings/collection",
-          element: <OrganizationSettings selectedTab="9" />,
-        },
-        {
-          path: "/organizations/:orgid/settings/collection/new",
-          element: <OrganizationSettings selectedTab="9" collectionMode="new" />,
-        },
-        {
-          path: "/organizations/:orgid/settings/collection/edit/:collectionid",
-          element: <CollectionSettingsWrapper mode="edit" />,
-        },
-        {
-          path: "/organizations/:orgid/settings/collection/:collectionid",
-          element: <CollectionSettingsWrapper mode="detail" />,
-        },
+          {
+            path: "/",
+            element: <OrganizationsPickerPage />,
+          },
+          {
+            path: "/organizations",
+            element: <OrganizationsPickerPage />,
+          },
+          {
+            path: "/organizations/create",
+            element: <CreateOrganizationRoute />,
+          },
+          {
+            path: "/organizations/:id/workspaces",
+            element: <OrganizationsDetailRoute />,
+          },
+          {
+            path: "/organizations/:id/projects",
+            element: <OrganizationsProjectsRoute />,
+          },
+          {
+            path: "/organizations/:orgid/projects/:id",
+            element: <OrganizationsProjectDetailRoute />,
+          },
+          {
+            path: "/workspaces/create",
+            element: <CreateWorkspace />,
+          },
+          {
+            path: "/workspaces/import",
+            element: <ImportWorkspace />,
+          },
+          {
+            path: "/workspaces/:id",
+            element: <WorkspaceDetailsRoute />,
+          },
+          {
+            path: "/organizations/:orgid/workspaces/:id",
+            element: <WorkspaceDetailsRoute />,
+          },
+          {
+            path: "/workspaces/:id/runs",
+            element: <WorkspaceDetailsRoute selectedTab="2" />,
+          },
+          {
+            path: "/organizations/:orgid/workspaces/:id/runs",
+            element: <WorkspaceDetailsRoute selectedTab="2" />,
+          },
+          {
+            path: "/workspaces/:id/runs/:runid",
+            element: <WorkspaceDetailsRoute selectedTab="2" />,
+          },
+          {
+            path: "/organizations/:orgid/workspaces/:id/runs/:runid",
+            element: <WorkspaceDetailsRoute selectedTab="2" />,
+          },
+          {
+            path: "/workspaces/:id/states",
+            element: <WorkspaceDetailsRoute selectedTab="3" />,
+          },
+          {
+            path: "/organizations/:orgid/workspaces/:id/states",
+            element: <WorkspaceDetailsRoute selectedTab="3" />,
+          },
+          {
+            path: "/workspaces/:id/variables",
+            element: <WorkspaceDetailsRoute selectedTab="4" />,
+          },
+          {
+            path: "/organizations/:orgid/workspaces/:id/variables",
+            element: <WorkspaceDetailsRoute selectedTab="4" />,
+          },
+          {
+            path: "/workspaces/:id/schedules",
+            element: <WorkspaceDetailsRoute selectedTab="5" />,
+          },
+          {
+            path: "/organizations/:orgid/workspaces/:id/schedules",
+            element: <WorkspaceDetailsRoute selectedTab="5" />,
+          },
+          {
+            path: "/workspaces/:id/settings",
+            element: <WorkspaceDetailsRoute selectedTab="6" />,
+          },
+          {
+            path: "/organizations/:orgid/workspaces/:id/settings",
+            element: <WorkspaceDetailsRoute selectedTab="6" />,
+          },
+          {
+            path: "/organizations/:orgid/registry",
+            element: <RegistryRoute />,
+          },
+          {
+            path: "/organizations/:orgid/registry/search",
+            element: <PublicRegistrySearchRoute />,
+          },
+          {
+            path: "/organizations/:orgid/registry/create",
+            element: <CreateModule />,
+          },
+          {
+            path: "/organizations/:orgid/registry/providers/:providerid",
+            element: <ProviderDetailsRoute />,
+          },
+          {
+            path: "/organizations/:orgid/registry/:id",
+            element: <ModuleDetailsRoute />,
+          },
+          {
+            path: "/organizations/:orgid/settings",
+            element: <OrganizationSettings />,
+          },
+          {
+            path: "/organizations/:orgid/settings/general",
+            element: <OrganizationSettings selectedTab="1" />,
+          },
+          {
+            path: "/organizations/:orgid/settings/teams",
+            element: <OrganizationSettings selectedTab="2" />,
+          },
+          {
+            path: "/organizations/:orgid/settings/vcs",
+            element: <OrganizationSettings selectedTab="4" />,
+          },
+          {
+            path: "/organizations/:orgid/settings/vcs/new/:vcsName",
+            element: <OrganizationSettings selectedTab="4" vcsMode="new" />,
+          },
+          {
+            path: "/settings/tokens",
+            element: <UserSettingsPage />,
+          },
+          {
+            path: "/settings/theme",
+            element: <UserSettingsPage />,
+          },
+          {
+            path: "/organizations/:orgid/settings/ssh",
+            element: <OrganizationSettings selectedTab="6" />,
+          },
+          {
+            path: "/organizations/:orgid/settings/tags",
+            element: <OrganizationSettings selectedTab="7" />,
+          },
+          {
+            path: "/organizations/:orgid/settings/actions",
+            element: <OrganizationSettings selectedTab="10" />,
+          },
+          {
+            path: "/organizations/:orgid/settings/collection",
+            element: <OrganizationSettings selectedTab="9" />,
+          },
+          {
+            path: "/organizations/:orgid/settings/collection/new",
+            element: <OrganizationSettings selectedTab="9" collectionMode="new" />,
+          },
+          {
+            path: "/organizations/:orgid/settings/collection/edit/:collectionid",
+            element: <CollectionSettingsWrapper mode="edit" />,
+          },
+          {
+            path: "/organizations/:orgid/settings/collection/:collectionid",
+            element: <CollectionSettingsWrapper mode="detail" />,
+          },
         ],
       },
     ],

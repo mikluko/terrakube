@@ -1,0 +1,245 @@
+/* Technical scheme — app chrome: masthead, nav, org selector, tabs, footer,
+   login. Scoped to html[data-color-scheme="technical"] throughout. */
+
+/* ── Masthead ─────────────────────────────────────────────────────────── */
+html[data-color-scheme="technical"] .ant-layout-header {
+  background: var(--chrome);
+  color: var(--on-chrome);
+  height: var(--masthead-h);
+  line-height: var(--masthead-h);
+  border-bottom: 1px solid var(--chrome-line);
+  padding: 0 20px;
+}
+
+html[data-color-scheme="technical"] .tk-wordmark {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--on-chrome);
+  text-decoration: none;
+  margin-right: 16px;
+  white-space: nowrap;
+}
+
+/* ── Main nav — uppercase spaced items, inverted selection, no pills ──── */
+html[data-color-scheme="technical"] .ant-layout-header .ant-menu {
+  background: transparent;
+  border-bottom: none;
+  line-height: calc(var(--masthead-h) - 1px);
+}
+html[data-color-scheme="technical"] .ant-layout-header .ant-menu-horizontal .ant-menu-item {
+  border-radius: 0 !important;
+  margin: 0 !important;
+  padding: 0 16px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--on-chrome-dim);
+}
+html[data-color-scheme="technical"] .ant-layout-header .ant-menu-horizontal .ant-menu-item .anticon {
+  display: none;
+}
+html[data-color-scheme="technical"] .ant-layout-header .ant-menu-horizontal .ant-menu-item:hover {
+  color: var(--on-chrome);
+}
+html[data-color-scheme="technical"] .ant-layout-header .ant-menu-horizontal .ant-menu-item-selected {
+  border-radius: 0 !important;
+  background-color: var(--on-chrome) !important;
+  color: var(--chrome) !important;
+}
+html[data-color-scheme="technical"] .ant-layout-header .ant-menu-horizontal .ant-menu-item::after {
+  display: none;
+}
+
+/* ── Org selector — bordered TUI chip + hard-shadowed panel ───────────── */
+html[data-color-scheme="technical"] .org-selector-button {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--on-chrome);
+  border: 1px solid var(--chrome-line-2);
+  border-radius: 0;
+  box-shadow: none;
+  height: auto;
+  padding: 2px 8px;
+}
+html[data-color-scheme="technical"] .org-selector-button .org-selector-icon {
+  display: none;
+}
+html[data-color-scheme="technical"] .org-selector-button:hover {
+  background: var(--on-chrome);
+  color: var(--chrome);
+}
+html[data-color-scheme="technical"] .org-selector-dropdown {
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  box-shadow: var(--shadow-card);
+}
+html[data-color-scheme="technical"] .org-selector-item,
+html[data-color-scheme="technical"] .org-selector-manage-link {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink);
+  border-bottom: 1px solid var(--rule-soft);
+  border-radius: 0;
+}
+html[data-color-scheme="technical"] .org-selector-item:hover,
+html[data-color-scheme="technical"] .org-selector-manage-link:hover {
+  background: var(--sel-bg);
+  color: var(--sel-fg);
+}
+
+/* ── Dropdown panels (antd) — hard shadow, inverted hover ─────────────── */
+html[data-color-scheme="technical"] .ant-dropdown .ant-dropdown-menu {
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  box-shadow: var(--shadow-card);
+  padding: 0;
+}
+html[data-color-scheme="technical"] .ant-dropdown .ant-dropdown-menu-item {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  border-radius: 0;
+  border-bottom: 1px solid var(--rule-soft);
+}
+html[data-color-scheme="technical"] .ant-dropdown .ant-dropdown-menu-item:last-child {
+  border-bottom: none;
+}
+html[data-color-scheme="technical"] .ant-dropdown .ant-dropdown-menu-item:hover {
+  background: var(--sel-bg);
+  color: var(--sel-fg);
+}
+
+/* ── Tabs — bordered boxed strip, active tab inverted, no ink-bar ─────── */
+html[data-color-scheme="technical"] .ant-tabs .ant-tabs-ink-bar {
+  display: none;
+}
+html[data-color-scheme="technical"] .ant-tabs > .ant-tabs-nav::before {
+  border-bottom: none;
+}
+html[data-color-scheme="technical"] .ant-tabs > .ant-tabs-nav .ant-tabs-nav-list {
+  border: 1px solid var(--rule);
+  box-shadow: var(--shadow-btn);
+  background: var(--paper-raised);
+}
+html[data-color-scheme="technical"] .ant-tabs .ant-tabs-tab {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  padding: 8px 16px;
+  margin: 0 !important;
+  border-left: 1px solid var(--rule);
+  background: transparent;
+  border-radius: 0 !important;
+}
+html[data-color-scheme="technical"] .ant-tabs .ant-tabs-tab:first-child {
+  border-left: none;
+}
+html[data-color-scheme="technical"] .ant-tabs .ant-tabs-tab-active {
+  background: var(--sel-bg);
+}
+html[data-color-scheme="technical"] .ant-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: var(--sel-fg) !important;
+  text-shadow: none;
+}
+
+/* ── Footer — a printed colophon, not app chrome ──────────────────────── */
+html[data-color-scheme="technical"] .ant-layout-footer {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink-3);
+  background: var(--paper);
+  border-top: 1px solid var(--rule-soft);
+}
+
+/* ── Login — hard-shadowed card floating on the dotted field ──────────── */
+html[data-color-scheme="technical"] .login-container {
+  background-image: var(--bdp);
+  background-size: var(--bdp-size);
+  background-color: var(--paper);
+  background-position: initial;
+  background-repeat: repeat;
+}
+html[data-color-scheme="technical"] .login-card {
+  border-radius: 0;
+  border: 1px solid var(--rule);
+  box-shadow: var(--shadow-card);
+  background: var(--paper-raised) !important;
+  text-align: left;
+  padding: 0;
+}
+html[data-color-scheme="technical"] .tk-login-band {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  padding: 8px 18px;
+  border-bottom: 1px solid var(--rule);
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+html[data-color-scheme="technical"] .tk-login-band-meta {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  color: var(--ink-3);
+  font-weight: 400;
+}
+html[data-color-scheme="technical"] .tk-login-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px;
+}
+html[data-color-scheme="technical"] .tk-login-theme-chip {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--ink-3);
+  border: 1px dotted var(--ink-3);
+  padding: 1px 0;
+  width: 78px;
+  text-align: center;
+  cursor: pointer;
+}
+html[data-color-scheme="technical"] .tk-login-sso-row {
+  border-top: 1px solid var(--rule-soft);
+  padding-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-label);
+  color: var(--ink-3);
+  text-transform: uppercase;
+}
+html[data-color-scheme="technical"] .tk-login-strapline {
+  margin-top: 14px;
+  text-align: center;
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-wide);
+  color: var(--ink-3);
+  text-transform: uppercase;
+}

@@ -7,6 +7,7 @@ import organizationService from "@/modules/organizations/organizationService";
 import { FlatOrganization } from "../types";
 import "./Home.css";
 import { ThemeMode } from "../../config/themeConfig";
+import { useTheme } from "../../context/ThemeContext";
 
 type Props = {
   organizationName: string;
@@ -43,6 +44,7 @@ const ensureOrganizationName = (
 };
 
 export const MainMenu = ({ organizationName, setOrganizationName, themeMode }: Props) => {
+  const { colorScheme } = useTheme();
   const [orgs, setOrgs] = useState<FlatOrganization[]>([]);
   const [defaultSelected, setDefaultSelected] = useState(["registry"]);
   const location = useLocation();
@@ -161,7 +163,12 @@ export const MainMenu = ({ organizationName, setOrganizationName, themeMode }: P
 
   return (
     <>
-      <Menu selectedKeys={defaultSelected} theme="dark" mode="horizontal" items={items} />
+      <Menu
+        selectedKeys={defaultSelected}
+        theme={colorScheme === "technical" ? "light" : "dark"}
+        mode="horizontal"
+        items={items}
+      />
     </>
   );
 };

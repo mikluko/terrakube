@@ -78,7 +78,6 @@ const WorkspaceSettings = lazy(() =>
 const { Paragraph } = Typography;
 
 const { Content } = Layout;
-const { TabPane } = Tabs;
 
 type Props = {
   setOrganizationName: React.Dispatch<React.SetStateAction<string>>;
@@ -633,189 +632,237 @@ export const WorkspaceDetails = ({ setOrganizationName, selectedTab }: Props) =>
                   </>
                 }
                 onChange={callback}
-              >
-                <TabPane tab="Overview" key="1">
-                  <Row>
-                    <Col span={19} style={{ paddingRight: "20px" }}>
-                      {workspace.attributes.source === "empty" &&
-                      workspace.attributes.branch === "remote-content" &&
-                      (workspace.relationships?.history?.data?.length || 0) < 1 ? (
-                        <CLIDriven organizationName={organizationNameLocal} workspaceName={workspaceName} />
-                      ) : (
-                        <div>
-                          <h3>Latest Run</h3>
-                          <div style={{ marginRight: "150px", borderWidth: "1px" }}>
-                            <List
-                              itemLayout="horizontal"
-                              style={{
-                                border: "1px solid #c2c5cb",
-                                padding: "24px",
-                              }}
-                              dataSource={
-                                jobs.length > 0
-                                  ? jobs
-                                      .sort((a: any, b: any) => a.id - b.id)
-                                      .reverse()
-                                      .slice(0, 1)
-                                  : []
-                              }
-                              renderItem={(item) => (
-                                <List.Item>
-                                  <List.Item.Meta
-                                    style={{ margin: "0px", padding: "0px" }}
-                                    avatar={<Avatar shape="square" icon={<UserOutlined />} />}
-                                    description={
-                                      <div>
-                                        <Row>
-                                          <Col span={20}>
-                                            <h4 className="ant-list-item-meta-title">
-                                              <a onClick={() => handleClick(item.id)}>{item.title}</a>{" "}
-                                            </h4>
-                                            <b>{item.createdBy}</b> triggered a run {item.latestChange} via{" "}
-                                            <b>{item.via || "UI"}</b>{" "}
-                                            {item.commitId !== "000000000" ? (
-                                              <>
-                                                <FiGitCommit /> {item.commitId?.substring(0, 6)}{" "}
-                                              </>
-                                            ) : (
-                                              ""
-                                            )}
-                                          </Col>
-                                          <Col>
-                                            {
-                                              <div className="textLeft">
-                                                <StatusBadge status={item.status} />{" "}
-                                              </div>
-                                            }
-                                          </Col>
-                                        </Row>
-                                        <br />
-                                        <br />
-                                        <Row>
-                                          <Col span={20}></Col>
-                                          <Col>
-                                            <Button onClick={() => handleClick(item.id)}>See details</Button>
-                                          </Col>
-                                        </Row>
-                                      </div>
+                items={[
+                  {
+                    label: "Overview",
+                    key: "1",
+                    children: (
+                      <>
+                        <Row>
+                          <Col span={19} style={{ paddingRight: "20px" }}>
+                            {workspace.attributes.source === "empty" &&
+                            workspace.attributes.branch === "remote-content" &&
+                            (workspace.relationships?.history?.data?.length || 0) < 1 ? (
+                              <CLIDriven organizationName={organizationNameLocal} workspaceName={workspaceName} />
+                            ) : (
+                              <div>
+                                <h3>Latest Run</h3>
+                                <div style={{ marginRight: "150px", borderWidth: "1px" }}>
+                                  <List
+                                    itemLayout="horizontal"
+                                    style={{
+                                      border: "1px solid #c2c5cb",
+                                      padding: "24px",
+                                    }}
+                                    dataSource={
+                                      jobs.length > 0
+                                        ? jobs
+                                            .sort((a: any, b: any) => a.id - b.id)
+                                            .reverse()
+                                            .slice(0, 1)
+                                        : []
                                     }
+                                    renderItem={(item) => (
+                                      <List.Item>
+                                        <List.Item.Meta
+                                          style={{ margin: "0px", padding: "0px" }}
+                                          avatar={<Avatar shape="square" icon={<UserOutlined />} />}
+                                          description={
+                                            <div>
+                                              <Row>
+                                                <Col span={20}>
+                                                  <h4 className="ant-list-item-meta-title">
+                                                    <a onClick={() => handleClick(item.id)}>{item.title}</a>{" "}
+                                                  </h4>
+                                                  <b>{item.createdBy}</b> triggered a run {item.latestChange} via{" "}
+                                                  <b>{item.via || "UI"}</b>{" "}
+                                                  {item.commitId !== "000000000" ? (
+                                                    <>
+                                                      <FiGitCommit /> {item.commitId?.substring(0, 6)}{" "}
+                                                    </>
+                                                  ) : (
+                                                    ""
+                                                  )}
+                                                </Col>
+                                                <Col>
+                                                  {
+                                                    <div className="textLeft">
+                                                      <StatusBadge status={item.status} />{" "}
+                                                    </div>
+                                                  }
+                                                </Col>
+                                              </Row>
+                                              <br />
+                                              <br />
+                                              <Row>
+                                                <Col span={20}></Col>
+                                                <Col>
+                                                  <Button onClick={() => handleClick(item.id)}>See details</Button>
+                                                </Col>
+                                              </Row>
+                                            </div>
+                                          }
+                                        />
+                                      </List.Item>
+                                    )}
                                   />
-                                </List.Item>
+                                </div>
+                                <Tabs
+                                  type="card"
+                                  style={{ marginTop: "30px" }}
+                                  items={[
+                                    {
+                                      label: `Resources (${resources.length})`,
+                                      key: "1",
+                                      children: <Table dataSource={resources} columns={resourceColumns} />,
+                                    },
+                                    {
+                                      label: `Outputs (${outputs.length})`,
+                                      key: "2",
+                                      children: <Table dataSource={outputs} columns={outputColumns} />,
+                                    },
+                                  ]}
+                                />
+
+                                <ResourceDrawer
+                                  resource={resource}
+                                  workspace={workspace}
+                                  setOpen={setOpen}
+                                  open={open}
+                                />
+                              </div>
+                            )}
+                          </Col>
+                          <Col span={5}>
+                            <Space direction="vertical">
+                              <br />
+                              <span>
+                                {workspace.attributes.branch !== "remote-content" &&
+                                isValidUrl(fixSshURL(workspace.attributes.source)) ? (
+                                  <>
+                                    {" "}
+                                    {renderVCSLogo(vcsProvider)}{" "}
+                                    <a href={fixSshURL(workspace.attributes.source)} target="_blank" rel="noreferrer">
+                                      {new URL(fixSshURL(workspace.attributes.source))?.pathname
+                                        ?.replace(".git", "")
+                                        ?.substring(1)}
+                                    </a>
+                                  </>
+                                ) : (
+                                  <>
+                                    <IconContext.Provider value={{ size: "1.4em" }}>
+                                      <BiTerminal />
+                                    </IconContext.Provider>
+                                    &nbsp;&nbsp;cli/api driven workflow
+                                  </>
+                                )}
+                              </span>
+                              <span>
+                                <ThunderboltOutlined /> Execution Mode: {executionMode}{" "}
+                              </span>
+                              <Divider />
+                              <h4>Project</h4>
+                              {projectName && projectId ? (
+                                <Link to={`/organizations/${organizationId}/projects/${projectId}`}>{projectName}</Link>
+                              ) : (
+                                <Typography.Text type="secondary">No project</Typography.Text>
                               )}
-                            />
-                          </div>
-                          <Tabs
-                            type="card"
-                            style={{ marginTop: "30px" }}
-                            items={[
-                              {
-                                label: `Resources (${resources.length})`,
-                                key: "1",
-                                children: <Table dataSource={resources} columns={resourceColumns} />,
-                              },
-                              {
-                                label: `Outputs (${outputs.length})`,
-                                key: "2",
-                                children: <Table dataSource={outputs} columns={outputColumns} />,
-                              },
-                            ]}
-                          />
-
-                          <ResourceDrawer resource={resource} workspace={workspace} setOpen={setOpen} open={open} />
-                        </div>
-                      )}
-                    </Col>
-                    <Col span={5}>
-                      <Space direction="vertical">
-                        <br />
-                        <span>
-                          {workspace.attributes.branch !== "remote-content" &&
-                          isValidUrl(fixSshURL(workspace.attributes.source)) ? (
-                            <>
-                              {" "}
-                              {renderVCSLogo(vcsProvider)}{" "}
-                              <a href={fixSshURL(workspace.attributes.source)} target="_blank" rel="noreferrer">
-                                {new URL(fixSshURL(workspace.attributes.source))?.pathname
-                                  ?.replace(".git", "")
-                                  ?.substring(1)}
-                              </a>
-                            </>
-                          ) : (
-                            <>
-                              <IconContext.Provider value={{ size: "1.4em" }}>
-                                <BiTerminal />
-                              </IconContext.Provider>
-                              &nbsp;&nbsp;cli/api driven workflow
-                            </>
-                          )}
-                        </span>
-                        <span>
-                          <ThunderboltOutlined /> Execution Mode: {executionMode}{" "}
-                        </span>
-                        <Divider />
-                        <h4>Project</h4>
-                        {projectName && projectId ? (
-                          <Link to={`/organizations/${organizationId}/projects/${projectId}`}>
-                            {projectName}
-                          </Link>
+                              <Divider />
+                              <h4>Tags</h4>
+                              <Tags
+                                organizationId={organizationId}
+                                workspaceId={id!}
+                                manageWorkspace={manageWorkspace}
+                              />
+                            </Space>
+                          </Col>
+                        </Row>
+                      </>
+                    ),
+                  },
+                  {
+                    label: "Runs",
+                    key: "2",
+                    children: (
+                      <>
+                        {jobVisible ? (
+                          <Suspense fallback={<LoadingFallback />}>
+                            <DetailsJob jobId={jobId!} />
+                          </Suspense>
                         ) : (
-                          <Typography.Text type="secondary">No project</Typography.Text>
+                          <RunList jobs={jobs} onRunClick={handleClick} />
                         )}
-                        <Divider />
-                        <h4>Tags</h4>
-                        <Tags organizationId={organizationId} workspaceId={id!} manageWorkspace={manageWorkspace} />
-                      </Space>
-                    </Col>
-                  </Row>
-                </TabPane>
-
-                <TabPane tab="Runs" key="2">
-                  {jobVisible ? (
-                    <Suspense fallback={<LoadingFallback />}>
-                      <DetailsJob jobId={jobId!} />
-                    </Suspense>
-                  ) : (
-                    <RunList jobs={jobs} onRunClick={handleClick} />
-                  )}
-                </TabPane>
-                <TabPane tab="States" key="3" disabled={!manageState}>
-                  <Suspense fallback={<LoadingFallback />}>
-                    <States
-                      history={history}
-                      setStateDetailsVisible={setStateDetailsVisible}
-                      stateDetailsVisible={stateDetailsVisible}
-                      workspace={workspace}
-                      onRollback={loadWorkspace}
-                      manageState={manageState}
-                    />
-                  </Suspense>
-                </TabPane>
-                <TabPane tab="Variables" key="4">
-                  <Variables
-                    vars={variables}
-                    env={envVariables}
-                    manageWorkspace={manageWorkspace}
-                    collectionVars={collectionVariables}
-                    collectionEnvVars={collectionEnvVariables}
-                    globalVariables={globalVariables}
-                    globalEnvVariables={globalEnvVariables}
-                  />
-                </TabPane>
-                <TabPane tab="Schedules" key="5">
-                  {templates ? <Schedules schedules={schedule} manageWorkspace={manageWorkspace} /> : <p>Loading...</p>}
-                </TabPane>
-                <TabPane tab="Settings" key="6">
-                  <Suspense fallback={<LoadingFallback />}>
-                    <WorkspaceSettings
-                      workspace={workspace}
-                      vcsProvider={vcsProvider}
-                      orgTemplates={orgTemplates}
-                      manageWorkspace={manageWorkspace}
-                      onWorkspaceUpdate={() => loadWorkspace(false)}
-                    />
-                  </Suspense>
-                </TabPane>
-              </Tabs>
+                      </>
+                    ),
+                  },
+                  {
+                    label: "States",
+                    key: "3",
+                    disabled: !manageState,
+                    children: (
+                      <>
+                        <Suspense fallback={<LoadingFallback />}>
+                          <States
+                            history={history}
+                            setStateDetailsVisible={setStateDetailsVisible}
+                            stateDetailsVisible={stateDetailsVisible}
+                            workspace={workspace}
+                            onRollback={loadWorkspace}
+                            manageState={manageState}
+                          />
+                        </Suspense>
+                      </>
+                    ),
+                  },
+                  {
+                    label: "Variables",
+                    key: "4",
+                    children: (
+                      <>
+                        <Variables
+                          vars={variables}
+                          env={envVariables}
+                          manageWorkspace={manageWorkspace}
+                          collectionVars={collectionVariables}
+                          collectionEnvVars={collectionEnvVariables}
+                          globalVariables={globalVariables}
+                          globalEnvVariables={globalEnvVariables}
+                        />
+                      </>
+                    ),
+                  },
+                  {
+                    label: "Schedules",
+                    key: "5",
+                    children: (
+                      <>
+                        {templates ? (
+                          <Schedules schedules={schedule} manageWorkspace={manageWorkspace} />
+                        ) : (
+                          <p>Loading...</p>
+                        )}
+                      </>
+                    ),
+                  },
+                  {
+                    label: "Settings",
+                    key: "6",
+                    children: (
+                      <>
+                        <Suspense fallback={<LoadingFallback />}>
+                          <WorkspaceSettings
+                            workspace={workspace}
+                            vcsProvider={vcsProvider}
+                            orgTemplates={orgTemplates}
+                            manageWorkspace={manageWorkspace}
+                            onWorkspaceUpdate={() => loadWorkspace(false)}
+                          />
+                        </Suspense>
+                      </>
+                    ),
+                  },
+                ]}
+              />
             </div>
           )}
         </div>

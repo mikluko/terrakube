@@ -1,5 +1,5 @@
 import { Button, ConfigProvider, Typography, theme } from "antd";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { mgr } from "../../config/authConfig";
 import { getUiRedirectUri } from "../../config/basePath";
 import {
@@ -27,16 +27,29 @@ const getSavedTheme = (): { scheme: ColorSchemeOption; mode: ThemeMode } => {
   return { scheme, mode };
 };
 
+const signIn = () => mgr.signinRedirect({ state: getUiRedirectUri() });
+
+// The Technical login cycles themes in place: paper → phosphor → blueprint.
+const TECHNICAL_MODES: ThemeMode[] = ["light", "dark", "blueprint"];
+const MODE_NAMES: Record<ThemeMode, string> = { light: "PAPER", dark: "PHOSPHOR", blueprint: "BLUEPRINT" };
+
 const Login = () => {
-  const { scheme, mode } = getSavedTheme();
+  const { scheme } = getSavedTheme();
+  const [mode, setMode] = useState<ThemeMode>(() => getSavedTheme().mode);
 
   useEffect(() => {
     applyThemeAttributes(scheme, mode);
   }, [scheme, mode]);
 
+  const cycleMode = () => {
+    const next = TECHNICAL_MODES[(TECHNICAL_MODES.indexOf(mode) + 1) % TECHNICAL_MODES.length];
+    localStorage.setItem("terrakube-theme-mode", next);
+    setMode(next);
+  };
+
   return (
     <ConfigProvider theme={getThemeConfig(scheme, mode)}>
-      <LoginContent />
+      {scheme === "technical" ? <TechnicalLoginContent mode={mode} onCycleTheme={cycleMode} /> : <LoginContent />}
     </ConfigProvider>
   );
 };
@@ -50,9 +63,48 @@ const LoginContent = () => {
         <img src={logo} alt="Terrakube" className="login-logo" />
         <Title level={3}>Sign in to Terrakube</Title>
         <Text type="secondary">Click below to continue with your identity provider.</Text>
-        <Button type="primary" block size="large" onClick={() => mgr.signinRedirect({ state: getUiRedirectUri() })}>
+        <Button type="primary" block size="large" onClick={signIn}>
           Sign in
         </Button>
+      </div>
+    </div>
+  );
+};
+
+const TechnicalLoginContent = ({ mode, onCycleTheme }: { mode: ThemeMode; onCycleTheme: () => void }) => {
+  return (
+    <div className="login-container">
+      <div style={{ width: 360, maxWidth: "100%" }}>
+        <div className="login-card">
+          <div className="tk-login-band">
+            <span>Terrakube // Sign in</span>
+            <span className="tk-login-band-meta">
+              <button type="button" className="tk-login-theme-chip" title="Cycle theme" onClick={onCycleTheme}>
+                {MODE_NAMES[mode]}
+              </button>
+              <span>{window._env_.REACT_APP_TERRAKUBE_VERSION}</span>
+            </span>
+          </div>
+          <div className="tk-login-body">
+            <Text type="secondary">Continue with your identity provider.</Text>
+            <Button type="primary" block onClick={signIn}>
+              Authenticate
+            </Button>
+            <div className="tk-login-sso-row">
+              <span>SSO // OIDC</span>
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  signIn();
+                }}
+              >
+                Use provider →
+              </a>
+            </div>
+          </div>
+        </div>
+        <div className="tk-login-strapline">Infrastructure control panel</div>
       </div>
     </div>
   );
