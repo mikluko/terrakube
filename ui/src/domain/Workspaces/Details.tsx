@@ -31,6 +31,8 @@ import {
 } from "antd";
 import Loading from "../../components/technical/Loading";
 import StatusBadge from "../../components/technical/StatusBadge";
+import Sku from "../../components/technical/Sku";
+import TechnicalAlert from "../../components/technical/Alert";
 
 import { DateTime } from "luxon";
 import { lazy, Suspense, useEffect, useState } from "react";
@@ -500,68 +502,63 @@ export const WorkspaceDetails = ({ setOrganizationName, selectedTab }: Props) =>
             <Loading label="Loading workspace" style={{ marginTop: "50px" }} />
           ) : (
             <div className="orgWrapper">
-              <div className="variableActions">
-                <h2>{workspace.attributes.name}</h2>
-              </div>
-              <Space className="workspace-details" direction="vertical">
-                <Paragraph style={{ margin: "0px" }} copyable={{ text: id, tooltips: false }}>
-                  <Typography.Text type="secondary"> ID: {id} </Typography.Text>
-                </Paragraph>
-                {workspace.attributes?.description === "" ? (
-                  <a className="workspace-button" onClick={handleClickSettings}>
-                    Add workspace description
-                  </a>
-                ) : (
-                  <Typography.Text type="secondary">{workspace.attributes.description}</Typography.Text>
-                )}
-                <Space size={40} style={{ marginBottom: "40px" }} direction="horizontal">
-                  <Typography.Text>
-                    {workspace.attributes.locked ? (
-                      <>
-                        <LockOutlined /> Locked
-                      </>
-                    ) : (
-                      <>
-                        <UnlockOutlined /> Unlocked
-                      </>
-                    )}
-                  </Typography.Text>
-                  <Typography.Text>
-                    <ProfileOutlined /> Resources <span style={{ fontWeight: "500" }}>{resources.length}</span>
-                  </Typography.Text>
-                  <Space direction="horizontal">
-                    {getIaCIconById(workspace.attributes?.iacType)}
+              <div className="tk-header-plate">
+                <div className="variableActions">
+                  <h2>{workspace.attributes.name}</h2>
+                </div>
+                <Space className="workspace-details" direction="vertical">
+                  <Paragraph style={{ margin: "0px" }} copyable={{ text: id, tooltips: false }}>
+                    <Sku tone="muted">{id}</Sku>
+                  </Paragraph>
+                  {workspace.attributes?.description === "" ? (
+                    <a className="workspace-button" onClick={handleClickSettings}>
+                      Add workspace description
+                    </a>
+                  ) : (
+                    <Typography.Text type="secondary">{workspace.attributes.description}</Typography.Text>
+                  )}
+                  <Space size={24} direction="horizontal" wrap>
                     <Typography.Text>
-                      {getIaCNameById(workspace.attributes?.iacType)}{" "}
-                      <a onClick={handleClickSettings} className="workspace-button">
-                        v{workspace.attributes.terraformVersion}
-                      </a>
+                      {workspace.attributes.locked ? (
+                        <>
+                          <LockOutlined /> Locked
+                        </>
+                      ) : (
+                        <>
+                          <UnlockOutlined /> Unlocked
+                        </>
+                      )}
+                    </Typography.Text>
+                    <Typography.Text>
+                      <ProfileOutlined /> Resources <span style={{ fontWeight: "500" }}>{resources.length}</span>
+                    </Typography.Text>
+                    <Space direction="horizontal">
+                      {getIaCIconById(workspace.attributes?.iacType)}
+                      <Typography.Text>
+                        {getIaCNameById(workspace.attributes?.iacType)}{" "}
+                        <a onClick={handleClickSettings} className="workspace-button">
+                          <Sku tone="accent">v{workspace.attributes.terraformVersion}</Sku>
+                        </a>
+                      </Typography.Text>
+                    </Space>
+
+                    <Typography.Text>
+                      <ClockCircleOutlined /> Updated{" "}
+                      <span style={{ fontWeight: "500" }}>
+                        {DateTime.fromISO(lastRun).toRelative() ?? "never executed"}
+                      </span>
                     </Typography.Text>
                   </Space>
-
-                  <Typography.Text>
-                    <ClockCircleOutlined /> Updated{" "}
-                    <span style={{ fontWeight: "500" }}>
-                      {DateTime.fromISO(lastRun).toRelative() ?? "never executed"}
-                    </span>
-                  </Typography.Text>
-
-                  <span>
-                    {workspace.attributes.locked ? (
-                      <>
-                        <Alert
-                          message="Lock Description"
-                          description={workspace.attributes.lockDescription}
-                          type="warning"
-                          showIcon
-                        />
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                  </span>
                 </Space>
-              </Space>
+              </div>
+              {workspace.attributes.locked && (
+                <TechnicalAlert
+                  tone="warn"
+                  title="Locked"
+                  detail={workspace.attributes.lockDescription}
+                  style={{ margin: "12px 0" }}
+                />
+              )}
 
               <Tabs
                 activeKey={activeKey}

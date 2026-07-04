@@ -1,0 +1,78 @@
+/* Technical scheme — forms: uppercase label plates, focus lift, ink-block
+   checkboxes. Scoped to html[data-color-scheme="technical"]. */
+
+html[data-color-scheme="technical"] .ant-form-item .ant-form-item-label > label {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+html[data-color-scheme="technical"] .ant-input,
+html[data-color-scheme="technical"] .ant-input-affix-wrapper,
+html[data-color-scheme="technical"] .ant-input-number,
+html[data-color-scheme="technical"] .ant-select .ant-select-selector,
+html[data-color-scheme="technical"] .ant-picker {
+  border-radius: 0;
+}
+html[data-color-scheme="technical"] .ant-input:focus,
+html[data-color-scheme="technical"] .ant-input-focused,
+html[data-color-scheme="technical"] .ant-input-affix-wrapper-focused,
+html[data-color-scheme="technical"] .ant-select-focused .ant-select-selector,
+html[data-color-scheme="technical"] .ant-picker-focused {
+  border-color: var(--accent) !important;
+  box-shadow: var(--shadow-btn) !important;
+}
+
+/* Checkbox: checked = full ink block with paper check. */
+html[data-color-scheme="technical"] .ant-checkbox .ant-checkbox-inner {
+  border-radius: 0;
+  border-color: var(--rule);
+}
+html[data-color-scheme="technical"] .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: var(--sel-bg);
+  border-color: var(--rule);
+}
+html[data-color-scheme="technical"] .ant-checkbox-checked .ant-checkbox-inner::after {
+  border-color: var(--sel-fg);
+}
+
+/* Radio buttons (Structured/Console toggle and friends): boxed, inverted
+   selection. Radio circles stay round — a circle is honest geometry. */
+html[data-color-scheme="technical"] .ant-radio-button-wrapper {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  border-radius: 0 !important;
+  border-color: var(--rule);
+}
+html[data-color-scheme="technical"] .ant-radio-button-wrapper-checked {
+  background: var(--sel-bg) !important;
+  color: var(--sel-fg) !important;
+  border-color: var(--rule) !important;
+}
+html[data-color-scheme="technical"] .ant-radio-button-wrapper-checked::before {
+  background-color: var(--rule) !important;
+}
+
+/* Switches keep function; drop the pill exaggeration. */
+html[data-color-scheme="technical"] .ant-switch {
+  border-radius: 0;
+}
+html[data-color-scheme="technical"] .ant-switch .ant-switch-handle::before {
+  border-radius: 0;
+}
+
+/* ── Workspace/page header plate — bordered box on the dotted field ───── */
+html[data-color-scheme="technical"] .tk-header-plate {
+  border: 1px solid var(--rule);
+  box-shadow: var(--shadow-btn);
+  background-color: var(--paper-raised);
+  background-image: var(--bdp);
+  background-size: var(--bdp-size);
+  padding: 14px 18px;
+}

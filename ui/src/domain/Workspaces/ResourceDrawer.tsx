@@ -1,5 +1,6 @@
-import { Avatar, Col, Drawer, Row, Space, Spin, Tabs } from "antd";
+import { Avatar, Col, Drawer, Row, Space, Tabs } from "antd";
 import { lazy, Suspense, useEffect, useState } from "react";
+import Loading from "@/components/technical/Loading";
 import axiosInstance from "../../config/axiosConfig";
 import { ActionWithSettings, Resource, Workspace } from "../types.js";
 import { getServiceIcon } from "./Icons.jsx";
@@ -122,11 +123,9 @@ export const ResourceDrawer = ({ open, resource, setOpen, workspace }: Props) =>
       open={drawerOpen}
     >
       {loading ? (
-        <Spin tip="Loading...">
-          <Space size={10} style={{ width: "100%" }} direction="vertical" />
-        </Spin>
+        <Loading />
       ) : (
-        <Suspense fallback={<Spin tip="Loading..." />}>
+        <Suspense fallback={<Loading />}>
           <Space size={10} style={{ width: "100%" }} direction="vertical">
             <Row>
               <Col span={24}>

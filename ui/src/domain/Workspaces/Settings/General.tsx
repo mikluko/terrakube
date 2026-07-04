@@ -1,5 +1,6 @@
-import { AutoComplete, Button, Divider, Form, Input, Select, Spin, Typography, message } from "antd";
+import { AutoComplete, Button, Divider, Form, Input, Select, Typography, message } from "antd";
 import { useEffect, useState } from "react";
+import Busy from "@/components/technical/Busy";
 import axiosInstance from "../../../config/axiosConfig";
 import { Agent, Template, TofuRelease, Workspace } from "../../types";
 import {
@@ -164,9 +165,7 @@ export const WorkspaceGeneral = ({ workspaceData, orgTemplates, manageWorkspace,
       });
 
     const bodyProject =
-      values.project && values.project !== "none"
-        ? { data: { type: "project", id: values.project } }
-        : { data: null };
+      values.project && values.project !== "none" ? { data: { type: "project", id: values.project } } : { data: null };
 
     axiosInstance
       .patch(`/organization/${organizationId}/workspace/${id}/relationships/project`, bodyProject, genericHeader)
@@ -186,7 +185,7 @@ export const WorkspaceGeneral = ({ workspaceData, orgTemplates, manageWorkspace,
         Adjust the settings for this workspace. These settings control how the workspace behaves, including execution
         mode, IaC configuration, and security options.
       </p>
-      <Spin spinning={waiting}>
+      <Busy busy={waiting}>
         <Form
           onFinish={onFinish}
           requiredMark={false}
@@ -382,7 +381,7 @@ export const WorkspaceGeneral = ({ workspaceData, orgTemplates, manageWorkspace,
             </Button>
           </Form.Item>
         </Form>
-      </Spin>
+      </Busy>
     </div>
   );
 };

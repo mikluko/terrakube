@@ -200,6 +200,138 @@
   color: var(--on-err);
 }
 
+/* ── Alert band — colored spine + wash, a stamped annotation ──────────── */
+.tk-alert {
+  font-family: var(--font-mono);
+  display: flex;
+  border: 1px solid var(--rule);
+  box-shadow: var(--shadow-btn);
+}
+.tk-alert-spine {
+  width: 5px;
+  flex: none;
+}
+.tk-alert[data-tone="warn"] {
+  background: var(--warn-wash);
+}
+.tk-alert[data-tone="warn"] .tk-alert-spine {
+  background: var(--warn);
+}
+.tk-alert[data-tone="err"] {
+  background: var(--err-wash);
+}
+.tk-alert[data-tone="err"] .tk-alert-spine {
+  background: var(--err);
+}
+.tk-alert[data-tone="ok"] {
+  background: var(--ok-wash);
+}
+.tk-alert[data-tone="ok"] .tk-alert-spine {
+  background: var(--ok);
+}
+.tk-alert[data-tone="run"] {
+  background: var(--run-wash);
+}
+.tk-alert[data-tone="run"] .tk-alert-spine {
+  background: var(--run);
+}
+.tk-alert-body {
+  padding: 10px 14px;
+  display: flex;
+  align-items: baseline;
+  gap: 6px 14px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+.tk-alert-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--ink);
+}
+.tk-alert-detail {
+  font-size: 12px;
+  color: var(--ink-2);
+}
+.tk-alert-action {
+  margin-left: auto;
+}
+
+/* ── Tree — right-angle connector lines, schematic style ──────────────── */
+.tk-tree {
+  font-family: var(--font-mono);
+}
+.tk-tree-node {
+  display: flex;
+}
+.tk-tree-connector {
+  width: 16px;
+  flex: none;
+  position: relative;
+}
+.tk-tree-connector-v {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-left: 1px solid var(--rule);
+}
+.tk-tree-connector-v[data-last] {
+  bottom: calc(100% - 11px);
+}
+.tk-tree-connector-h {
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 12px;
+  border-top: 1px solid var(--rule);
+}
+.tk-tree-content {
+  flex: 1;
+  min-width: 0;
+}
+.tk-tree-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 2px 0;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.tk-tree-label {
+  color: var(--ink);
+}
+.tk-tree-label[data-parent] {
+  font-weight: 700;
+}
+.tk-tree-meta {
+  font-size: 11px;
+  color: var(--ink-3);
+}
+
+/* ── Busy overlay — children stay mounted, plate stamps over them ─────── */
+.tk-busy {
+  position: relative;
+}
+.tk-busy[data-busy] > :not(.tk-busy-overlay) {
+  opacity: 0.45;
+  pointer-events: none;
+}
+.tk-busy-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+.tk-busy-overlay .tk-loading {
+  min-width: 220px;
+  background-color: var(--paper-raised);
+}
+
 /* The blinking block cursor — the system's only permitted motion.
    steps(1): it snaps, it does not fade. */
 .tk-blink {

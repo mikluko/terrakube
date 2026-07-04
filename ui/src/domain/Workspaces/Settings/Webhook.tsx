@@ -10,7 +10,6 @@ import {
   Row,
   Select,
   Space,
-  Spin,
   Switch,
   Table,
   Tooltip,
@@ -18,6 +17,7 @@ import {
   message,
 } from "antd";
 import { useEffect, useState } from "react";
+import Busy from "@/components/technical/Busy";
 import { v7 as uuid } from "uuid";
 import axiosInstance from "../../../config/axiosConfig";
 import { Template, VcsType, WebhookEvent, WebhookEventPathType, Workspace } from "../../types";
@@ -62,7 +62,13 @@ type Props = {
   onWorkspaceUpdate?: () => void;
 };
 
-export const WorkspaceWebhook = ({ workspace, vcsProvider, orgTemplates, manageWorkspace, onWorkspaceUpdate }: Props) => {
+export const WorkspaceWebhook = ({
+  workspace,
+  vcsProvider,
+  orgTemplates,
+  manageWorkspace,
+  onWorkspaceUpdate,
+}: Props) => {
   const screens = Grid.useBreakpoint();
   const isMobile = !screens.md;
   const [waiting, setWaiting] = useState(true);
@@ -296,17 +302,21 @@ export const WorkspaceWebhook = ({ workspace, vcsProvider, orgTemplates, manageW
     if (!webhookId) return;
     setWaiting(true);
     axiosInstance
-      .patch(`organization/${organizationId}/workspace/${workspaceId}/webhook/${webhookId}`, {
-        data: {
-          type: "webhook",
-          id: webhookId,
-          attributes: {
-            migratedV2: true,
+      .patch(
+        `organization/${organizationId}/workspace/${workspaceId}/webhook/${webhookId}`,
+        {
+          data: {
+            type: "webhook",
+            id: webhookId,
+            attributes: {
+              migratedV2: true,
+            },
           },
         },
-      }, {
-        headers: { "Content-Type": "application/vnd.api+json" },
-      })
+        {
+          headers: { "Content-Type": "application/vnd.api+json" },
+        }
+      )
       .then((response) => {
         if (response.status === 200 || response.status === 204) {
           setMigratedV2(true);
@@ -326,17 +336,21 @@ export const WorkspaceWebhook = ({ workspace, vcsProvider, orgTemplates, manageW
     if (!webhookId) return;
     setWaiting(true);
     axiosInstance
-      .patch(`organization/${organizationId}/workspace/${workspaceId}/webhook/${webhookId}`, {
-        data: {
-          type: "webhook",
-          id: webhookId,
-          attributes: {
-            migratedV2: false,
+      .patch(
+        `organization/${organizationId}/workspace/${workspaceId}/webhook/${webhookId}`,
+        {
+          data: {
+            type: "webhook",
+            id: webhookId,
+            attributes: {
+              migratedV2: false,
+            },
           },
         },
-      }, {
-        headers: { "Content-Type": "application/vnd.api+json" },
-      })
+        {
+          headers: { "Content-Type": "application/vnd.api+json" },
+        }
+      )
       .then((response) => {
         if (response.status === 200 || response.status === 204) {
           setMigratedV2(false);
@@ -521,7 +535,7 @@ export const WorkspaceWebhook = ({ workspace, vcsProvider, orgTemplates, manageW
         <b>Regex</b> when you need full regular expression matching. Branch and release matching always use regex.
       </Typography.Text>
       <h2>VCS Webhook Configuration</h2>
-      <Spin spinning={waiting}>
+      <Busy busy={waiting}>
         <Form onFinish={onFinish}>
           <Form.Item
             label="Enable VCS Webhook?"
@@ -605,7 +619,7 @@ export const WorkspaceWebhook = ({ workspace, vcsProvider, orgTemplates, manageW
             </Flex>
           </Form.Item>
         </Form>
-      </Spin>
+      </Busy>
     </div>
   );
 };

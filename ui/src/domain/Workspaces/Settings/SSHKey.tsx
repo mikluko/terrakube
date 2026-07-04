@@ -1,5 +1,6 @@
-import { Button, Form, Select, Spin, Typography, message } from "antd";
+import { Button, Form, Select, Typography, message } from "antd";
 import { useEffect, useState } from "react";
+import Busy from "@/components/technical/Busy";
 import { Link } from "react-router-dom";
 import axiosInstance from "../../../config/axiosConfig";
 import { SshKey, Workspace } from "../../types";
@@ -76,7 +77,7 @@ export const WorkspaceSSHKey = ({ workspace, manageWorkspace, onWorkspaceUpdate 
         <Link to={`/organizations/${organizationId}/settings`}>Manage SSH keys for this organization.</Link>
       </p>
 
-      <Spin spinning={waiting}>
+      <Busy busy={waiting}>
         <Form
           onFinish={onFinish}
           requiredMark={false}
@@ -110,7 +111,7 @@ export const WorkspaceSSHKey = ({ workspace, manageWorkspace, onWorkspaceUpdate 
             </Button>
           </Form.Item>
         </Form>
-      </Spin>
+      </Busy>
     </div>
   );
 };
