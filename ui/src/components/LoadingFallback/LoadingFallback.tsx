@@ -1,10 +1,10 @@
-import { Spin } from "antd";
+import Loading from "../technical/Loading";
 import "./LoadingFallback.css";
 
 export const LoadingFallback = () => {
   return (
     <div className="loading-fallback-container">
-      <Spin size="large" />
+      <Loading />
     </div>
   );
 };

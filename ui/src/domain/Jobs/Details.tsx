@@ -5,12 +5,13 @@ import {
   CloseCircleOutlined,
   CloseOutlined,
   CommentOutlined,
-  ExclamationCircleOutlined,
   StopOutlined,
   SyncOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Alert, Avatar, Button, Card, Collapse, message, Radio, RadioChangeEvent, Space, Spin, Tag, Typography } from "antd";
+import { Alert, Avatar, Button, Card, Collapse, message, Radio, RadioChangeEvent, Space, Tag, Typography } from "antd";
+import Loading from "../../components/technical/Loading";
+import StatusBadge from "../../components/technical/StatusBadge";
 import { AxiosResponse } from "axios";
 import parse from "html-react-parser";
 import { DateTime } from "luxon";
@@ -475,9 +476,7 @@ export const DetailsJob = ({ jobId }: Props) => {
   return (
     <div style={{ marginTop: "14px" }}>
       {loading || !job?.data || !steps ? (
-        <Spin spinning={true} tip="Loading Job...">
-          <p style={{ marginTop: "50px" }}></p>
-        </Spin>
+        <Loading label="Loading job" style={{ marginTop: "50px" }} />
       ) : (
         <Space direction="vertical" style={{ width: "100%" }}>
           {(() => {
@@ -490,42 +489,7 @@ export const DetailsJob = ({ jobId }: Props) => {
             return renderIncompleteVariableAlert(guard);
           })()}
           <div>
-            <Tag
-              icon={
-                job.data.attributes.status === "completed" ? (
-                  <CheckCircleOutlined />
-                ) : job.data.attributes.status === "running" ? (
-                  <SyncOutlined spin />
-                ) : job.data.attributes.status === "waitingApproval" ? (
-                  <ExclamationCircleOutlined />
-                ) : job.data.attributes.status === "cancelled" ? (
-                  <StopOutlined />
-                ) : job.data.attributes.status === "failed" ? (
-                  <StopOutlined />
-                ) : (
-                  <ClockCircleOutlined />
-                )
-              }
-              color={
-                job.data.attributes.status === "completed"
-                  ? "#2eb039"
-                  : job.data.attributes.status === "noChanges"
-                    ? "#2eb039"
-                    : job.data.attributes.status === "notExecuted"
-                      ? "#fa8f37"
-                      : job.data.attributes.status === "running"
-                        ? "#108ee9"
-                        : job.data.attributes.status == "waitingApproval"
-                          ? "#fa8f37"
-                          : job.data.attributes.status == "rejected"
-                            ? "#FB0136"
-                            : job.data.attributes.status == "failed"
-                              ? "#FB0136"
-                              : ""
-              }
-            >
-              {job.data.attributes.status}
-            </Tag>{" "}
+            <StatusBadge status={job.data.attributes.status} />{" "}
             <h2 style={{ display: "inline" }}>Triggered via UI</h2>
           </div>
 

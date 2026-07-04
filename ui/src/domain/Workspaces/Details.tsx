@@ -1,12 +1,8 @@
 import {
-  CheckCircleOutlined,
   ClockCircleOutlined,
-  ExclamationCircleOutlined,
   LockOutlined,
   PlayCircleOutlined,
   ProfileOutlined,
-  StopOutlined,
-  SyncOutlined,
   ThunderboltOutlined,
   UnlockOutlined,
   UserOutlined,
@@ -23,10 +19,8 @@ import {
   message,
   Row,
   Space,
-  Spin,
   Table,
   Tabs,
-  Tag,
   Typography,
   Card,
   Segmented,
@@ -35,6 +29,8 @@ import {
   Input,
   theme,
 } from "antd";
+import Loading from "../../components/technical/Loading";
+import StatusBadge from "../../components/technical/StatusBadge";
 
 import { DateTime } from "luxon";
 import { lazy, Suspense, useEffect, useState } from "react";
@@ -502,9 +498,7 @@ export const WorkspaceDetails = ({ setOrganizationName, selectedTab }: Props) =>
               style={{ margin: "20px 0" }}
             />
           ) : loading || !workspace || !variables || !jobs ? (
-            <Spin spinning={true} tip="Loading Workspace...">
-              <p style={{ marginTop: "50px" }}></p>
-            </Spin>
+            <Loading label="Loading workspace" style={{ marginTop: "50px" }} />
           ) : (
             <div className="orgWrapper">
               <div className="variableActions">
@@ -690,28 +684,7 @@ export const WorkspaceDetails = ({ setOrganizationName, selectedTab }: Props) =>
                                           <Col>
                                             {
                                               <div className="textLeft">
-                                                <Tag
-                                                  icon={
-                                                    item.status == "completed" ? (
-                                                      <CheckCircleOutlined />
-                                                    ) : item.status == "running" ? (
-                                                      <SyncOutlined spin />
-                                                    ) : item.status === "waitingApproval" ? (
-                                                      <ExclamationCircleOutlined />
-                                                    ) : item.status === "cancelled" ? (
-                                                      <StopOutlined />
-                                                    ) : item.status === "failed" ? (
-                                                      <StopOutlined />
-                                                    ) : item.status === "notExecuted" ? (
-                                                      <CheckCircleOutlined />
-                                                    ) : (
-                                                      <ClockCircleOutlined />
-                                                    )
-                                                  }
-                                                  color={item.statusColor}
-                                                >
-                                                  {item.status}
-                                                </Tag>{" "}
+                                                <StatusBadge status={item.status} />{" "}
                                               </div>
                                             }
                                           </Col>

@@ -1,5 +1,6 @@
 import { ErrorInformation } from "@/modules/api/types";
-import { Breadcrumb, Typography, Alert, Flex, Spin, theme } from "antd";
+import { Breadcrumb, Typography, Alert, Flex, theme } from "antd";
+import Loading from "../../../components/technical/Loading";
 import { Content } from "antd/es/layout/layout";
 import "./PageWrapper.css";
 import { NavLink } from "react-router-dom";
@@ -82,8 +83,7 @@ export default function PageWrapper({
 
           {loading ? (
             <Flex align="center" className="page-wrapper-loader" vertical gap="middle">
-              <Spin size="large" />
-              <Typography.Text>{loadingText || "Loading..."}</Typography.Text>
+              <Loading label={loadingText || "Loading"} style={{ alignSelf: "stretch" }} />
             </Flex>
           ) : (
             !error && children

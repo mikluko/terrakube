@@ -12,6 +12,7 @@ import { useAuth } from "../../config/authConfig";
 import { getBasePath } from "../../config/basePath";
 import { getThemeConfig } from "../../config/themeConfig";
 import { ThemeProvider, useTheme } from "../../context/ThemeContext";
+import EmptyState from "../../components/technical/EmptyState";
 import Login from "../Login/Login";
 import "./App.css";
 import MainMenu from "./MainMenu";
@@ -186,7 +187,10 @@ const AppLayout = () => {
   };
 
   return (
-    <ConfigProvider theme={getThemeConfig(colorScheme, themeMode)}>
+    <ConfigProvider
+      theme={getThemeConfig(colorScheme, themeMode)}
+      renderEmpty={colorScheme === "technical" ? () => <EmptyState /> : undefined}
+    >
       <Layout className="layout mh-100">
         <Header>
           <a onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
