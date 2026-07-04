@@ -162,9 +162,13 @@ export default function RunList({ jobs, onRunClick }: Props) {
                 <span>
                   #job-{item.id} &nbsp;&nbsp;|&nbsp;&nbsp; <b>{item.createdBy}</b> triggered via{" "}
                   <b>{item.via || "UI"}</b> using template <b>{getTemplateName(item)}</b> &nbsp;&nbsp;|&nbsp;&nbsp;{" "}
-                  <Button type="link" style={{ padding: 0 }}>
-                    #{item.commitId?.substring(0, 6)}
-                  </Button>
+                  {item.commitId && !/^0+$/.test(item.commitId) ? (
+                    <Button type="link" style={{ padding: 0 }}>
+                      #{item.commitId.substring(0, 6)}
+                    </Button>
+                  ) : (
+                    <span className="metadata">— cli, no commit</span>
+                  )}
                 </span>
               }
             />

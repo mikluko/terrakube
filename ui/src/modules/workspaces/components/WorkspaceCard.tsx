@@ -8,6 +8,7 @@ import getVcsNameFromUrl from "@/modules/workspaces/utils/getVcsNameFromUrl";
 import getVcsTypeFromUrl from "@/modules/workspaces/utils/getVcsTypeFromUrl";
 import VcsLogo from "@/modules/workspaces/components/VcsLogo";
 import WorkspaceStatusTag from "@/modules/workspaces/components/WorkspaceStatusTag";
+import Sku from "@/components/technical/Sku";
 import WorkspaceCardTags from "@/modules/workspaces/components/WorkspaceCardTags";
 import { TagModel } from "@/modules/organizations/types";
 import IacTypeLogo from "./IacTypeLogo";
@@ -54,7 +55,7 @@ export default function WorkspaceCard({ item, tags }: Props) {
           </Space>
           <Space>
             <IacTypeLogo type={item.iacType} />
-            <Typography.Text>{item.terraformVersion}</Typography.Text>
+            <Sku tone="muted">v{item.terraformVersion}</Sku>
           </Space>
           {item.branch !== "remote-content" && item.normalizedSource ? (
             <Space>

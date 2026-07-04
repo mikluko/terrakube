@@ -84,6 +84,23 @@
   max-width: 360px;
 }
 
+.tk-sku {
+  font-family: var(--font-mono);
+  display: inline-block;
+  border: 1px dotted var(--ink-3);
+  padding: 1px 7px;
+  font-size: 11px;
+  color: var(--ink-2);
+  background: transparent;
+  white-space: nowrap;
+}
+.tk-sku[data-tone="muted"] {
+  color: var(--ink-3);
+}
+.tk-sku[data-tone="accent"] {
+  color: var(--accent);
+}
+
 /* The blinking block cursor — the system's only permitted motion.
    steps(1): it snaps, it does not fade. */
 .tk-blink {

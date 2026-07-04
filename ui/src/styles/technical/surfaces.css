@@ -1,0 +1,97 @@
+/* Technical scheme — data surfaces: tables, cards, pagination, modals.
+   The ledger idiom: uniform light gridlines, one darker rule under the
+   header, bold natural-case header labels (the one place labels are NOT
+   uppercase plates), hover fill, hard shadows. */
+
+/* ── Table — the ledger ───────────────────────────────────────────────── */
+html[data-color-scheme="technical"] .ant-table {
+  font-family: var(--font-mono);
+  font-size: var(--text-ui);
+}
+html[data-color-scheme="technical"] .ant-table-thead > tr > th {
+  font-weight: 700;
+  border-bottom: 1px solid var(--rule);
+  border-radius: 0 !important;
+  background: var(--paper-2);
+}
+html[data-color-scheme="technical"] .ant-table-thead > tr > th::before {
+  display: none;
+}
+html[data-color-scheme="technical"] .ant-table-tbody > tr > td {
+  border-bottom: 1px solid var(--rule-soft);
+}
+html[data-color-scheme="technical"] .ant-table-tbody > tr:hover > td {
+  background: var(--paper-3) !important;
+}
+
+/* ── Card — 1px ink border, hard 4px shadow, squared ─────────────────── */
+html[data-color-scheme="technical"] .ant-card {
+  border-radius: 0;
+  border: 1px solid var(--rule);
+  box-shadow: var(--shadow-card);
+}
+html[data-color-scheme="technical"] .ant-card .ant-card-head {
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  min-height: 0;
+  padding: 8px 18px;
+  border-radius: 0;
+}
+html[data-color-scheme="technical"] .ant-card-hoverable:hover {
+  box-shadow: var(--shadow-card);
+  border-color: var(--rule);
+  background: var(--paper-3);
+}
+
+/* ── Pagination — squared, inverted active page ──────────────────────── */
+html[data-color-scheme="technical"] .ant-pagination .ant-pagination-item {
+  border-radius: 0;
+  border: 1px solid var(--rule-soft);
+  font-family: var(--font-mono);
+}
+html[data-color-scheme="technical"] .ant-pagination .ant-pagination-item-active {
+  background: var(--sel-bg);
+  border-color: var(--rule);
+}
+html[data-color-scheme="technical"] .ant-pagination .ant-pagination-item-active a {
+  color: var(--sel-fg);
+}
+
+/* ── Modal — 6px hard shadow, drawn frame, no blur (mask handled in
+      antd.css) ─────────────────────────────────────────────────────────── */
+html[data-color-scheme="technical"] .ant-modal .ant-modal-content {
+  border-radius: 0;
+  border: 1px solid var(--rule);
+  box-shadow: var(--shadow-modal);
+  padding: 0;
+}
+html[data-color-scheme="technical"] .ant-modal .ant-modal-header {
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 18px;
+  margin-bottom: 0;
+  border-radius: 0;
+}
+html[data-color-scheme="technical"] .ant-modal .ant-modal-title {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+html[data-color-scheme="technical"] .ant-modal .ant-modal-body {
+  padding: 18px;
+}
+html[data-color-scheme="technical"] .ant-modal .ant-modal-footer {
+  border-top: 1px solid var(--rule-soft);
+  padding: 10px 18px;
+  margin-top: 0;
+}
+
+/* ── List rows — hairline separators, hover fill ─────────────────────── */
+html[data-color-scheme="technical"] .ant-list .ant-list-item {
+  border-block-end: 1px solid var(--rule-soft);
+}
