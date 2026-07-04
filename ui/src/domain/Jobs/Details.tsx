@@ -1,17 +1,9 @@
-import {
-  CheckCircleOutlined,
-  CheckOutlined,
-  ClockCircleOutlined,
-  CloseCircleOutlined,
-  CloseOutlined,
-  CommentOutlined,
-  StopOutlined,
-  SyncOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import { CheckOutlined, CloseOutlined, CommentOutlined, StopOutlined, UserOutlined } from "@ant-design/icons";
 import { Alert, Avatar, Button, Card, Collapse, message, Radio, RadioChangeEvent, Space, Tag, Typography } from "antd";
 import Loading from "../../components/technical/Loading";
+import LogPanel from "../../components/technical/LogPanel";
 import StatusBadge from "../../components/technical/StatusBadge";
+import { statusInfo } from "../../components/technical/status";
 import { AxiosResponse } from "axios";
 import parse from "html-react-parser";
 import { DateTime } from "luxon";
@@ -167,11 +159,33 @@ export const DetailsJob = ({ jobId }: Props) => {
     return <TerminalOutput outputLog={item.outputLog} stepName={item.name} isRunning={item.status === "running"} />;
   };
 
+  // Every step output renders as a printed job ticket: colored spine + wash
+  // title band from the step status, content inside.
+  const renderStepPanel = (item: JobStep, content: React.ReactNode) => (
+    <LogPanel
+      title={`LOG // ${item.name}`}
+      meta={`step ${item.stepNumber}`}
+      tone={statusInfo(item.status).family}
+      running={item.status === "running"}
+    >
+      {content}
+    </LogPanel>
+  );
+
+  const renderViewToggle = () => (
+    <div style={{ textAlign: "right", padding: "5px" }} data-no-print>
+      <Radio.Group onChange={onChange} value={uiType} size="small">
+        <Radio.Button value="structured">Structured</Radio.Button>
+        <Radio.Button value="console">Console</Radio.Button>
+      </Radio.Group>
+    </div>
+  );
+
   const renderStepContent = (item: JobStep) => {
     const guard = parseIncompleteVariableGuard(job?.data?.attributes.output);
 
     if (guard != null && isIncompleteVariableGuardStep(item.name)) {
-      return renderConsoleOutput(item);
+      return renderStepPanel(item, renderConsoleOutput(item));
     }
 
     const template = uiTemplates[item.id] || uiTemplates[String(item.stepNumber)];
@@ -179,24 +193,14 @@ export const DetailsJob = ({ jobId }: Props) => {
     const hasStructuredView = Boolean(template) || Boolean(structuredChanges);
 
     if (!hasStructuredView) {
-      return renderConsoleOutput(item);
+      return renderStepPanel(item, renderConsoleOutput(item));
     }
 
     if (uiType !== "structured") {
       return (
         <>
-          <div
-            style={{
-              textAlign: "right",
-              padding: "5px",
-            }}
-          >
-            <Radio.Group onChange={onChange} value={uiType} size="small">
-              <Radio.Button value="structured">Structured</Radio.Button>
-              <Radio.Button value="console">Console</Radio.Button>
-            </Radio.Group>
-          </div>
-          {renderConsoleOutput(item)}
+          {renderViewToggle()}
+          {renderStepPanel(item, renderConsoleOutput(item))}
         </>
       );
     }
@@ -211,29 +215,16 @@ export const DetailsJob = ({ jobId }: Props) => {
 
     return (
       <>
-        <div
-          style={{
-            textAlign: "right",
-            padding: "5px",
-          }}
-        >
-          <Radio.Group onChange={onChange} value={uiType} size="small">
-            <Radio.Button value="structured">Structured</Radio.Button>
-            <Radio.Button value="console">Console</Radio.Button>
-          </Radio.Group>
-        </div>
-        {structuredContent}
+        {renderViewToggle()}
+        {renderStepPanel(item, structuredContent)}
       </>
     );
   };
 
   const renderStepLabel = (item: JobStep) => {
     return (
-      <span>
-        {getIconStatus(item)}
-        <h3 style={{ display: "inline" }}>
-          &nbsp; {item.name} {item.status}
-        </h3>
+      <span className="tk-step-label">
+        <span className="tk-step-name">{item.name}</span> <StatusBadge status={item.status} size="sm" />
       </span>
     );
   };
@@ -262,25 +253,6 @@ export const DetailsJob = ({ jobId }: Props) => {
       .catch((error) => {
         message.error("Could not cancel job: " + error.response.data.errors[0].detail);
       });
-  };
-
-  const getIconStatus = (item: JobStep) => {
-    switch (item.status) {
-      case "completed":
-        return <CheckCircleOutlined style={{ fontSize: "20px", color: "#52c41a" }} />;
-      case "noChanges":
-        return <CheckCircleOutlined style={{ fontSize: "20px", color: "#52c41a" }} />;
-      case "notExecuted":
-        return <CheckCircleOutlined style={{ fontSize: "20px", color: "#fa8f37" }} />;
-      case "running":
-        return <SyncOutlined spin style={{ color: "#108ee9", fontSize: "20px" }} />;
-      case "failed":
-        return <CloseCircleOutlined style={{ fontSize: "20px", color: "#FB0136" }} />;
-      case "cancelled":
-        return <CloseCircleOutlined style={{ fontSize: "20px", color: "#FB0136" }} />;
-      default:
-        return <ClockCircleOutlined style={{ fontSize: "20px" }} />;
-    }
   };
 
   const handleApprove = () => {
@@ -489,8 +461,7 @@ export const DetailsJob = ({ jobId }: Props) => {
             return renderIncompleteVariableAlert(guard);
           })()}
           <div>
-            <StatusBadge status={job.data.attributes.status} />{" "}
-            <h2 style={{ display: "inline" }}>Triggered via UI</h2>
+            <StatusBadge status={job.data.attributes.status} /> <h2 style={{ display: "inline" }}>Triggered via UI</h2>
           </div>
 
           <Collapse
@@ -590,6 +561,7 @@ export const DetailsJob = ({ jobId }: Props) => {
           {job.data.attributes.status === "waitingApproval" ? (
             <div style={{ margin: "auto", width: "50%", marginTop: "20px" }}>
               <Card
+                className="tk-approve-band"
                 title={
                   <span style={{ fontSize: "14px" }}>
                     <b>Needs Confirmation:</b> Someone from <b>{job.data.attributes.approvalTeam}</b> must confirm to

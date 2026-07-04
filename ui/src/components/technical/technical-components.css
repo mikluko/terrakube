@@ -101,6 +101,105 @@
   color: var(--accent);
 }
 
+/* ── LogPanel — machine output as a printed job ticket ────────────────── */
+.tk-log-panel {
+  font-family: var(--font-mono);
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  box-shadow: var(--shadow-card);
+  display: flex;
+}
+.tk-log-panel-spine {
+  width: 5px;
+  flex: none;
+}
+.tk-log-panel[data-tone="ok"] .tk-log-panel-spine {
+  background: var(--ok);
+}
+.tk-log-panel[data-tone="err"] .tk-log-panel-spine {
+  background: var(--err);
+}
+.tk-log-panel[data-tone="warn"] .tk-log-panel-spine {
+  background: var(--warn);
+}
+.tk-log-panel[data-tone="run"] .tk-log-panel-spine {
+  background: var(--run);
+}
+.tk-log-panel[data-tone="neutral"] .tk-log-panel-spine {
+  background: var(--neutral);
+}
+.tk-log-panel-main {
+  flex: 1;
+  min-width: 0;
+}
+.tk-log-panel-band {
+  border-bottom: 1px solid var(--rule);
+  padding: 7px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.tk-log-panel[data-tone="ok"] .tk-log-panel-band {
+  background: var(--ok-wash);
+}
+.tk-log-panel[data-tone="err"] .tk-log-panel-band {
+  background: var(--err-wash);
+}
+.tk-log-panel[data-tone="warn"] .tk-log-panel-band {
+  background: var(--warn-wash);
+}
+.tk-log-panel[data-tone="run"] .tk-log-panel-band {
+  background: var(--run-wash);
+}
+.tk-log-panel[data-tone="neutral"] .tk-log-panel-band {
+  background: var(--paper-2);
+}
+.tk-log-panel-title {
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.tk-log-panel-meta {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+.tk-log-panel-body {
+  font-size: 12px;
+  line-height: var(--leading-log);
+}
+.tk-log-panel-cursor {
+  padding: 0 14px;
+}
+.tk-log-panel-summary {
+  border-top: 1px solid var(--rule);
+  display: flex;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+.tk-log-panel-summary > span {
+  padding: 6px 12px;
+  white-space: nowrap;
+}
+.tk-log-panel-summary > span[data-kind="add"] {
+  background: var(--ok);
+  color: var(--on-ok);
+}
+.tk-log-panel-summary > span[data-kind="change"] {
+  background: var(--warn);
+  color: var(--on-warn);
+}
+.tk-log-panel-summary > span[data-kind="destroy"] {
+  background: var(--err);
+  color: var(--on-err);
+}
+
 /* The blinking block cursor — the system's only permitted motion.
    steps(1): it snaps, it does not fade. */
 .tk-blink {

@@ -1,0 +1,71 @@
+/* Technical scheme — run detail: step tickets, log toolbar, view toggle. */
+
+/* ── Step tickets — collapsible bordered documents, not accordion chrome ── */
+html[data-color-scheme="technical"] .ant-collapse {
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  box-shadow: var(--shadow-btn);
+  background: var(--paper-raised);
+}
+html[data-color-scheme="technical"] .ant-collapse .ant-collapse-item {
+  border-bottom: none;
+  border-radius: 0;
+}
+html[data-color-scheme="technical"] .ant-collapse .ant-collapse-header {
+  border-radius: 0;
+  align-items: center;
+  padding: 8px 12px;
+}
+html[data-color-scheme="technical"] .ant-collapse .ant-collapse-content {
+  border-top: 1px solid var(--rule);
+  border-radius: 0;
+  background: var(--paper-raised);
+}
+
+html[data-color-scheme="technical"] .tk-step-label .tk-step-name {
+  font-family: var(--font-mono);
+  font-size: var(--text-ui);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  margin-right: 8px;
+}
+
+/* ── Terminal toolbar — drawn buttons, uppercase labels ───────────────── */
+html[data-color-scheme="technical"] .terminal-toolbar-btn {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  border: 1px solid var(--rule-soft);
+  border-radius: 0;
+  background: var(--paper-raised);
+  color: var(--ink-2);
+  cursor: pointer;
+}
+html[data-color-scheme="technical"] .terminal-toolbar-btn:hover {
+  background: var(--sel-bg);
+  color: var(--sel-fg);
+}
+html[data-color-scheme="technical"] .terminal-toolbar-btn--active {
+  background: var(--sel-bg);
+  color: var(--sel-fg);
+}
+html[data-color-scheme="technical"] .terminal-content {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: var(--leading-log);
+}
+html[data-color-scheme="technical"] .terminal-container {
+  background: var(--paper-raised);
+  border: none;
+  border-radius: 0;
+}
+
+/* ── The confirmation band — a stamped annotation, not a floating card ── */
+html[data-color-scheme="technical"] .tk-approve-band.ant-card {
+  background: var(--warn-wash);
+  border: 1px solid var(--rule);
+  box-shadow: var(--shadow-btn);
+}
