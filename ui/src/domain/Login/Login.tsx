@@ -1,24 +1,41 @@
 import { Button, ConfigProvider, Typography, theme } from "antd";
+import { useEffect } from "react";
 import { mgr } from "../../config/authConfig";
 import { getUiRedirectUri } from "../../config/basePath";
 import {
   ColorSchemeOption,
   ThemeMode,
+  applyThemeAttributes,
+  colorSchemeOptions,
   defaultColorScheme,
   defaultThemeMode,
   getThemeConfig,
+  isValidThemeCombination,
+  themeModeOptions,
 } from "../../config/themeConfig";
 import logo from "./logo.svg";
 import "./Login.css";
 
 const { Title, Text } = Typography;
 
+const getSavedTheme = (): { scheme: ColorSchemeOption; mode: ThemeMode } => {
+  const storedScheme = localStorage.getItem("terrakube-color-scheme") as ColorSchemeOption | null;
+  const scheme = storedScheme && colorSchemeOptions.includes(storedScheme) ? storedScheme : defaultColorScheme;
+  const storedMode = localStorage.getItem("terrakube-theme-mode") as ThemeMode | null;
+  const validMode = storedMode && themeModeOptions.includes(storedMode) ? storedMode : defaultThemeMode;
+  const mode = isValidThemeCombination(scheme, validMode) ? validMode : "dark";
+  return { scheme, mode };
+};
+
 const Login = () => {
-  const savedScheme = (localStorage.getItem("terrakube-color-scheme") as ColorSchemeOption) || defaultColorScheme;
-  const savedThemeMode = (localStorage.getItem("terrakube-theme-mode") as ThemeMode) || defaultThemeMode;
+  const { scheme, mode } = getSavedTheme();
+
+  useEffect(() => {
+    applyThemeAttributes(scheme, mode);
+  }, [scheme, mode]);
 
   return (
-    <ConfigProvider theme={getThemeConfig(savedScheme, savedThemeMode)}>
+    <ConfigProvider theme={getThemeConfig(scheme, mode)}>
       <LoginContent />
     </ConfigProvider>
   );

@@ -1,0 +1,31 @@
+/* ────────────────────────────────────────────────────────────
+   TYPOGRAPHY — one monospace voice.
+   Everything is mono: headings, body, labels, data.
+   Sole concession: long-form rendered markdown may use --font-reading.
+   ──────────────────────────────────────────────────────────── */
+:root {
+  --font-mono: "Berkeley Mono", "TX-02", "IBM Plex Mono", ui-monospace,
+               "SF Mono", Menlo, Consolas, monospace;
+  --font-reading: "IBM Plex Sans", -apple-system, "Segoe UI", sans-serif;
+
+  /* Scale */
+  --text-label: 10px;     /* uppercase label plates, eyebrows, SKUs */
+  --text-ui: 12px;        /* controls, table cells, badges */
+  --text-body: 13px;      /* default body / log output */
+  --text-md: 14px;        /* emphasized body */
+  --text-lg: 16px;        /* card titles, section heads */
+  --text-xl: 20px;        /* page titles */
+  --text-display: 28px;   /* screen mastheads, big numerals */
+
+  --leading-tight: 1.25;
+  --leading-body: 1.5;
+  --leading-log: 1.7;     /* generous line-height is where the warmth lives */
+
+  /* Label plate treatment: UPPERCASE + letter-spaced + small */
+  --tracking-label: 0.08em;
+  --tracking-wide: 0.14em;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-bold: 700;
+}

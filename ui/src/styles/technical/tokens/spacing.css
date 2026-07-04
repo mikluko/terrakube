@@ -1,0 +1,19 @@
+/* SPACING — 4px base. Dense, not sparse; structure is drawn with rules,
+   not floated with whitespace. Radius is ZERO universally. */
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  --radius: 0px;           /* corners are honest. Never override. */
+
+  --control-h: 30px;       /* inputs, buttons, selects */
+  --control-h-sm: 24px;
+  --masthead-h: 44px;
+}

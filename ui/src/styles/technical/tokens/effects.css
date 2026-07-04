@@ -1,0 +1,20 @@
+/* EFFECTS — hard-edged offset shadows, never blur.
+   Like a physical card lifted off paper / ink misregistration. */
+:root {
+  --shadow-card: 4px 4px 0 var(--shadow-color);
+  --shadow-btn: 2px 2px 0 var(--shadow-color);
+  --shadow-modal: 6px 6px 0 var(--shadow-color);
+  --shadow-none: none;
+
+  --border: 1px solid var(--rule);
+  --border-soft: 1px solid var(--rule-soft);
+  --border-dotted: 1px dotted var(--ink-3);   /* .sku specimen chips */
+
+  /* Dotted field texture (.bdp) — 0.5px dots on a 3px grid.
+     Use for empty backdrops, login fields, page headers. */
+  --bdp: radial-gradient(var(--dot) 0.5px, transparent 0.6px);
+  --bdp-size: 4px 4px;
+
+  /* Motion: near-none. State changes snap (like a relay), no easing theater. */
+  --transition-snap: none;
+}

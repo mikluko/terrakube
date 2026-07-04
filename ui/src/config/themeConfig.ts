@@ -1,7 +1,25 @@
 import { ThemeConfig, theme } from "antd";
+import { getTechnicalThemeConfig } from "./technicalTheme";
 
-export type ColorSchemeOption = "default" | "terrakube";
-export type ThemeMode = "light" | "dark";
+export type ColorSchemeOption = "default" | "terrakube" | "technical";
+export type ThemeMode = "light" | "dark" | "blueprint";
+
+export const colorSchemeOptions: ColorSchemeOption[] = ["default", "terrakube", "technical"];
+export const themeModeOptions: ThemeMode[] = ["light", "dark", "blueprint"];
+
+// The blueprint theme is part of the Technical scheme only.
+export const isValidThemeCombination = (colorScheme: ColorSchemeOption, themeMode: ThemeMode): boolean =>
+  themeMode !== "blueprint" || colorScheme === "technical";
+
+// CSS relies on these attributes ([data-theme=...] / [data-color-scheme=...]);
+// callers that mount their own ConfigProvider (App via ThemeContext, Login)
+// must apply them from an effect, never during render.
+export const applyThemeAttributes = (colorScheme: ColorSchemeOption, themeMode: ThemeMode): void => {
+  if (typeof document !== "undefined" && document.documentElement) {
+    document.documentElement.setAttribute("data-theme", themeMode);
+    document.documentElement.setAttribute("data-color-scheme", colorScheme);
+  }
+};
 
 const darkThemeTokens = {
   // Backgrounds - rich dark, not pure black
@@ -32,12 +50,11 @@ const darkThemeTokens = {
 };
 
 export const getThemeConfig = (colorScheme: ColorSchemeOption, themeMode: ThemeMode): ThemeConfig => {
-  const colorPrimary = colorScheme === "default" ? "#1890ff" : "#722ED1";
-
-  if (typeof document !== "undefined" && document.documentElement) {
-    document.documentElement.setAttribute("data-theme", themeMode);
-    document.documentElement.setAttribute("data-color-scheme", colorScheme);
+  if (colorScheme === "technical") {
+    return getTechnicalThemeConfig(themeMode);
   }
+
+  const colorPrimary = colorScheme === "default" ? "#1890ff" : "#722ED1";
 
   if (themeMode === "dark") {
     const isTerrakube = colorScheme === "terrakube";

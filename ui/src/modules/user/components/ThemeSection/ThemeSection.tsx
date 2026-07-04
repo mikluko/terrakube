@@ -36,6 +36,11 @@ export const ThemeSection = () => {
       color: "#722ED1",
       label: "Terrakube (Uses the main Terrakube logo colors)",
     },
+    {
+      value: "technical",
+      color: "#1b3be0",
+      label: "Technical (Monospace precision-instrument look)",
+    },
   ];
 
   const themeModeOptions = [
@@ -43,8 +48,8 @@ export const ThemeSection = () => {
       value: "light",
       label: (
         <div className="color-option">
-          <ColorBox color="#ffffff" />
-          <span>Light</span>
+          <ColorBox color={colorScheme === "technical" ? "#f2f2ed" : "#ffffff"} />
+          <span>{colorScheme === "technical" ? "Light (paper)" : "Light"}</span>
         </div>
       ),
     },
@@ -52,11 +57,25 @@ export const ThemeSection = () => {
       value: "dark",
       label: (
         <div className="color-option">
-          <ColorBox color="#000000" />
-          <span>Dark</span>
+          <ColorBox color={colorScheme === "technical" ? "#0a0a0a" : "#000000"} />
+          <span>{colorScheme === "technical" ? "Dark (phosphor)" : "Dark"}</span>
         </div>
       ),
     },
+    // Blueprint is a Technical-scheme theme: white lines on cyanotype blue.
+    ...(colorScheme === "technical"
+      ? [
+          {
+            value: "blueprint",
+            label: (
+              <div className="color-option">
+                <ColorBox color="#14295c" />
+                <span>Blueprint (cyanotype)</span>
+              </div>
+            ),
+          },
+        ]
+      : []),
   ];
 
   return (

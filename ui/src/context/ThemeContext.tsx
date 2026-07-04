@@ -1,5 +1,14 @@
-import React, { createContext, ReactNode, useContext, useState } from "react";
-import { ColorSchemeOption, ThemeMode, defaultColorScheme, defaultThemeMode } from "../config/themeConfig";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import {
+  ColorSchemeOption,
+  ThemeMode,
+  applyThemeAttributes,
+  colorSchemeOptions,
+  defaultColorScheme,
+  defaultThemeMode,
+  isValidThemeCombination,
+  themeModeOptions,
+} from "../config/themeConfig";
 
 interface ThemeContextType {
   colorScheme: ColorSchemeOption;
@@ -16,31 +25,44 @@ const getStoredColorScheme = (): ColorSchemeOption => {
   }
 
   const saved = localStorage.getItem("terrakube-color-scheme") as ColorSchemeOption | null;
-  return saved || defaultColorScheme;
+  return saved && colorSchemeOptions.includes(saved) ? saved : defaultColorScheme;
 };
 
-const getStoredThemeMode = (): ThemeMode => {
+const getStoredThemeMode = (scheme: ColorSchemeOption): ThemeMode => {
   if (typeof window === "undefined") {
     return defaultThemeMode;
   }
 
   const saved = localStorage.getItem("terrakube-theme-mode") as ThemeMode | null;
-  return saved || defaultThemeMode;
+  if (!saved || !themeModeOptions.includes(saved)) {
+    return defaultThemeMode;
+  }
+
+  return isValidThemeCombination(scheme, saved) ? saved : "dark";
 };
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [colorScheme, setColorSchemeState] = useState<ColorSchemeOption>(getStoredColorScheme);
-  const [themeMode, setThemeModeState] = useState<ThemeMode>(getStoredThemeMode);
+  const [themeMode, setThemeModeState] = useState<ThemeMode>(() => getStoredThemeMode(getStoredColorScheme()));
 
   const setColorScheme = (scheme: ColorSchemeOption) => {
     localStorage.setItem("terrakube-color-scheme", scheme);
     setColorSchemeState(scheme);
+    // Blueprint exists only within the Technical scheme; leaving the scheme
+    // while in blueprint falls back to the nearest dark theme.
+    if (!isValidThemeCombination(scheme, themeMode)) {
+      setThemeMode("dark");
+    }
   };
 
   const setThemeMode = (mode: ThemeMode) => {
     localStorage.setItem("terrakube-theme-mode", mode);
     setThemeModeState(mode);
   };
+
+  useEffect(() => {
+    applyThemeAttributes(colorScheme, themeMode);
+  }, [colorScheme, themeMode]);
 
   return (
     <ThemeContext.Provider value={{ colorScheme, themeMode, setColorScheme, setThemeMode }}>

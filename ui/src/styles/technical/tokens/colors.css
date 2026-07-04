@@ -1,0 +1,172 @@
+/* ────────────────────────────────────────────────────────────
+   COLORS — two physical metaphors:
+   Light = "ink on paper"   (printed datasheet: warm off-white, near-black ink)
+   Dark  = "phosphor on black" (CRT terminal: true near-black, warm phosphor text)
+   Radius is zero everywhere. Shadows are hard offsets, never blur.
+   ──────────────────────────────────────────────────────────── */
+:root {
+  color-scheme: light;
+
+  /* Paper (surfaces) */
+  --paper: #f2f2ed;          /* app background — warm, never pure white */
+  --paper-2: #eae9e1;        /* recessed fills: table headers, wells, code blocks */
+  --paper-3: #e0dfd4;        /* deeper fill, hover on rows */
+  --paper-raised: #f7f7f3;   /* cards lifted off the paper */
+
+  /* Ink (text) */
+  --ink: #141414;            /* primary text + structural borders */
+  --ink-2: #4c4c45;          /* secondary text */
+  --ink-3: #85847a;          /* muted text, dimmed prefixes, placeholders */
+
+  /* Rules (drawn structure) */
+  --rule: #141414;           /* structural 1px borders — the schematic lines */
+  --rule-soft: #c9c7ba;      /* hairline row separators inside tables/logs */
+
+  /* Hard shadow (ink misregistration) */
+  --shadow-color: #b9b7ab;
+
+  /* Accent — engineering blue. Marks the primary action ONLY. */
+  --accent: #1b3be0;
+  --on-accent: #f2f2ed;
+
+  /* Chrome — the masthead. In paper mode it's printed matter: paper band,
+     ink text (a black bar reads as "app chrome", not document). Dark themes
+     keep the dark bezel. */
+  --chrome: #f7f7f3;
+  --on-chrome: #141414;
+  --on-chrome-dim: #85847a;
+  --chrome-line: #c9c7ba;
+  --chrome-line-2: #85847a;
+
+  /* Status — U.S. catalog palette; solid blocks, saturated, sparing */
+  --ok: #137752;       --on-ok: #f2f2ed;      --ok-wash: #b7ecd2;
+  --err: #e7040f;      --on-err: #f2f2ed;     --err-wash: #ffd9d9;
+  --warn: #ffb700;     --on-warn: #141414;    --warn-wash: #ffefc2;
+  --run: #1b3be0;      --on-run: #f2f2ed;     --run-wash: #d6ddfb;
+  --neutral: #85847a;  --on-neutral: #f2f2ed; --neutral-wash: #e0dfd4;
+
+  /* Log / terminal diff colors (Terraform ANSI must survive) */
+  --log-add: #0f6b49;
+  --log-del: #d1040e;
+  --log-chg: #96700a;
+  --log-stripe: rgba(20, 20, 20, 0.028);
+
+  /* Textures */
+  --dot: #bfbdb0;            /* .bdp dotted-field dot color */
+
+  /* Selection = inversion */
+  --sel-bg: #141414;
+  --sel-fg: #f2f2ed;
+}
+
+/* Phosphor mode */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --paper: #0a0a0a;
+  --paper-2: #151511;
+  --paper-3: #1e1e19;
+  --paper-raised: #111110;
+
+  --ink: #ececdf;
+  --ink-2: #b3b2a4;
+  --ink-3: #75746a;
+
+  /* Phosphor rules are dimmer than text — full-brightness 1px lines glare
+     on black and read "thick". Structure stays drawn, but at panel-line
+     intensity, not text intensity. */
+  --rule: #4e4e44;
+  --rule-soft: #26261f;
+
+  /* On phosphor a shadow can't be darker than the page — the offset plate
+     is slightly LIGHTER than the backdrop so cards still read as lifted. */
+  --shadow-color: #262620;
+
+  --accent: #8b9dff;         /* lighter periwinkle for phosphor */
+  --on-accent: #0a0a0a;
+
+  --chrome: #0d0d0d;
+  --on-chrome: #ececdf;
+  --on-chrome-dim: #75746a;
+  --chrome-line: #2e2e2a;
+  --chrome-line-2: #4a4a42;
+
+  --ok: #2ec98a;       --on-ok: #0a0a0a;      --ok-wash: #0d2f21;
+  --err: #ff4d55;      --on-err: #0a0a0a;     --err-wash: #33100f;
+  --warn: #ffc233;     --on-warn: #0a0a0a;    --warn-wash: #33290a;
+  --run: #8b9dff;      --on-run: #0a0a0a;     --run-wash: #14193a;
+  --neutral: #75746a;  --on-neutral: #0a0a0a; --neutral-wash: #22221d;
+
+  --log-add: #3ddd99;
+  --log-del: #ff6b70;
+  --log-chg: #f0c04a;
+  --log-stripe: rgba(236, 236, 223, 0.035);
+
+  --dot: #33332c;
+
+  --sel-bg: #ececdf;
+  --sel-fg: #0a0a0a;
+}
+
+/* Blueprint mode — white lines on cyanotype blue. The third physical
+   metaphor: a diazo print. Text and rules are pale; the accent is the
+   annotation white; status colors are the bright (phosphor) variants. */
+[data-theme="blueprint"] {
+  color-scheme: dark;
+
+  --paper: #14295c;
+  --paper-2: #1a3168;
+  --paper-3: #223c78;
+  --paper-raised: #182f64;
+
+  --ink: #e6edfb;
+  --ink-2: #aabde2;
+  --ink-3: #7089ba;
+
+  --rule: #55709f;
+  --rule-soft: #2c4478;
+
+  /* Shadow darker than the sheet — works here, unlike on phosphor black. */
+  --shadow-color: #0c1c44;
+
+  /* Annotation white — the pen that writes ON a blueprint. */
+  --accent: #f4f8ff;
+  --on-accent: #14295c;
+
+  --chrome: #0b1a3e;
+  --on-chrome: #e6edfb;
+  --on-chrome-dim: #7089ba;
+  --chrome-line: #24407a;
+  --chrome-line-2: #38539a;
+
+  --ok: #2ec98a;       --on-ok: #0b2417;      --ok-wash: #14424f;
+  --err: #ff6b70;      --on-err: #330d0f;     --err-wash: #4a2340;
+  --warn: #ffc233;     --on-warn: #33290a;    --warn-wash: #47421f;
+  --run: #7fd4ff;      --on-run: #0a2433;     --run-wash: #1c3f6e;
+  --neutral: #7089ba;  --on-neutral: #101f42; --neutral-wash: #253d6e;
+
+  --log-add: #4be3a4;
+  --log-del: #ff8489;
+  --log-chg: #ffd35e;
+  --log-stripe: rgba(230, 237, 251, 0.045);
+
+  --dot: #2f4a82;
+
+  --sel-bg: #e6edfb;
+  --sel-fg: #14295c;
+}
+
+/* Optional brand scheme: Terrakube's existing purple as accent.
+   Apply data-scheme="brand" alongside either theme. */
+[data-scheme="brand"] {
+  --accent: #722ed1;
+  --on-accent: #f2f2ed;
+  --run: #722ed1;
+  --run-wash: #e6dcf5;
+}
+[data-theme="dark"][data-scheme="brand"] {
+  --accent: #b28aef;
+  --on-accent: #0a0a0a;
+  --run: #b28aef;
+  --run-wash: #241436;
+}

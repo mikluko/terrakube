@@ -1,0 +1,12 @@
+/* Terrakube "Technical" design system — entry point.
+   Token files under tokens/ are copied verbatim from design/technical/tokens/
+   (the design hand-off source of truth); base.css is the scoped adaptation.
+   Import order matters: fonts first so faces resolve, colors before effects
+   (effects reference color tokens), base last (it consumes everything). */
+@import "./fonts.css";
+@import "./tokens/colors.css";
+@import "./tokens/typography.css";
+@import "./tokens/spacing.css";
+@import "./tokens/effects.css";
+@import "./tokens/base.css";
+@import "./antd.css";
