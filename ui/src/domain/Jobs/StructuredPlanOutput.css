@@ -1,96 +1,117 @@
+/* ==========================================================================
+   Structured terraform-plan view — "Technical" design system.
+   The plan is a ledger, not a transcript: one monospace voice, zero radius,
+   1px drawn rules, hard offset shadows, solid status blocks. All colors come
+   from the technical tokens, so every theme (paper / phosphor / blueprint)
+   is covered without per-theme overrides.
+   ========================================================================== */
+
 .structured-plan {
+  color: var(--ink);
+  font-family: var(--font-mono);
   width: 100%;
 }
 
 .structured-plan-shell {
-  background: #ffffff;
-  border: 1px solid #d8dde6;
-  border-radius: 8px;
-  overflow: hidden;
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  box-shadow: var(--shadow-card);
 }
 
+/* --------------------------------------------------------------------------
+   Summary band — solid tri-color segments, like a stamp row on a service
+   ticket: + N TO CREATE / ~ N TO CHANGE / − N TO DESTROY.
+   -------------------------------------------------------------------------- */
+
 .structured-plan-summaryArea {
-  border-bottom: 1px solid #e7ebf0;
+  border-bottom: 1px solid var(--rule);
   padding: 12px;
 }
 
 .structured-plan-summaryStrip {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
 }
 
 .structured-plan-summarySegment {
   align-items: center;
-  border-radius: 8px;
-  color: #ffffff;
   display: flex;
   flex-basis: 0;
   flex-shrink: 1;
+  font-size: var(--text-label);
+  font-weight: 700;
   gap: 6px;
-  min-height: 36px;
-  min-width: 148px;
+  letter-spacing: 0.1em;
+  min-height: 28px;
+  min-width: 132px;
   padding: 0 12px;
-  font-size: 13px;
-  font-weight: 600;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .structured-plan-summarySegment--create {
-  background: #198754;
+  background: var(--ok);
+  color: var(--on-ok);
 }
 
 .structured-plan-summarySegment--update {
-  background: #2563eb;
+  background: var(--warn);
+  color: var(--on-warn);
 }
 
 .structured-plan-summarySegment--delete {
-  background: #cf3d38;
+  background: var(--err);
+  color: var(--on-err);
 }
 
 .structured-plan-summarySegment--import {
-  background: #6d28d9;
+  background: var(--neutral);
+  color: var(--on-neutral);
 }
 
 .structured-plan-summarySymbol {
   display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 16px;
-  font-family: "SFMono-Regular", Consolas, Monaco, monospace;
-  font-size: 12px;
   font-weight: 700;
+  justify-content: center;
+  min-width: 12px;
 }
 
 .structured-plan-summaryEmpty {
   align-items: center;
-  background: #f8fafc;
-  border: 1px solid #e7ebf0;
-  border-radius: 8px;
-  color: #526171;
+  background: var(--paper-2);
+  border: 1px solid var(--rule-soft);
+  color: var(--ink-3);
   display: flex;
-  min-height: 36px;
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  min-height: 28px;
   padding: 0 12px;
-  font-size: 13px;
-  font-weight: 600;
+  text-transform: uppercase;
 }
 
 .structured-plan-summaryMeta {
-  color: #526171;
+  color: var(--ink-2);
   display: flex;
   flex-wrap: wrap;
+  font-size: var(--text-ui);
   gap: 12px;
   margin-top: 8px;
-  font-size: 12px;
 }
+
+/* --------------------------------------------------------------------------
+   Toolbar — bordered mono controls; the download button is a proper
+   Technical button (uppercase, hard shadow, full inversion on hover).
+   -------------------------------------------------------------------------- */
 
 .structured-plan-toolbar {
   align-items: center;
-  border-bottom: 1px solid #e7ebf0;
+  border-bottom: 1px solid var(--rule);
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   justify-content: space-between;
-  padding: 10px 12px;
+  padding: 8px 12px;
 }
 
 .structured-plan-toolbarControls {
@@ -102,52 +123,55 @@
 }
 
 .structured-plan-searchInput {
-  background: #ffffff;
-  border: 1px solid #cfd6df;
-  border-radius: 6px;
-  color: #1f2937;
-  font-size: 13px;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: var(--text-ui);
+  height: var(--control-h);
   min-width: 220px;
-  padding: 7px 10px;
+  padding: 0 8px;
+}
+
+.structured-plan-searchInput::placeholder {
+  color: var(--ink-3);
 }
 
 .structured-plan-searchInput:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+  border-color: var(--accent);
   outline: none;
 }
 
 .structured-plan-selectWrap {
   align-items: center;
-  background: #ffffff;
-  border: 1px solid #cfd6df;
-  border-radius: 6px;
-  color: #526171;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  color: var(--ink-2);
   cursor: pointer;
   display: inline-flex;
   gap: 6px;
-  min-height: 34px;
+  height: var(--control-h);
   padding: 0 8px;
 }
 
 .structured-plan-selectWrap:focus-within {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+  border-color: var(--accent);
 }
 
 .structured-plan-selectIcon,
 .structured-plan-selectChevron {
-  color: #6b7280;
-  font-size: 11px;
+  color: var(--ink-3);
+  font-size: 10px;
 }
 
 .structured-plan-select {
   appearance: none;
   background: transparent;
   border: none;
-  color: #1f2937;
+  color: var(--ink);
   cursor: pointer;
-  font-size: 13px;
+  font-family: inherit;
+  font-size: var(--text-ui);
   min-width: 138px;
   padding-right: 4px;
 }
@@ -158,56 +182,75 @@
 
 .structured-plan-checkbox {
   align-items: center;
-  color: #374151;
+  color: var(--ink-2);
   cursor: pointer;
   display: inline-flex;
+  font-size: var(--text-label);
+  font-weight: 700;
   gap: 6px;
-  font-size: 13px;
-  line-height: 1.4;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
 }
 
 .structured-plan-checkbox input {
-  accent-color: #2563eb;
+  accent-color: var(--accent);
+  margin: 0;
 }
 
 .structured-plan-toolbarMeta {
   align-items: center;
-  color: #526171;
+  color: var(--ink-3);
   display: flex;
   flex-wrap: wrap;
+  font-size: var(--text-ui);
   gap: 10px;
   justify-content: flex-end;
-  font-size: 12px;
 }
 
 .structured-plan-toolbarButton {
   align-items: center;
-  background: #ffffff;
-  border: 1px solid #cfd6df;
-  border-radius: 6px;
-  color: #1f2937;
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  box-shadow: var(--shadow-btn);
+  color: var(--ink);
   cursor: pointer;
   display: inline-flex;
+  font-family: inherit;
+  font-size: var(--text-label);
+  font-weight: 700;
   gap: 6px;
-  min-height: 30px;
+  letter-spacing: var(--tracking-label);
+  min-height: var(--control-h-sm);
   padding: 0 10px;
+  text-transform: uppercase;
 }
 
 .structured-plan-toolbarButton:hover {
-  background: #f8fafc;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.structured-plan-toolbarButton:active {
+  box-shadow: none;
+  transform: translate(2px, 2px);
 }
 
 .structured-plan-toolbarButton:focus-visible {
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
-  outline: none;
+  outline: 1px solid var(--accent);
+  outline-offset: 2px;
 }
+
+/* --------------------------------------------------------------------------
+   Resource rows — one hairline-separated row per change, led by a solid
+   72px action stamp (+ CREATE / − DELETE / ~ UPDATE / ± REPLACE).
+   -------------------------------------------------------------------------- */
 
 .structured-plan-rows {
   width: 100%;
 }
 
 .structured-plan-row {
-  border-bottom: 1px solid #e7ebf0;
+  border-bottom: 1px solid var(--rule-soft);
 }
 
 .structured-plan-row:last-child {
@@ -223,105 +266,95 @@
   align-items: center;
   background: transparent;
   border: none;
-  color: inherit;
+  color: var(--ink);
   cursor: pointer;
   display: flex;
   flex: 1 1 auto;
+  font-family: inherit;
   gap: 10px;
   min-width: 0;
-  padding: 9px 12px;
+  padding: 7px 12px;
   text-align: left;
 }
 
 .structured-plan-rowToggle:hover {
-  background: #f8fafc;
+  background: var(--paper-3);
 }
 
 .structured-plan-rowToggle:focus-visible {
-  background: #f8fafc;
-  box-shadow: inset 0 0 0 2px rgba(37, 99, 235, 0.16);
-  outline: none;
+  background: var(--paper-3);
+  outline: 1px solid var(--accent);
+  outline-offset: -2px;
 }
 
 .structured-plan-chevron {
   align-items: center;
-  color: #5b6573;
+  color: var(--ink-3);
   display: inline-flex;
   flex-shrink: 0;
+  font-size: 10px;
   justify-content: center;
-  transition: transform 0.2s ease;
 }
 
 .structured-plan-chevron--expanded {
   transform: rotate(90deg);
 }
 
+/* Action stamp — solid status block, 1px rule border, uppercase plate. */
 .structured-plan-actionIcon {
-  align-items: center;
-  border: 1px solid transparent;
-  border-radius: 5px;
+  border: 1px solid var(--rule);
   display: inline-flex;
   flex-shrink: 0;
-  font-family: "SFMono-Regular", Consolas, Monaco, monospace;
-  font-size: 10px;
+  font-size: var(--text-label);
   font-weight: 700;
-  height: 20px;
   justify-content: center;
-  letter-spacing: -0.02em;
-  width: 20px;
+  letter-spacing: var(--tracking-label);
+  padding: 1px 4px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  width: 72px;
 }
 
 .structured-plan-actionIcon--create {
-  background: #eefbf3;
-  border-color: #cdeeda;
-  color: #147d37;
+  background: var(--ok);
+  color: var(--on-ok);
 }
 
 .structured-plan-actionIcon--update {
-  background: #eef4ff;
-  border-color: #cad9ff;
-  color: #2563eb;
+  background: var(--run);
+  color: var(--on-run);
 }
 
 .structured-plan-actionIcon--replace {
-  background: #f4f5f7;
-  border-color: #d7dce3;
-  color: #55606e;
+  background: var(--warn);
+  color: var(--on-warn);
 }
 
 .structured-plan-actionIcon--delete {
-  background: #fff2f1;
-  border-color: #f4d0cd;
-  color: #cf3d38;
+  background: var(--err);
+  color: var(--on-err);
 }
 
 .structured-plan-actionIcon--read,
+.structured-plan-actionIcon--import,
 .structured-plan-actionIcon--unknown {
-  background: #f8fafc;
-  border-color: #dce3eb;
-  color: #64748b;
+  background: var(--neutral);
+  color: var(--on-neutral);
 }
 
-.structured-plan-actionIcon--import {
-  background: #f3eeff;
-  border-color: #d4b8ff;
-  color: #6d28d9;
-}
-
+/* Provider chip — dotted specimen border, like a SKU tag. */
 .structured-plan-providerBadge {
   align-items: center;
-  background: #f4f6f9;
-  border: 1px solid #dce3eb;
-  border-radius: 5px;
-  color: #354052;
+  border: 1px dotted var(--ink-3);
+  color: var(--ink-2);
   display: inline-flex;
   flex-shrink: 0;
-  font-size: 10px;
+  font-size: var(--text-label);
   font-weight: 700;
   height: 20px;
   justify-content: center;
   text-transform: uppercase;
-  width: 20px;
+  width: 22px;
 }
 
 .structured-plan-providerBadgeIcon {
@@ -329,10 +362,10 @@
 }
 
 .structured-plan-address {
-  color: #1d2433;
+  color: var(--ink);
   flex: 1 1 auto;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--text-ui);
+  font-weight: 700;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -343,8 +376,8 @@
   align-items: center;
   background: transparent;
   border: none;
-  border-left: 1px solid #eef2f6;
-  color: #6b7280;
+  border-left: 1px solid var(--rule-soft);
+  color: var(--ink-3);
   cursor: pointer;
   display: inline-flex;
   flex: 0 0 38px;
@@ -352,23 +385,25 @@
 }
 
 .structured-plan-copyButton:hover {
-  background: #f8fafc;
-  color: #1f2937;
+  background: var(--ink);
+  color: var(--paper);
 }
 
 .structured-plan-copyButton:focus-visible {
-  background: #f8fafc;
-  box-shadow: inset 0 0 0 2px rgba(37, 99, 235, 0.16);
-  outline: none;
+  outline: 1px solid var(--accent);
+  outline-offset: -2px;
 }
 
+/* --------------------------------------------------------------------------
+   Expanded row body — the before → after attribute ledger.
+   -------------------------------------------------------------------------- */
+
 .structured-plan-rowBody {
-  background: #ffffff;
-  padding: 0 12px 12px 50px;
+  padding: 0 12px 12px 44px;
 }
 
 .structured-plan-rowBodyInner {
-  border-left: 2px solid #e7ebf0;
+  border-left: 1px solid var(--rule-soft);
   padding-left: 12px;
 }
 
@@ -388,149 +423,123 @@
   gap: 6px;
 }
 
-.structured-plan-actionPill,
-.structured-plan-metaPill {
+/* Action pill — small solid stamp echoing the row stamp. */
+.structured-plan-actionPill {
   align-items: center;
-  border: 1px solid transparent;
-  border-radius: 999px;
+  border: 1px solid var(--rule);
   display: inline-flex;
-  font-size: 11px;
-  font-weight: 600;
-  min-height: 20px;
-  padding: 0 8px;
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  min-height: 18px;
+  padding: 0 6px;
+  text-transform: uppercase;
 }
 
 .structured-plan-actionPill--create {
-  background: #eefbf3;
-  border-color: #cdeeda;
-  color: #147d37;
+  background: var(--ok);
+  color: var(--on-ok);
 }
 
 .structured-plan-actionPill--update {
-  background: #eef4ff;
-  border-color: #cad9ff;
-  color: #2563eb;
+  background: var(--run);
+  color: var(--on-run);
 }
 
 .structured-plan-actionPill--replace {
-  background: #f4f5f7;
-  border-color: #d7dce3;
-  color: #55606e;
+  background: var(--warn);
+  color: var(--on-warn);
 }
 
 .structured-plan-actionPill--delete {
-  background: #fff2f1;
-  border-color: #f4d0cd;
-  color: #cf3d38;
+  background: var(--err);
+  color: var(--on-err);
 }
 
 .structured-plan-actionPill--read,
+.structured-plan-actionPill--import,
 .structured-plan-actionPill--unknown {
-  background: #f8fafc;
-  border-color: #dce3eb;
-  color: #64748b;
+  background: var(--neutral);
+  color: var(--on-neutral);
 }
 
-.structured-plan-actionPill--import {
-  background: #f3eeff;
-  border-color: #d4b8ff;
-  color: #6d28d9;
+/* Meta chips — dotted SKU specimens; data stays natural case. */
+.structured-plan-metaPill {
+  align-items: center;
+  border: 1px dotted var(--ink-3);
+  color: var(--ink-2);
+  display: inline-flex;
+  font-size: var(--text-label);
+  min-height: 18px;
+  padding: 0 6px;
 }
 
 .structured-plan-metaPill--import {
-  background: #f3eeff;
-  border-color: #d4b8ff;
-  color: #6d28d9;
-  font-weight: 600;
-}
-
-.structured-plan-metaPill {
-  background: #f8fafc;
-  border-color: #dce3eb;
-  color: #526171;
-  font-weight: 500;
+  color: var(--ink);
 }
 
 .structured-plan-rowCounts {
-  color: #526171;
+  color: var(--ink-3);
   display: flex;
   flex-direction: column;
+  font-size: var(--text-label);
   gap: 2px;
-  font-size: 11px;
+  letter-spacing: var(--tracking-label);
   text-align: right;
+  text-transform: uppercase;
 }
+
+/* --------------------------------------------------------------------------
+   Attribute ledger — flat rows on the recessed fill; the diff signal lives
+   in the marker glyph and the value colors (before = del, after = add).
+   -------------------------------------------------------------------------- */
 
 .structured-plan-diffList {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .structured-plan-diffGroup {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
 }
 
 .structured-plan-diffGroupLabel {
-  color: #253041;
-  font-size: 12px;
-  font-weight: 600;
+  color: var(--ink);
+  font-size: var(--text-ui);
+  font-weight: 700;
 }
 
 .structured-plan-diffGroupChildren {
-  border-left: 1px solid #e5e7eb;
+  border-left: 1px solid var(--rule-soft);
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  margin-left: 10px;
+  gap: 4px;
+  margin-left: 4px;
   padding-left: 10px;
 }
 
 .structured-plan-hiddenCount {
-  color: #7a8492;
-  font-size: 11px;
+  color: var(--ink-3);
+  font-size: var(--text-label);
 }
 
 .structured-plan-diffRow {
-  align-items: flex-start;
-  background: #fcfdff;
-  border: 1px solid #edf1f6;
-  border-radius: 6px;
+  align-items: baseline;
+  background: var(--paper-2);
+  border: 1px solid var(--rule-soft);
   display: grid;
+  font-size: 11px;
   gap: 10px;
   grid-template-columns: minmax(160px, 220px) minmax(0, 1fr);
-  padding: 8px 10px;
-}
-
-.structured-plan-diffRow--added {
-  background: #f5fcf7;
-  border-color: #d5efdd;
-}
-
-.structured-plan-diffRow--removed {
-  background: #fff6f5;
-  border-color: #f2d7d4;
-}
-
-.structured-plan-diffRow--changed {
-  background: #f7faff;
-  border-color: #dae6ff;
-}
-
-.structured-plan-diffRow--unknown {
-  background: #fffaf0;
-  border-color: #f5dfb2;
-}
-
-.structured-plan-diffRow--sensitive {
-  background: #faf5ff;
-  border-color: #e3d3ff;
+  padding: 4px 8px;
 }
 
 .structured-plan-diffLabel {
-  align-items: center;
-  color: #253041;
+  align-items: baseline;
+  color: var(--ink);
   display: flex;
   gap: 8px;
   min-width: 0;
@@ -538,45 +547,35 @@
 }
 
 .structured-plan-diffMarker {
-  align-items: center;
-  border-radius: 999px;
-  display: inline-flex;
+  color: var(--ink-2);
   flex-shrink: 0;
-  font-family: "SFMono-Regular", Consolas, Monaco, monospace;
-  font-size: 11px;
   font-weight: 700;
-  height: 18px;
-  justify-content: center;
-  width: 18px;
+  text-align: center;
+  width: 12px;
 }
 
 .structured-plan-diffMarker--added {
-  background: #dff4e5;
-  color: #147d37;
+  color: var(--log-add);
 }
 
 .structured-plan-diffMarker--removed {
-  background: #f9e0de;
-  color: #cf3d38;
+  color: var(--log-del);
 }
 
 .structured-plan-diffMarker--changed {
-  background: #dde8ff;
-  color: #2563eb;
+  color: var(--log-chg);
 }
 
 .structured-plan-diffMarker--unknown {
-  background: #f7e7bf;
-  color: #8a5a00;
+  color: var(--log-chg);
 }
 
 .structured-plan-diffMarker--sensitive {
-  background: #ebdcff;
-  color: #6b21a8;
+  color: var(--ink-3);
 }
 
 .structured-plan-diffValue {
-  align-items: center;
+  align-items: baseline;
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
@@ -584,7 +583,7 @@
 }
 
 .structured-plan-diffValueFlow {
-  align-items: center;
+  align-items: baseline;
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
@@ -592,55 +591,48 @@
 }
 
 .structured-plan-diffArrow {
-  color: #6b7280;
-  font-family: "SFMono-Regular", Consolas, Monaco, monospace;
-  font-size: 11px;
+  color: var(--ink-3);
   font-weight: 700;
 }
 
+/* Values are plain colored mono text — no chips, no washes. */
 .structured-plan-valueToken {
-  align-items: center;
-  background: #ffffff;
-  border: 1px solid #d8dde6;
-  border-radius: 5px;
-  color: #1f2937;
-  display: inline-flex;
-  font-family: "SFMono-Regular", Consolas, Monaco, monospace;
-  font-size: 11px;
+  color: var(--ink);
   max-width: 100%;
-  min-height: 24px;
   overflow: hidden;
-  padding: 0 6px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .structured-plan-valueToken--added {
-  border-color: #d5efdd;
-  color: #147d37;
+  color: var(--log-add);
 }
 
 .structured-plan-valueToken--removed {
-  border-color: #f2d7d4;
-  color: #cf3d38;
+  color: var(--log-del);
 }
 
-.structured-plan-valueToken--changed {
-  border-color: #dae6ff;
-  color: #1d4ed8;
+.structured-plan-valueToken--before {
+  color: var(--log-del);
 }
 
-.structured-plan-valueToken--unknown {
-  border-color: #f5dfb2;
-  color: #8a5a00;
+.structured-plan-valueToken--after {
+  color: var(--log-add);
 }
 
-.structured-plan-valueToken--sensitive {
-  border-color: #e3d3ff;
-  color: #6b21a8;
+.structured-plan-valueToken--unknown.structured-plan-valueToken--after {
+  color: var(--log-chg);
+}
+
+/* Sensitive values render dim regardless of position. */
+.structured-plan-valueToken--sensitive,
+.structured-plan-valueToken--sensitive.structured-plan-valueToken--before,
+.structured-plan-valueToken--sensitive.structured-plan-valueToken--after {
+  color: var(--ink-3);
 }
 
 .structured-plan-emptyState {
+  color: var(--ink-3);
   padding: 16px 12px;
 }
 
@@ -672,331 +664,4 @@
   .structured-plan-rowCounts {
     text-align: left;
   }
-}
-
-/* ==========================================================================
-   Dark Mode Overrides
-   ========================================================================== */
-
-[data-theme="dark"] .structured-plan-shell {
-  background: var(--tk-bg-container);
-  border-color: var(--tk-border-primary);
-  color: var(--tk-text-primary);
-}
-
-[data-theme="dark"] .structured-plan-summaryArea {
-  border-bottom-color: var(--tk-border-primary);
-}
-
-[data-theme="dark"] .structured-plan-summaryEmpty {
-  background: var(--tk-fill-primary);
-  border-color: var(--tk-border-primary);
-  color: var(--tk-text-secondary);
-}
-
-[data-theme="dark"] .structured-plan-summaryMeta {
-  color: var(--tk-text-secondary);
-}
-
-[data-theme="dark"] .structured-plan-toolbar {
-  border-bottom-color: var(--tk-border-primary);
-}
-
-[data-theme="dark"] .structured-plan-searchInput {
-  background: var(--tk-bg-base);
-  border-color: var(--tk-border-primary);
-  color: var(--tk-text-primary);
-}
-
-[data-theme="dark"] .structured-plan-searchInput:focus {
-  border-color: #58a6ff;
-  box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.2);
-}
-
-[data-theme="dark"] .structured-plan-searchInput::placeholder {
-  color: var(--tk-text-tertiary);
-}
-
-[data-theme="dark"] .structured-plan-selectWrap {
-  background: var(--tk-bg-base);
-  border-color: var(--tk-border-primary);
-  color: var(--tk-text-secondary);
-}
-
-[data-theme="dark"] .structured-plan-selectWrap:focus-within {
-  border-color: #58a6ff;
-  box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.2);
-}
-
-[data-theme="dark"] .structured-plan-selectIcon,
-[data-theme="dark"] .structured-plan-selectChevron {
-  color: var(--tk-text-tertiary);
-}
-
-[data-theme="dark"] .structured-plan-select {
-  color: var(--tk-text-primary);
-}
-
-[data-theme="dark"] .structured-plan-checkbox {
-  color: var(--tk-text-secondary);
-}
-
-[data-theme="dark"] .structured-plan-toolbarMeta {
-  color: var(--tk-text-secondary);
-}
-
-[data-theme="dark"] .structured-plan-toolbarButton {
-  background: var(--tk-bg-elevated);
-  border-color: var(--tk-border-primary);
-  color: var(--tk-text-primary);
-}
-
-[data-theme="dark"] .structured-plan-toolbarButton:hover {
-  background: var(--tk-fill-primary);
-}
-
-[data-theme="dark"] .structured-plan-row {
-  border-bottom-color: var(--tk-border-secondary);
-}
-
-[data-theme="dark"] .structured-plan-rowToggle:hover {
-  background: var(--tk-fill-primary);
-}
-
-[data-theme="dark"] .structured-plan-rowToggle:focus-visible {
-  background: var(--tk-fill-primary);
-  box-shadow: inset 0 0 0 2px rgba(88, 166, 255, 0.2);
-}
-
-[data-theme="dark"] .structured-plan-chevron {
-  color: var(--tk-text-secondary);
-}
-
-/* Action icons — dark mode: darker pastel variants */
-[data-theme="dark"] .structured-plan-actionIcon--create {
-  background: rgba(46, 160, 67, 0.15);
-  border-color: rgba(46, 160, 67, 0.3);
-  color: #3fb950;
-}
-
-[data-theme="dark"] .structured-plan-actionIcon--update {
-  background: rgba(56, 139, 253, 0.15);
-  border-color: rgba(56, 139, 253, 0.3);
-  color: #58a6ff;
-}
-
-[data-theme="dark"] .structured-plan-actionIcon--replace {
-  background: var(--tk-fill-primary);
-  border-color: var(--tk-border-primary);
-  color: var(--tk-text-secondary);
-}
-
-[data-theme="dark"] .structured-plan-actionIcon--delete {
-  background: rgba(248, 81, 73, 0.15);
-  border-color: rgba(248, 81, 73, 0.3);
-  color: #f85149;
-}
-
-[data-theme="dark"] .structured-plan-actionIcon--read,
-[data-theme="dark"] .structured-plan-actionIcon--unknown {
-  background: var(--tk-fill-primary);
-  border-color: var(--tk-border-primary);
-  color: var(--tk-text-tertiary);
-}
-
-[data-theme="dark"] .structured-plan-actionIcon--import {
-  background: rgba(163, 113, 247, 0.15);
-  border-color: rgba(163, 113, 247, 0.3);
-  color: #d2a8ff;
-}
-
-[data-theme="dark"] .structured-plan-providerBadge {
-  background: var(--tk-fill-primary);
-  border-color: var(--tk-border-primary);
-  color: var(--tk-text-secondary);
-}
-
-[data-theme="dark"] .structured-plan-address {
-  color: var(--tk-text-primary);
-}
-
-[data-theme="dark"] .structured-plan-copyButton {
-  border-left-color: var(--tk-border-secondary);
-  color: var(--tk-text-tertiary);
-}
-
-[data-theme="dark"] .structured-plan-copyButton:hover {
-  background: var(--tk-fill-primary);
-  color: var(--tk-text-primary);
-}
-
-[data-theme="dark"] .structured-plan-rowBody {
-  background: var(--tk-bg-container);
-}
-
-[data-theme="dark"] .structured-plan-rowBodyInner {
-  border-left-color: var(--tk-border-primary);
-}
-
-[data-theme="dark"] .structured-plan-rowCounts {
-  color: var(--tk-text-secondary);
-}
-
-[data-theme="dark"] .structured-plan-diffGroupLabel {
-  color: var(--tk-text-primary);
-}
-
-[data-theme="dark"] .structured-plan-diffGroupChildren {
-  border-left-color: var(--tk-border-primary);
-}
-
-[data-theme="dark"] .structured-plan-hiddenCount {
-  color: var(--tk-text-tertiary);
-}
-
-/* Diff rows — dark mode */
-[data-theme="dark"] .structured-plan-diffRow {
-  background: var(--tk-bg-elevated);
-  border-color: var(--tk-border-primary);
-}
-
-[data-theme="dark"] .structured-plan-diffRow--added {
-  background: rgba(46, 160, 67, 0.08);
-  border-color: rgba(46, 160, 67, 0.25);
-}
-
-[data-theme="dark"] .structured-plan-diffRow--removed {
-  background: rgba(248, 81, 73, 0.08);
-  border-color: rgba(248, 81, 73, 0.25);
-}
-
-[data-theme="dark"] .structured-plan-diffRow--changed {
-  background: rgba(56, 139, 253, 0.08);
-  border-color: rgba(56, 139, 253, 0.25);
-}
-
-[data-theme="dark"] .structured-plan-diffRow--unknown {
-  background: rgba(210, 153, 34, 0.08);
-  border-color: rgba(210, 153, 34, 0.25);
-}
-
-[data-theme="dark"] .structured-plan-diffRow--sensitive {
-  background: rgba(163, 113, 247, 0.08);
-  border-color: rgba(163, 113, 247, 0.25);
-}
-
-[data-theme="dark"] .structured-plan-diffLabel {
-  color: var(--tk-text-primary);
-}
-
-/* Diff markers — dark mode */
-[data-theme="dark"] .structured-plan-diffMarker--added {
-  background: rgba(46, 160, 67, 0.2);
-  color: #3fb950;
-}
-
-[data-theme="dark"] .structured-plan-diffMarker--removed {
-  background: rgba(248, 81, 73, 0.2);
-  color: #f85149;
-}
-
-[data-theme="dark"] .structured-plan-diffMarker--changed {
-  background: rgba(56, 139, 253, 0.2);
-  color: #58a6ff;
-}
-
-[data-theme="dark"] .structured-plan-diffMarker--unknown {
-  background: rgba(210, 153, 34, 0.2);
-  color: #e3b341;
-}
-
-[data-theme="dark"] .structured-plan-diffMarker--sensitive {
-  background: rgba(163, 113, 247, 0.2);
-  color: #d2a8ff;
-}
-
-[data-theme="dark"] .structured-plan-diffArrow {
-  color: var(--tk-text-tertiary);
-}
-
-/* Value tokens — dark mode */
-[data-theme="dark"] .structured-plan-valueToken {
-  background: var(--tk-bg-elevated);
-  border-color: var(--tk-border-primary);
-  color: var(--tk-text-primary);
-}
-
-[data-theme="dark"] .structured-plan-valueToken--added {
-  border-color: rgba(46, 160, 67, 0.35);
-  color: #3fb950;
-}
-
-[data-theme="dark"] .structured-plan-valueToken--removed {
-  border-color: rgba(248, 81, 73, 0.35);
-  color: #f85149;
-}
-
-[data-theme="dark"] .structured-plan-valueToken--changed {
-  border-color: rgba(56, 139, 253, 0.35);
-  color: #58a6ff;
-}
-
-[data-theme="dark"] .structured-plan-valueToken--unknown {
-  border-color: rgba(210, 153, 34, 0.35);
-  color: #e3b341;
-}
-
-[data-theme="dark"] .structured-plan-valueToken--sensitive {
-  border-color: rgba(163, 113, 247, 0.35);
-  color: #d2a8ff;
-}
-
-/* Action pills — dark mode */
-[data-theme="dark"] .structured-plan-actionPill--create {
-  background: rgba(46, 160, 67, 0.15);
-  border-color: rgba(46, 160, 67, 0.3);
-  color: #3fb950;
-}
-
-[data-theme="dark"] .structured-plan-actionPill--update {
-  background: rgba(56, 139, 253, 0.15);
-  border-color: rgba(56, 139, 253, 0.3);
-  color: #58a6ff;
-}
-
-[data-theme="dark"] .structured-plan-actionPill--replace {
-  background: var(--tk-fill-primary);
-  border-color: var(--tk-border-primary);
-  color: var(--tk-text-secondary);
-}
-
-[data-theme="dark"] .structured-plan-actionPill--delete {
-  background: rgba(248, 81, 73, 0.15);
-  border-color: rgba(248, 81, 73, 0.3);
-  color: #f85149;
-}
-
-[data-theme="dark"] .structured-plan-actionPill--read,
-[data-theme="dark"] .structured-plan-actionPill--unknown {
-  background: var(--tk-fill-primary);
-  border-color: var(--tk-border-primary);
-  color: var(--tk-text-tertiary);
-}
-
-[data-theme="dark"] .structured-plan-actionPill--import {
-  background: rgba(163, 113, 247, 0.15);
-  border-color: rgba(163, 113, 247, 0.3);
-  color: #d2a8ff;
-}
-
-[data-theme="dark"] .structured-plan-metaPill--import {
-  background: rgba(163, 113, 247, 0.15);
-  border-color: rgba(163, 113, 247, 0.3);
-  color: #d2a8ff;
-}
-
-[data-theme="dark"] .structured-plan-metaPill {
-  background: var(--tk-fill-primary);
-  border-color: var(--tk-border-primary);
-  color: var(--tk-text-secondary);
 }

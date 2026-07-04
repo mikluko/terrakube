@@ -243,7 +243,7 @@ describe("StructuredPlanOutput", () => {
     fireEvent.click(screen.getByRole("button", { name: /aws_secretsmanager_secret_version\.example/i }));
 
     expect(screen.getByText("secret_string")).toBeInTheDocument();
-    expect(screen.getAllByText("sensitive value")).toHaveLength(2);
+    expect(screen.getAllByText("(sensitive)")).toHaveLength(2);
   });
 
   it("treats a null changedSensitive marker like a missing legacy marker", () => {
@@ -275,7 +275,7 @@ describe("StructuredPlanOutput", () => {
     fireEvent.click(screen.getByRole("button", { name: /aws_secretsmanager_secret_version\.example/i }));
 
     expect(screen.getByText("secret_string")).toBeInTheDocument();
-    expect(screen.getAllByText("sensitive value")).toHaveLength(2);
+    expect(screen.getAllByText("(sensitive)")).toHaveLength(2);
   });
 
   it("expands array items so useful child fields are visible", () => {

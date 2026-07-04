@@ -82,56 +82,56 @@ const actionMeta: Record<
   {
     displayLabel: string;
     filterLabel: string;
-    symbol: string;
+    stamp: string;
     className: string;
   }
 > = {
   create: {
     displayLabel: "create",
     filterLabel: "Create",
-    symbol: "+",
+    stamp: "+ create",
     className: "create",
   },
   update: {
     displayLabel: "update",
     filterLabel: "Change",
-    symbol: "~",
+    stamp: "~ update",
     className: "update",
   },
   replace: {
     displayLabel: "replace",
     filterLabel: "Replace",
-    symbol: "-/+",
+    stamp: "± replace",
     className: "replace",
   },
   delete: {
     displayLabel: "destroy",
     filterLabel: "Destroy",
-    symbol: "-",
+    stamp: "− delete",
     className: "delete",
   },
   read: {
     displayLabel: "read",
     filterLabel: "Read",
-    symbol: "?",
+    stamp: "≡ read",
     className: "read",
   },
   import: {
     displayLabel: "import",
     filterLabel: "Import",
-    symbol: "i",
+    stamp: "→ import",
     className: "import",
   },
   unknown: {
     displayLabel: "unknown",
     filterLabel: "Unknown",
-    symbol: "?",
+    stamp: "? unknown",
     className: "unknown",
   },
   "no-op": {
     displayLabel: "no-op",
     filterLabel: "No-op",
-    symbol: "=",
+    stamp: "· no-op",
     className: "unknown",
   },
 };
@@ -256,19 +256,25 @@ const getValuePreview = (value: unknown) => {
 const renderValueToken = (
   value: unknown,
   kind: Exclude<DiffRow["kind"], "group">,
-  options?: { sensitive?: boolean; unknown?: boolean }
+  options?: { sensitive?: boolean; unknown?: boolean; position?: "before" | "after" }
 ) => {
   let label = getValuePreview(value);
 
   if (options?.sensitive) {
-    label = "sensitive value";
+    label = "(sensitive)";
   }
 
   if (options?.unknown) {
     label = "known after apply";
   }
 
-  return <span className={`structured-plan-valueToken structured-plan-valueToken--${kind}`}>{label}</span>;
+  const positionClassName = options?.position ? ` structured-plan-valueToken--${options.position}` : "";
+
+  return (
+    <span className={`structured-plan-valueToken structured-plan-valueToken--${kind}${positionClassName}`}>
+      {label}
+    </span>
+  );
 };
 
 const countVisibleLeaves = (rows: DiffRow[]): number => {
@@ -693,11 +699,12 @@ const renderDiffRows = (rows: DiffRow[], parentKey = "root"): ReactNode => {
     if (leafKind === "changed" || leafKind === "unknown" || leafKind === "sensitive") {
       valueContent = (
         <div className="structured-plan-diffValueFlow">
-          {renderValueToken(row.before, leafKind, { sensitive: showSensitive })}
+          {renderValueToken(row.before, leafKind, { sensitive: showSensitive, position: "before" })}
           <span className="structured-plan-diffArrow">=&gt;</span>
           {renderValueToken(row.after, leafKind, {
             sensitive: showSensitive,
             unknown: showUnknown,
+            position: "after",
           })}
         </div>
       );
@@ -820,11 +827,25 @@ const isDataSourceChange = (change: PlanChange, action: ActionName) => {
 
 const buildResourceDiff = (change: PlanChange, action: ActionName) => {
   if (action === "create") {
-    return buildDiffRows(undefined, change.after, change.afterUnknown, undefined, change.afterSensitive, change.changedSensitive);
+    return buildDiffRows(
+      undefined,
+      change.after,
+      change.afterUnknown,
+      undefined,
+      change.afterSensitive,
+      change.changedSensitive
+    );
   }
 
   if (action === "delete") {
-    return buildDiffRows(change.before, undefined, undefined, change.beforeSensitive, undefined, change.changedSensitive);
+    return buildDiffRows(
+      change.before,
+      undefined,
+      undefined,
+      change.beforeSensitive,
+      undefined,
+      change.changedSensitive
+    );
   }
 
   return buildDiffRows(
@@ -911,7 +932,7 @@ const buildSummarySegments = (summary: SummaryCounts): SummarySegment[] => {
       key: "delete",
       label: `${summary.delete} to destroy`,
       count: summary.delete,
-      symbol: "-",
+      symbol: "−",
     });
   }
 
@@ -920,7 +941,7 @@ const buildSummarySegments = (summary: SummaryCounts): SummarySegment[] => {
       key: "import",
       label: `${summary.import} to import`,
       count: summary.import,
-      symbol: "i",
+      symbol: "→",
     });
   }
 
@@ -1249,7 +1270,7 @@ export const StructuredPlanOutput = ({ changes, outputLog }: Props) => {
                         className={`structured-plan-actionIcon structured-plan-actionIcon--${rowActionMeta.className}`}
                         title={rowActionMeta.displayLabel}
                       >
-                        {rowActionMeta.symbol}
+                        {rowActionMeta.stamp}
                       </span>
                       <span className="structured-plan-providerBadge" title={row.providerName}>
                         {ProviderIcon ? (
