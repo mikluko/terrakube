@@ -1,6 +1,7 @@
 import { DeleteOutlined, EditOutlined, PlusOutlined, SafetyOutlined } from "@ant-design/icons";
-import { Alert, Avatar, Button, List, message, Popconfirm, Spin, Tag, Typography, theme } from "antd";
+import { Alert, Avatar, Button, List, message, Popconfirm, Tag, Typography, theme } from "antd";
 import { useEffect, useState } from "react";
+import Busy from "@/components/technical/Busy";
 import { useParams } from "react-router-dom";
 import axiosInstance, { getErrorMessage, isPermissionError } from "../../config/axiosConfig";
 import { Federated } from "../types";
@@ -35,9 +36,7 @@ export const FederatedCredentials = ({ managePermission = true }: Props) => {
       // Delete all claims first, then the federated credential
       const claimsRes = await axiosInstance.get(`federated/${id}/claims`);
       const claimsData = claimsRes.data.data || [];
-      await Promise.all(
-        claimsData.map((c: any) => axiosInstance.delete(`federated/${id}/claims/${c.id}`))
-      );
+      await Promise.all(claimsData.map((c: any) => axiosInstance.delete(`federated/${id}/claims/${c.id}`)));
       await axiosInstance.delete(`federated/${id}`);
       message.success("Federated credential deleted successfully");
       loadFederated();
@@ -99,7 +98,8 @@ export const FederatedCredentials = ({ managePermission = true }: Props) => {
           <h1>Federated Credentials</h1>
           <div>
             <Typography.Text type="secondary">
-              Federated credentials allow you to establish a trust relationship between terrakube and external identity providers, such as GitHub Actions.
+              Federated credentials allow you to establish a trust relationship between terrakube and external identity
+              providers, such as GitHub Actions.
             </Typography.Text>
           </div>
           <Button
@@ -114,7 +114,7 @@ export const FederatedCredentials = ({ managePermission = true }: Props) => {
           </Button>
 
           <h3 style={{ marginTop: 30 }}>Federated Credentials</h3>
-          <Spin spinning={loading} tip="Loading Federated Credentials...">
+          <Busy busy={loading} label="Loading Federated Credentials">
             <List
               itemLayout="horizontal"
               dataSource={federated}
@@ -141,7 +141,13 @@ export const FederatedCredentials = ({ managePermission = true }: Props) => {
                       okText="Yes"
                       cancelText="No"
                     >
-                      <Button icon={<DeleteOutlined />} shape="round" type="primary" danger disabled={!managePermission}>
+                      <Button
+                        icon={<DeleteOutlined />}
+                        shape="round"
+                        type="primary"
+                        danger
+                        disabled={!managePermission}
+                      >
                         Delete
                       </Button>
                     </Popconfirm>,
@@ -169,7 +175,7 @@ export const FederatedCredentials = ({ managePermission = true }: Props) => {
                 </List.Item>
               )}
             />
-          </Spin>
+          </Busy>
         </>
       )}
     </div>

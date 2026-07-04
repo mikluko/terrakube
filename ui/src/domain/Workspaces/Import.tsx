@@ -12,7 +12,6 @@ import {
   Progress,
   Select,
   Space,
-  Spin,
   Steps,
   Table,
   Typography,
@@ -22,6 +21,7 @@ import {
 } from "antd";
 import parse from "html-react-parser";
 import { useEffect, useState } from "react";
+import Busy from "@/components/technical/Busy";
 import { IconContext } from "react-icons";
 import { BiBookBookmark, BiTerminal, BiUpload } from "react-icons/bi";
 import { SiBitbucket } from "react-icons/si";
@@ -1101,7 +1101,7 @@ export const ImportWorkspace = () => {
                 &apos;Import&apos; button to initiate the import process. The chosen workspaces will be imported into
                 the organization specified in the previous step.
               </div>
-              <Spin spinning={workspacesLoading} tip="Loading Workspaces...">
+              <Busy busy={workspacesLoading} label="Loading Workspaces">
                 <Table
                   rowSelection={{
                     type: "checkbox",
@@ -1121,7 +1121,7 @@ export const ImportWorkspace = () => {
                 <Button onClick={handleImportClick} type="primary" htmlType="button" loading={mappingDataLoading}>
                   Import Workspaces
                 </Button>
-              </Spin>
+              </Busy>
             </Space>
           </Content>
           <Modal

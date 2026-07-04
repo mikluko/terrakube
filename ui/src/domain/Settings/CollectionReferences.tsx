@@ -1,6 +1,7 @@
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Modal, Popconfirm, Select, Space, Spin, Table, Typography } from "antd";
+import { Button, Form, Input, Modal, Popconfirm, Select, Space, Table, Typography } from "antd";
 import { useEffect, useState } from "react";
+import Busy from "@/components/technical/Busy";
 import { useParams, useNavigate } from "react-router-dom";
 import axiosInstance from "../../config/axiosConfig";
 import "./Settings.css";
@@ -184,9 +185,9 @@ export const CollectionReferencesSettings = ({ collectionId, collectionName }: P
       <br></br>
 
       <h3 style={{ marginTop: "30px" }}>Associated Workspaces</h3>
-      <Spin spinning={loading} tip="Loading References...">
+      <Busy busy={loading} label="Loading References">
         <Table dataSource={references} columns={REFERENCE_COLUMNS} rowKey="id" />
-      </Spin>
+      </Busy>
 
       <Modal
         width="600px"

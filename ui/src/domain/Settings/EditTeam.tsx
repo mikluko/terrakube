@@ -1,5 +1,6 @@
 import { InfoCircleOutlined } from "@ant-design/icons";
-import { Alert, Button, Divider, Form, Input, Space, Spin, Tooltip, Typography, message, theme } from "antd";
+import { Alert, Button, Divider, Form, Input, Space, Tooltip, Typography, message, theme } from "antd";
+import Loading from "@/components/technical/Loading";
 import CreatePatModal from "@/modules/token/modals/CreatePatModal";
 import { CreateTokenForm } from "@/modules/user/types";
 import TokenGrid from "@/modules/token/TokenGrid";
@@ -230,7 +231,7 @@ export const EditTeam = ({ mode, setMode, teamId, loadTeams }: Props) => {
       </Typography.Text>
 
       {loading ? (
-        <Spin style={{ marginTop: 24, display: "block" }} />
+        <Loading style={{ marginTop: 24, display: "block" }} />
       ) : error ? (
         <Alert message="Error" description={error} type="error" showIcon style={{ marginTop: 16 }} />
       ) : (
@@ -286,7 +287,7 @@ export const EditTeam = ({ mode, setMode, teamId, loadTeams }: Props) => {
 
           <h4 style={{ marginTop: 24 }}>Existing Tokens</h4>
           {loadingTokens ? (
-            <Spin style={{ display: "block", marginTop: 16 }} />
+            <Loading style={{ display: "block", marginTop: 16 }} />
           ) : (
             <TokenGrid tokens={tokens} action={onDeleteToken} onDeleted={() => loadTokens(teamName)} />
           )}

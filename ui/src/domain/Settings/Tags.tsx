@@ -1,20 +1,7 @@
 import { DeleteOutlined, EditOutlined, InfoCircleOutlined, PlusOutlined, TagOutlined } from "@ant-design/icons";
-import {
-  Alert,
-  Avatar,
-  Button,
-  Form,
-  Input,
-  List,
-  message,
-  Modal,
-  Popconfirm,
-  Space,
-  Typography,
-  theme,
-  Spin,
-} from "antd";
+import { Alert, Avatar, Button, Form, Input, List, message, Modal, Popconfirm, Space, Typography, theme } from "antd";
 import { useEffect, useState } from "react";
+import Busy from "@/components/technical/Busy";
 import { useParams } from "react-router-dom";
 import axiosInstance, { getErrorMessage, isPermissionError } from "../../config/axiosConfig";
 import { Tag } from "../types";
@@ -165,7 +152,7 @@ export const TagsSettings = ({ managePermission = true }: Props) => {
           <br></br>
 
           <h3 style={{ marginTop: "30px" }}>Tags</h3>
-          <Spin spinning={loading} tip="Loading Tags...">
+          <Busy busy={loading} label="Loading Tags">
             <List
               itemLayout="horizontal"
               dataSource={tags}
@@ -213,7 +200,7 @@ export const TagsSettings = ({ managePermission = true }: Props) => {
                 </List.Item>
               )}
             />
-          </Spin>
+          </Busy>
 
           <Modal
             width="600px"

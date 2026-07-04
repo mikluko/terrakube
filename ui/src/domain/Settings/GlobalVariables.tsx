@@ -13,9 +13,9 @@ import {
   Table,
   Tag,
   Typography,
-  Spin,
 } from "antd";
 import { useEffect, useState } from "react";
+import Busy from "@/components/technical/Busy";
 import { useParams } from "react-router-dom";
 import axiosInstance, { getErrorMessage, isPermissionError } from "../../config/axiosConfig";
 import { CreateVariableForm, UpdateVariableForm, Variable } from "../types";
@@ -250,9 +250,9 @@ export const GlobalVariablesSettings = ({ managePermission = true }: Props) => {
           <br></br>
 
           <h3 style={{ marginTop: "30px" }}>Global Variables</h3>
-          <Spin spinning={loading} tip="Loading Global Variables...">
+          <Busy busy={loading} label="Loading Global Variables">
             <Table dataSource={globalVariables} columns={VARIABLES_COLUMS(onEdit)} rowKey="key" />
-          </Spin>
+          </Busy>
 
           <Modal
             width="600px"

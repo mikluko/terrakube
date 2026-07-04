@@ -1,6 +1,7 @@
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Space, Spin, Table, message, Typography } from "antd";
+import { Button, Form, Input, Space, Table, message, Typography } from "antd";
 import { useEffect, useState } from "react";
+import Busy from "@/components/technical/Busy";
 import { useParams } from "react-router-dom";
 import axiosInstance, { getErrorMessage } from "../../config/axiosConfig";
 import { FederatedClaim } from "../types";
@@ -47,10 +48,7 @@ export const EditFederatedCredential = ({ mode, setMode, federatedId, loadFedera
   }, [federatedId]);
 
   const loadFederatedCredential = (id: string) => {
-    Promise.all([
-      axiosInstance.get(`federated/${id}`),
-      axiosInstance.get(`federated/${id}/claims`),
-    ])
+    Promise.all([axiosInstance.get(`federated/${id}`), axiosInstance.get(`federated/${id}/claims`)])
       .then(([credentialRes, claimsRes]) => {
         const attrs = credentialRes.data.data.attributes;
         form.setFieldsValue({
@@ -58,14 +56,12 @@ export const EditFederatedCredential = ({ mode, setMode, federatedId, loadFedera
           issuerUrl: attrs.issuerUrl,
           audience: attrs.audience,
         });
-        const loadedClaims: ClaimRow[] = (claimsRes.data.data || []).map(
-          (c: FederatedClaim) => ({
-            key: c.id,
-            id: c.id,
-            claimKey: c.attributes.claimKey,
-            claimValue: c.attributes.claimValue,
-          })
-        );
+        const loadedClaims: ClaimRow[] = (claimsRes.data.data || []).map((c: FederatedClaim) => ({
+          key: c.id,
+          id: c.id,
+          claimKey: c.attributes.claimKey,
+          claimValue: c.attributes.claimValue,
+        }));
         setClaims(loadedClaims);
       })
       .catch((err) => {
@@ -129,11 +125,7 @@ export const EditFederatedCredential = ({ mode, setMode, federatedId, loadFedera
 
     // Delete removed claims
     const toDelete = existingClaims.filter((c) => !currentIds.has(c.id));
-    await Promise.all(
-      toDelete.map((c) =>
-        axiosInstance.delete(`federated/${fedId}/claims/${c.id}`)
-      )
-    );
+    await Promise.all(toDelete.map((c) => axiosInstance.delete(`federated/${fedId}/claims/${c.id}`)));
 
     // Create new claims (no id)
     const toCreate = claims.filter((c) => !c.id);
@@ -162,8 +154,7 @@ export const EditFederatedCredential = ({ mode, setMode, federatedId, loadFedera
         const existing = existingClaims.find((e) => e.id === c.id);
         if (
           existing &&
-          (existing.attributes.claimKey !== c.claimKey ||
-            existing.attributes.claimValue !== c.claimValue)
+          (existing.attributes.claimKey !== c.claimKey || existing.attributes.claimValue !== c.claimValue)
         ) {
           return axiosInstance.patch(
             `federated/${fedId}/claims/${c.id}`,
@@ -222,18 +213,13 @@ export const EditFederatedCredential = ({ mode, setMode, federatedId, loadFedera
       key: "action",
       width: 80,
       render: (_: any, record: ClaimRow) => (
-        <Button
-          type="link"
-          danger
-          icon={<DeleteOutlined />}
-          onClick={() => removeClaim(record.key)}
-        />
+        <Button type="link" danger icon={<DeleteOutlined />} onClick={() => removeClaim(record.key)} />
       ),
     },
   ];
 
   return (
-    <Spin spinning={loading}>
+    <Busy busy={loading}>
       <div className="edit-team">
         <Typography.Title level={3}>
           {mode === "create" ? "Create Federated Credential" : "Edit Federated Credential"}
@@ -265,19 +251,28 @@ export const EditFederatedCredential = ({ mode, setMode, federatedId, loadFedera
             Claim Conditions
           </Typography.Title>
           <Typography.Text type="secondary">
-            Add conditions to restrict which tokens are accepted. All conditions must match for a token to be authorized.
+            Add conditions to restrict which tokens are accepted. All conditions must match for a token to be
+            authorized.
           </Typography.Text>
-          <div style={{ marginTop: 12, padding: '12px', backgroundColor: '#fafafa', borderRadius: '4px', border: '1px solid #f0f0f0' }}>
-            <Typography.Text type="secondary" style={{ fontSize: '12px', display: 'block', marginBottom: 8 }}>
+          <div
+            style={{
+              marginTop: 12,
+              padding: "12px",
+              backgroundColor: "#fafafa",
+              borderRadius: "4px",
+              border: "1px solid #f0f0f0",
+            }}
+          >
+            <Typography.Text type="secondary" style={{ fontSize: "12px", display: "block", marginBottom: 8 }}>
               <strong>Examples by provider:</strong>
             </Typography.Text>
-            <Typography.Text type="secondary" style={{ fontSize: '12px', display: 'block', marginBottom: 4 }}>
+            <Typography.Text type="secondary" style={{ fontSize: "12px", display: "block", marginBottom: 4 }}>
               • <Typography.Text code>repository_owner</Typography.Text> (GitHub Actions)
             </Typography.Text>
-            <Typography.Text type="secondary" style={{ fontSize: '12px', display: 'block', marginBottom: 4 }}>
+            <Typography.Text type="secondary" style={{ fontSize: "12px", display: "block", marginBottom: 4 }}>
               • <Typography.Text code>groups_direct</Typography.Text> (GitLab CI)
             </Typography.Text>
-            <Typography.Text type="secondary" style={{ fontSize: '12px', display: 'block' }}>
+            <Typography.Text type="secondary" style={{ fontSize: "12px", display: "block" }}>
               • <Typography.Text code>amr</Typography.Text> (Azure AD)
             </Typography.Text>
           </div>
@@ -315,6 +310,6 @@ export const EditFederatedCredential = ({ mode, setMode, federatedId, loadFedera
           </Form.Item>
         </Form>
       </div>
-    </Spin>
+    </Busy>
   );
 };

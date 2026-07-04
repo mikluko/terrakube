@@ -1,6 +1,7 @@
 import { DeleteOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Layout, Menu, Popconfirm, Space, Spin, Typography, message, theme } from "antd";
+import { Button, Form, Input, Layout, Menu, Popconfirm, Space, Typography, message, theme } from "antd";
 import { useEffect, useState } from "react";
+import Busy from "@/components/technical/Busy";
 import { useNavigate, useParams } from "react-router-dom";
 import PageWrapper from "@/modules/layout/PageWrapper/PageWrapper";
 import projectService, { ProjectAccessModel } from "./projectService";
@@ -122,7 +123,7 @@ function ProjectGeneralSettings({
     <div style={{ width: "100%" }}>
       <h1>General Settings</h1>
       <p>Adjust the name and description for this project.</p>
-      <Spin spinning={waiting}>
+      <Busy busy={waiting}>
         <Form form={form} layout="vertical" name="project-general-settings" onFinish={onFinish} requiredMark={false}>
           <Form.Item name="name" label="Name" rules={[{ required: true, message: "Name is required" }]}>
             <Input disabled={!canUpdateProject} />
@@ -136,7 +137,7 @@ function ProjectGeneralSettings({
             </Button>
           </Form.Item>
         </Form>
-      </Spin>
+      </Busy>
 
       <div style={{ marginTop: "40px" }}>
         <Typography.Text type="secondary">

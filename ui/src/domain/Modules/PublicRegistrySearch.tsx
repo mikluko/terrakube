@@ -7,8 +7,9 @@ import {
   PlusOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
-import { Button, Card, Input, List, Modal, Select, Space, Spin, Steps, Tabs, Typography, message } from "antd";
+import { Button, Card, Input, List, Modal, Select, Space, Steps, Tabs, Typography, message } from "antd";
 import { useEffect, useState } from "react";
+import Loading from "@/components/technical/Loading";
 import { IconContext } from "react-icons";
 import { FaAws, FaGoogle } from "@/config/iconList";
 import { VscAzure } from "react-icons/vsc";
@@ -777,7 +778,7 @@ export const PublicRegistrySearch = ({ organizationName }: Props) => {
                 </Typography.Text>
                 {loadingVersions ? (
                   <div style={{ textAlign: "center", padding: 20 }}>
-                    <Spin tip="Loading versions..." />
+                    <Loading label="Loading versions" />
                   </div>
                 ) : (
                   <Select

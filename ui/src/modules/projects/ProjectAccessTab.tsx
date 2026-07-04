@@ -1,6 +1,7 @@
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Form, Popconfirm, Select, Space, Spin, Table, Tag, Tooltip, Typography, message } from "antd";
+import { Button, Form, Popconfirm, Select, Space, Table, Tag, Tooltip, Typography, message } from "antd";
 import { useEffect, useState } from "react";
+import Busy from "@/components/technical/Busy";
 import axiosInstance from "@/config/axiosConfig";
 import projectService, { ProjectAccessModel } from "./projectService";
 
@@ -248,7 +249,7 @@ export default function ProjectAccessTab({ orgid, projectId, canManage }: Props)
       <h1>Team Access</h1>
       <p>Grant teams access to all workspaces within this project.</p>
 
-      <Spin spinning={loading}>
+      <Busy busy={loading}>
         <Table
           dataSource={accessList}
           columns={columns}
@@ -261,7 +262,7 @@ export default function ProjectAccessTab({ orgid, projectId, canManage }: Props)
           }}
           style={{ marginBottom: 32 }}
         />
-      </Spin>
+      </Busy>
 
       {canManage && (
         <>

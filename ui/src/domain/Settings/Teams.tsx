@@ -1,6 +1,7 @@
 import { DeleteOutlined, EditOutlined, PlusOutlined, TeamOutlined } from "@ant-design/icons";
-import { Alert, Avatar, Button, List, message, Popconfirm, Space, Tag, Typography, theme, Spin } from "antd";
+import { Alert, Avatar, Button, List, message, Popconfirm, Space, Tag, Typography, theme } from "antd";
 import { useEffect, useState } from "react";
+import Busy from "@/components/technical/Busy";
 import { useParams } from "react-router-dom";
 import axiosInstance, { getErrorMessage, isPermissionError } from "../../config/axiosConfig";
 import { Team, TeamRole } from "../types";
@@ -142,7 +143,7 @@ export const TeamSettings = ({ key, managePermission = true }: Props) => {
           </Button>
 
           <h3 style={{ marginTop: 30 }}>Teams</h3>
-          <Spin spinning={loading} tip="Loading Teams...">
+          <Busy busy={loading} label="Loading Teams">
             <List
               itemLayout="horizontal"
               dataSource={teams}
@@ -191,7 +192,7 @@ export const TeamSettings = ({ key, managePermission = true }: Props) => {
                 );
               }}
             />
-          </Spin>
+          </Busy>
         </>
       )}
     </div>

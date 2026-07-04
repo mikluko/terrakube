@@ -1,19 +1,6 @@
-import {
-  Button,
-  Checkbox,
-  Form,
-  Input,
-  Modal,
-  Radio,
-  Select,
-  Space,
-  Spin,
-  Table,
-  Tag,
-  Typography,
-  message,
-} from "antd";
+import { Button, Checkbox, Form, Input, Modal, Radio, Select, Space, Table, Tag, Typography, message } from "antd";
 import { useEffect, useState } from "react";
+import Busy from "@/components/technical/Busy";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../config/axiosConfig";
 import "./Settings.css";
@@ -616,7 +603,7 @@ export const CreateEditCollection = ({
 
   return (
     <div className="setting">
-      <Spin spinning={loading}>
+      <Busy busy={loading}>
         <div style={{ marginBottom: "20px" }}>
           <h1>
             {mode === "create"
@@ -712,7 +699,7 @@ export const CreateEditCollection = ({
             </Space>
           </div>
         </Form>
-      </Spin>
+      </Busy>
     </div>
   );
 };

@@ -1,0 +1,39 @@
+/* Technical scheme — rendered markdown (module READMEs, docs).
+   The sole non-mono surface: long-form reading uses --font-reading.
+   Code inside markdown stays mono, framed like a recessed well. */
+
+html[data-color-scheme="technical"] .markdown-body {
+  font-family: var(--font-reading);
+  font-size: 14px;
+  color: var(--ink);
+  background: transparent;
+}
+html[data-color-scheme="technical"] .markdown-body h1,
+html[data-color-scheme="technical"] .markdown-body h2 {
+  border-bottom: 1px solid var(--rule-soft);
+}
+html[data-color-scheme="technical"] .markdown-body a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+html[data-color-scheme="technical"] .markdown-body code,
+html[data-color-scheme="technical"] .markdown-body pre {
+  font-family: var(--font-mono);
+  background: var(--paper-2);
+  border-radius: 0;
+}
+html[data-color-scheme="technical"] .markdown-body pre {
+  border: 1px solid var(--rule-soft);
+}
+html[data-color-scheme="technical"] .markdown-body blockquote {
+  border-left: 3px solid var(--rule);
+  color: var(--ink-2);
+}
+html[data-color-scheme="technical"] .markdown-body table th,
+html[data-color-scheme="technical"] .markdown-body table td {
+  border: 1px solid var(--rule-soft);
+}
+html[data-color-scheme="technical"] .markdown-body table th {
+  background: var(--paper-2);
+}

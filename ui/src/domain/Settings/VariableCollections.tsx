@@ -6,8 +6,9 @@ import {
   AppstoreOutlined,
   UnorderedListOutlined,
 } from "@ant-design/icons";
-import { Alert, Button, Card, Input, List, Popconfirm, Space, Spin, Typography, Pagination, message } from "antd";
+import { Alert, Button, Card, Input, List, Popconfirm, Space, Typography, Pagination, message } from "antd";
 import { useEffect, useState } from "react";
+import Busy from "@/components/technical/Busy";
 import { useParams, useNavigate } from "react-router-dom";
 import axiosInstance, { getErrorMessage } from "../../config/axiosConfig";
 import "./Settings.css";
@@ -208,7 +209,7 @@ export const VariableCollectionsSettings = ({ managePermission = true }: Props) 
           style={{ marginTop: "20px" }}
         />
       ) : (
-        <Spin spinning={loading}>
+        <Busy busy={loading}>
           <List
             grid={{ gutter: 16, column: 1 }}
             dataSource={paginatedCollections}
@@ -287,7 +288,7 @@ export const VariableCollectionsSettings = ({ managePermission = true }: Props) 
               />
             )}
           </div>
-        </Spin>
+        </Busy>
       )}
     </div>
   );

@@ -1,5 +1,6 @@
-import { Alert, Button, Flex, Spin, Typography, Breadcrumb } from "antd";
+import { Alert, Button, Flex, Typography, Breadcrumb } from "antd";
 import { useEffect, useState } from "react";
+import Loading from "@/components/technical/Loading";
 import { useParams } from "react-router-dom";
 import { UserToken } from "@/modules/user/types";
 import "./PatSection.css";
@@ -74,7 +75,7 @@ export const Tokens = () => {
 
       {loading && (
         <Flex align="center" className="loader" vertical gap="middle">
-          <Spin tip="Loading" size="large" />
+          <Loading label="Loading" />
           <Typography.Text>Loading tokens...</Typography.Text>
         </Flex>
       )}

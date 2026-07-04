@@ -1,6 +1,8 @@
 import { DeleteOutlined } from "@ant-design/icons";
-import { Alert, Button, Form, Input, message, Popconfirm, Radio, Space, Typography, Spin, ColorPicker } from "antd";
+import { Alert, Button, Form, Input, message, Popconfirm, Radio, Space, Typography, ColorPicker } from "antd";
 import { useEffect, useState } from "react";
+import Busy from "@/components/technical/Busy";
+import Loading from "@/components/technical/Loading";
 import { useParams } from "react-router-dom";
 import axiosInstance, { getErrorMessage, isPermissionError } from "../../config/axiosConfig";
 import { Organization } from "../types";
@@ -134,9 +136,9 @@ export const GeneralSettings = ({ managePermission = true }: Props) => {
       {error ? (
         <Alert message="Access Denied" description={error} type="error" showIcon />
       ) : loading || organization === undefined ? (
-        <Spin tip="Loading Organization Settings..." />
+        <Loading label="Loading Organization Settings" />
       ) : (
-        <Spin spinning={waiting}>
+        <Busy busy={waiting}>
           <div>
             <Typography.Text type="secondary" className="App-text">
               Configure general settings for your organization.
@@ -203,7 +205,7 @@ export const GeneralSettings = ({ managePermission = true }: Props) => {
               </Button>
             </Form.Item>
           </Form>
-        </Spin>
+        </Busy>
       )}
       <h1>Destruction and Deletion</h1>
       <h3>Delete this Organization</h3>

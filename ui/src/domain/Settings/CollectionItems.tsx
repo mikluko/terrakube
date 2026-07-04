@@ -1,6 +1,7 @@
 import { DeleteOutlined, EditOutlined, InfoCircleOutlined, PlusOutlined, CloseCircleOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Modal, Popconfirm, Radio, Space, Spin, Table, Tag, Typography, Checkbox } from "antd";
+import { Button, Form, Input, Modal, Popconfirm, Radio, Space, Table, Tag, Typography, Checkbox } from "antd";
 import { useEffect, useState } from "react";
+import Busy from "@/components/technical/Busy";
 import { useParams, useNavigate } from "react-router-dom";
 import axiosInstance from "../../config/axiosConfig";
 import "./Settings.css";
@@ -229,9 +230,9 @@ export const CollectionItemsSettings = ({ collectionId, collectionName }: Props)
       <br></br>
 
       <h3 style={{ marginTop: "30px" }}>Collection Variables</h3>
-      <Spin spinning={loading} tip="Loading Collection Variables...">
+      <Busy busy={loading} label="Loading Collection Variables">
         <Table dataSource={items} columns={ITEM_COLUMNS(onEdit)} rowKey="id" />
-      </Spin>
+      </Busy>
 
       <Modal
         width="600px"

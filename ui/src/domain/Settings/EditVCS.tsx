@@ -1,5 +1,6 @@
-import { Button, Form, Input, Space, Spin, Typography, message } from "antd";
+import { Button, Form, Input, Space, Typography, message } from "antd";
 import { useEffect, useState } from "react";
+import Busy from "@/components/technical/Busy";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import { useParams } from "react-router-dom";
 import axiosInstance, { getErrorMessage } from "../../config/axiosConfig";
@@ -261,7 +262,7 @@ export const EditVCS = ({ vcsId, setMode, loadVCS }: Props) => {
     vcsTypeExtended === VcsTypeExtended.AZURE_DEVOPS_SERVER;
 
   return (
-    <Spin spinning={loading}>
+    <Busy busy={loading}>
       <div className="chooseType">
         <h1>Edit VCS Provider</h1>
         <Typography.Text type="secondary" className="App-text">
@@ -332,6 +333,6 @@ export const EditVCS = ({ vcsId, setMode, loadVCS }: Props) => {
           </Form.Item>
         </Form>
       </div>
-    </Spin>
+    </Busy>
   );
 };
