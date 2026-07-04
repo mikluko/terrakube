@@ -1,5 +1,5 @@
 import { ThemeConfig, theme } from "antd";
-import type { ThemeMode } from "./themeConfig";
+import type { AccentOption, ThemeMode } from "./themeConfig";
 
 /* antd token values must stay literal hex: antd derives hover/active/disabled
    variants with color math at theme-build time, which cannot evaluate CSS
@@ -88,8 +88,17 @@ const palettes: Record<ThemeMode, TechnicalPalette> = {
 
 const FONT_MONO = '"Berkeley Mono", "TX-02", "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace';
 
-export const getTechnicalThemeConfig = (themeMode: ThemeMode): ThemeConfig => {
-  const p = palettes[themeMode];
+/* Brand accent (Terrakube purple) mirrors [data-scheme="brand"] in
+   tokens/colors.css — defined for light and dark only; blueprint keeps its
+   annotation-white accent. */
+const brandAccent: Partial<Record<ThemeMode, { accent: string; onAccent: string; run: string }>> = {
+  light: { accent: "#722ed1", onAccent: "#f2f2ed", run: "#722ed1" },
+  dark: { accent: "#b28aef", onAccent: "#0a0a0a", run: "#b28aef" },
+};
+
+export const getTechnicalThemeConfig = (themeMode: ThemeMode, accent: AccentOption = "engineering"): ThemeConfig => {
+  const brand = accent === "brand" ? brandAccent[themeMode] : undefined;
+  const p = brand ? { ...palettes[themeMode], ...brand } : palettes[themeMode];
   const hardShadowBtn = `2px 2px 0 ${p.shadowColor}`;
   const hardShadowCard = `4px 4px 0 ${p.shadowColor}`;
   const hardShadowModal = `6px 6px 0 ${p.shadowColor}`;

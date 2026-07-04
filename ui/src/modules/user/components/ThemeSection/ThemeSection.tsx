@@ -15,7 +15,7 @@ const ColorOption = ({ color, label }: { color: string; label: string }) => (
 );
 
 export const ThemeSection = () => {
-  const { colorScheme, themeMode, setColorScheme, setThemeMode } = useTheme();
+  const { colorScheme, themeMode, accent, setColorScheme, setThemeMode, setAccent } = useTheme();
 
   const handleColorSchemeChange = (value: ColorSchemeOption) => {
     setColorScheme(value);
@@ -25,21 +25,42 @@ export const ThemeSection = () => {
     setThemeMode(value);
   };
 
+  const accentSelectOptions = [
+    {
+      value: "engineering",
+      label: (
+        <div className="color-option">
+          <ColorBox color={themeMode === "dark" ? "#8b9dff" : "#1b3be0"} />
+          <span>Engineering blue</span>
+        </div>
+      ),
+    },
+    {
+      value: "brand",
+      label: (
+        <div className="color-option">
+          <ColorBox color={themeMode === "dark" ? "#b28aef" : "#722ed1"} />
+          <span>Terrakube purple</span>
+        </div>
+      ),
+    },
+  ];
+
   const colorOptions = [
+    {
+      value: "technical",
+      color: "#1b3be0",
+      label: "Technical (Monospace precision-instrument look, the default)",
+    },
     {
       value: "default",
       color: "#1890ff",
-      label: "Default (The classic Terrakube theme)",
+      label: "Classic (The stock Terrakube theme)",
     },
     {
       value: "terrakube",
       color: "#722ED1",
-      label: "Terrakube (Uses the main Terrakube logo colors)",
-    },
-    {
-      value: "technical",
-      color: "#1b3be0",
-      label: "Technical (Monospace precision-instrument look)",
+      label: "Classic purple (Stock theme in Terrakube logo colors)",
     },
   ];
 
@@ -114,6 +135,12 @@ export const ThemeSection = () => {
               options={themeModeOptions}
             />
           </div>
+          {colorScheme === "technical" && themeMode !== "blueprint" && (
+            <div>
+              <Typography.Title level={5}>Accent</Typography.Title>
+              <Select value={accent} onChange={setAccent} style={{ width: "100%" }} options={accentSelectOptions} />
+            </div>
+          )}
         </Space>
       </Card>
     </div>

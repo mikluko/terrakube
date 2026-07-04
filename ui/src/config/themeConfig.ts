@@ -3,21 +3,37 @@ import { getTechnicalThemeConfig } from "./technicalTheme";
 
 export type ColorSchemeOption = "default" | "terrakube" | "technical";
 export type ThemeMode = "light" | "dark" | "blueprint";
+export type AccentOption = "engineering" | "brand";
 
 export const colorSchemeOptions: ColorSchemeOption[] = ["default", "terrakube", "technical"];
 export const themeModeOptions: ThemeMode[] = ["light", "dark", "blueprint"];
+export const accentOptions: AccentOption[] = ["engineering", "brand"];
 
 // The blueprint theme is part of the Technical scheme only.
 export const isValidThemeCombination = (colorScheme: ColorSchemeOption, themeMode: ThemeMode): boolean =>
   themeMode !== "blueprint" || colorScheme === "technical";
 
-// CSS relies on these attributes ([data-theme=...] / [data-color-scheme=...]);
-// callers that mount their own ConfigProvider (App via ThemeContext, Login)
-// must apply them from an effect, never during render.
-export const applyThemeAttributes = (colorScheme: ColorSchemeOption, themeMode: ThemeMode): void => {
+// The brand-purple accent applies to the Technical scheme's light/dark themes;
+// blueprint keeps its annotation-white accent (no brand variant is defined).
+export const isAccentApplicable = (colorScheme: ColorSchemeOption, themeMode: ThemeMode): boolean =>
+  colorScheme === "technical" && themeMode !== "blueprint";
+
+// CSS relies on these attributes ([data-theme=...] / [data-color-scheme=...] /
+// [data-scheme="brand"]); callers that mount their own ConfigProvider (App via
+// ThemeContext, Login) must apply them from an effect, never during render.
+export const applyThemeAttributes = (
+  colorScheme: ColorSchemeOption,
+  themeMode: ThemeMode,
+  accent: AccentOption = "engineering"
+): void => {
   if (typeof document !== "undefined" && document.documentElement) {
     document.documentElement.setAttribute("data-theme", themeMode);
     document.documentElement.setAttribute("data-color-scheme", colorScheme);
+    if (accent === "brand" && isAccentApplicable(colorScheme, themeMode)) {
+      document.documentElement.setAttribute("data-scheme", "brand");
+    } else {
+      document.documentElement.removeAttribute("data-scheme");
+    }
   }
 };
 
@@ -49,9 +65,13 @@ const darkThemeTokens = {
   colorSplit: "#21262d",
 };
 
-export const getThemeConfig = (colorScheme: ColorSchemeOption, themeMode: ThemeMode): ThemeConfig => {
+export const getThemeConfig = (
+  colorScheme: ColorSchemeOption,
+  themeMode: ThemeMode,
+  accent: AccentOption = "engineering"
+): ThemeConfig => {
   if (colorScheme === "technical") {
-    return getTechnicalThemeConfig(themeMode);
+    return getTechnicalThemeConfig(themeMode, isAccentApplicable(colorScheme, themeMode) ? accent : "engineering");
   }
 
   const colorPrimary = colorScheme === "default" ? "#1890ff" : "#722ED1";
@@ -186,8 +206,11 @@ export const getThemeConfig = (colorScheme: ColorSchemeOption, themeMode: ThemeM
   };
 };
 
-export const defaultColorScheme: ColorSchemeOption = "default";
+// This fork defaults to the Technical scheme; the stock antd schemes remain
+// selectable in user settings as "Classic".
+export const defaultColorScheme: ColorSchemeOption = "technical";
 export const defaultThemeMode: ThemeMode = "light";
+export const defaultAccent: AccentOption = "engineering";
 
 // Export a default theme configuration using the default color scheme and theme mode
 export const themeConfig = getThemeConfig(defaultColorScheme, defaultThemeMode);

@@ -92,3 +92,27 @@ window._env_ = {
 }
 
 ```
+## Theming
+
+The UI ships three color schemes, selectable per user in Settings → Theme:
+
+- **Technical** (default) — the monospace precision-instrument look defined by
+  the [Terrakube Technical design system](https://github.com/mikluko/design-terrakube-technical).
+  Three theme modes: **Light** (ink on paper), **Dark** (phosphor on black),
+  and **Blueprint** (white lines on cyanotype). An accent toggle switches the
+  primary color between engineering blue and Terrakube brand purple (light and
+  dark modes; blueprint keeps its annotation-white accent).
+- **Classic** / **Classic purple** — the stock antd themes (light/dark only).
+
+Implementation notes:
+
+- Token source of truth: `src/styles/technical/tokens/*.css`, copied verbatim
+  from the design-system repo and excluded from prettier so the copies stay
+  byte-identical.
+- antd is themed through `ConfigProvider` in `src/config/technicalTheme.ts`;
+  the hex palette there must stay in sync with `tokens/colors.css`.
+- Scheme/mode/accent persist in localStorage (`terrakube-color-scheme`,
+  `terrakube-theme-mode`, `terrakube-accent`) and render as `data-theme`,
+  `data-color-scheme`, and `data-scheme` attributes on `<html>`.
+- Fonts are self-hosted via @fontsource (IBM Plex Mono/Sans); Berkeley Mono is
+  preferred by the font stack when installed locally.

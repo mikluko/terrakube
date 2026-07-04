@@ -127,7 +127,7 @@ const AppLayout = () => {
   const navigate = useNavigate();
   const [organizationName, setOrganizationName] = useState<string>("");
   const [orgs, setOrgs] = useState<FlatOrganization[]>([]);
-  const { colorScheme, themeMode } = useTheme();
+  const { colorScheme, themeMode, accent } = useTheme();
 
   useEffect(() => {
     const pathname = window.location.pathname;
@@ -188,7 +188,7 @@ const AppLayout = () => {
 
   return (
     <ConfigProvider
-      theme={getThemeConfig(colorScheme, themeMode)}
+      theme={getThemeConfig(colorScheme, themeMode, accent)}
       renderEmpty={colorScheme === "technical" ? () => <EmptyState /> : undefined}
     >
       <Layout className="layout mh-100">
